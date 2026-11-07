@@ -1937,19 +1937,18 @@
             }
         }
 
-        function handleUserLoginSubmit() {
-            const cfg = getSecurityConfig();
-            const u = document.getElementById('loginUsernameInput').value.trim().toLowerCase();
-            const p = document.getElementById('loginPinInput').value.trim();
-            const remember = document.getElementById('loginRememberToggle').checked;
-
-            if (u === cfg.username.toLowerCase() && p === cfg.pin) {
-                if (remember) localStorage.setItem('smart_session_unlocked_v5', 'true');
-                unlockApplicationSession(cfg.username, true);
-            } else {
-                showToast('Galat Username ya PIN! Default: siddharth / 1234', 'error');
-            }
-        }
+        window.handleUserLoginSubmit = function() {
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPin').value.trim();
+    
+    if(u === "siddharth" && p === "1234") {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appContainer').style.display = 'block';
+        localStorage.setItem('otc_logged_in', 'true');
+    } else {
+        alert("Invalid Username or PIN!");
+    }
+};
 
         function quickOwnerUnlock() {
             const cfg = getSecurityConfig();
