@@ -2,36 +2,31 @@ name: Live Kalyan & Rajdhani Auto-Sync
 
 on:
   schedule:
-    # Roz Kalyan & Rajdhani time par auto-run hoga
     - cron: '30 11,13,16,18 * * 1-6'
-  workflow_dispatch: # 1-Click Manual Run button in Actions tab
+  workflow_dispatch:
 
 jobs:
   sync-matka-results:
     runs-on: ubuntu-latest
     steps:
-      - name: Run Live Scraper & Clean Dummy Data
+      - name: Clean Holiday Data & Sync Firebase
         run: |
           python3 - << 'EOF'
           import urllib.request, json, datetime
 
-          # Aapka Firebase Realtime Database URL yahan dalein (.json ke bina)
-          FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com"
+          FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com/".rstrip('/')
 
-          # 1. Firebase se current data layein
           req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v51.json")
           data = json.loads(req.read().decode('utf-8')) or {}
 
-          # 2. 02/11/2026 week mein Fri & Sat ke dummy '22' ko hata kar Holiday (null) karein
           if "kalyan" in data and len(data["kalyan"]) > 0:
-              latest_week = data["kalyan"][-1]
-              if latest_week.get("week") == "02/11/2026":
-                  latest_week["days"][4] = None  # Friday Holiday
-                  latest_week["days"][5] = None  # Saturday Holiday
+              for wk in data["kalyan"]:
+                  if wk.get("week") == "02/11/2026":
+                      wk["days"][4] = None
+                      wk["days"][5] = None
 
           data["updatedAt"] = datetime.datetime.utcnow().isoformat()
 
-          # 3. Clean & Real Data wapas Firebase mein Push karein
           put_req = urllib.request.Request(
               f"{FIREBASE_URL}/otc_pro_v51.json",
               data=json.dumps(data).encode('utf-8'),
@@ -39,5 +34,5 @@ jobs:
               method='PUT'
           )
           urllib.request.urlopen(put_req)
-          print("Successfully cleaned dummy data & synced Firebase!")
+          print("Firebase Updated: Friday & Saturday marked as Holiday!")
           EOF
