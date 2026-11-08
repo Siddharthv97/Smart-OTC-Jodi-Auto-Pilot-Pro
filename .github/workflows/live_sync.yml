@@ -14,25 +14,31 @@ jobs:
           python3 - << 'EOF'
           import urllib.request, json, datetime
 
-          FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com/".rstrip('/')
+          FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
 
-          req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v51.json")
-          data = json.loads(req.read().decode('utf-8')) or {}
+          # Pure Firebase Root Data ko check karein
+          req = urllib.request.urlopen(f"{FIREBASE_URL}/.json")
+          root_data = json.loads(req.read().decode('utf-8')) or {}
 
-          if "kalyan" in data and len(data["kalyan"]) > 0:
-              for wk in data["kalyan"]:
-                  if wk.get("week") == "02/11/2026":
-                      wk["days"][4] = None
-                      wk["days"][5] = None
+          def clean_kalyan_week(node):
+              if isinstance(node, dict):
+                  if "kalyan" in node and isinstance(node["kalyan"], list) and len(node["kalyan"]) > 0:
+                      last_wk = node["kalyan"][-1]
+                      days_key = "days" if "days" in last_wk else ("d" if "d" in last_wk else None)
+                      if days_key and len(last_wk[days_key]) >= 5:
+                          # Sirf Mon to Thu (first 4 days) rakhein, Fri & Sat dummy hata dein
+                          last_wk[days_key] = last_wk[days_key][:4]
+                  for k, v in node.items():
+                      clean_kalyan_week(v)
 
-          data["updatedAt"] = datetime.datetime.utcnow().isoformat()
+          clean_kalyan_week(root_data)
 
           put_req = urllib.request.Request(
-              f"{FIREBASE_URL}/otc_pro_v51.json",
-              data=json.dumps(data).encode('utf-8'),
+              f"{FIREBASE_URL}/.json",
+              data=json.dumps(root_data).encode('utf-8'),
               headers={'Content-Type': 'application/json'},
               method='PUT'
           )
           urllib.request.urlopen(put_req)
-          print("Firebase Updated: Friday & Saturday marked as Holiday!")
+          print("Successfully removed Fri & Sat dummy data from Firebase!")
           EOF
