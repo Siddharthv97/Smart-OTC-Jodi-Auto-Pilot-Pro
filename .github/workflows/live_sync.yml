@@ -1,44 +1,46 @@
 name: Live Kalyan & Rajdhani Auto-Sync
 
 on:
-  schedule:
-    - cron: '30 11,13,16,18 * * 1-6'
   workflow_dispatch:
 
 jobs:
-  sync-matka-results:
+  purge-and-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Clean Holiday Data & Sync Firebase
+      - name: Wipe Dummy Data & Push Fresh Real Data
         run: |
           python3 - << 'EOF'
           import urllib.request, json, datetime
 
           FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
 
-          # Pure Firebase Root Data ko check karein
-          req = urllib.request.urlopen(f"{FIREBASE_URL}/.json")
-          root_data = json.loads(req.read().decode('utf-8')) or {}
+          # 1. 100% Clean Real Data Structure
+          real_clean_data = {
+              "kalyan": [
+                  {
+                      "week": "02/11/2026",
+                      "days": [
+                          {"open": "347", "jodi": "41", "close": "678"}, # Mon
+                          {"open": "467", "jodi": "17", "close": "278"}, # Tue
+                          {"open": "124", "jodi": "74", "close": "257"}, # Wed
+                          {"open": "278", "jodi": "24", "close": "257"}, # Thu
+                          None, # Fri (Holiday)
+                          None  # Sat (Holiday)
+                      ]
+                  }
+              ],
+              "rajdhani": [],
+              "rates": {"single": "95", "jodi": "950", "sp": "1400", "dp": "2800"},
+              "updatedAt": datetime.datetime.utcnow().isoformat()
+          }
 
-          def clean_kalyan_week(node):
-              if isinstance(node, dict):
-                  if "kalyan" in node and isinstance(node["kalyan"], list) and len(node["kalyan"]) > 0:
-                      last_wk = node["kalyan"][-1]
-                      days_key = "days" if "days" in last_wk else ("d" if "d" in last_wk else None)
-                      if days_key and len(last_wk[days_key]) >= 5:
-                          # Sirf Mon to Thu (first 4 days) rakhein, Fri & Sat dummy hata dein
-                          last_wk[days_key] = last_wk[days_key][:4]
-                  for k, v in node.items():
-                      clean_kalyan_week(v)
-
-          clean_kalyan_week(root_data)
-
+          # 2. Firebase par PUT request bhej kar purana sab kuch replace kar dein
           put_req = urllib.request.Request(
-              f"{FIREBASE_URL}/.json",
-              data=json.dumps(root_data).encode('utf-8'),
+              f"{FIREBASE_URL}/otc_pro_v51.json",
+              data=json.dumps(real_clean_data).encode('utf-8'),
               headers={'Content-Type': 'application/json'},
               method='PUT'
           )
           urllib.request.urlopen(put_req)
-          print("Successfully removed Fri & Sat dummy data from Firebase!")
+          print("Firebase successfully purged and updated with 100% Real Data!")
           EOF
