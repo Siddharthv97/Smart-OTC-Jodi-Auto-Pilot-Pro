@@ -37,7 +37,6 @@ jobs:
           resp = scraper.get(TARGET_URL, timeout=20)
           soup = BeautifulSoup(resp.text, "lxml")
 
-          # FIX #2: Strictly capture ONLY the "Panel" chart URL (never "jodi-chart")
           chart_links = {}
           for a in soup.find_all("a", href=True):
               href = a["href"]
@@ -59,37 +58,52 @@ jobs:
               escaped = re.escape(market_name).replace(r"\ ", r"\s+")
               pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|JACKPOT))\s+Jodi\s+(.*?)\s+Panel"
               matches = list(re.finditer(pattern, page_text, re.IGNORECASE))
-              # FIX #1: Only inspect matches[0] (the actual live scoreboard box) and enforce max 45 chars
-              # so it NEVER reads the 500-char SEO example article at the bottom of the page
               if matches:
                   first_slot = matches[0].group(1).strip()
                   if len(first_slot) <= 45:
                       return first_slot
               return None
 
-          # Supports both full result (123-45-678) and half-time Open result (123-4 or 123-4*-***)
           DIGIT_SLOT_RE = re.compile(r'([0-9]{3})\s*-\s*([0-9\*]{1,2})(?:\s*-\s*([0-9\*]{3}))?')
+
+          # Matka ascending order validator (1..9, 0 where 0 is 10) + Ank checksum
+          def is_valid_matka_record(o1, o2, o3, jodi, c1, c2, c3):
+              m_val = lambda d: 10 if d == '0' else int(d)
+              if not (m_val(o1) <= m_val(o2) <= m_val(o3)):
+                  return False
+              if not (m_val(c1) <= m_val(c2) <= m_val(c3)):
+                  return False
+              open_sum = (int(o1) + int(o2) + int(o3)) % 10
+              close_sum = (int(c1) + int(c2) + int(c3)) % 10
+              return open_sum == int(jodi[0]) and close_sum == int(jodi[1])
+
+          # Matches vertical <br>-spaced pattis inside <table>: "3 4 7 41 6 7 8" or "347-41-678"
+          TABLE_CELL_RE = re.compile(
+              r'(?<![0-9])([0-9])\s*([0-9])\s*([0-9])\s*[\-\s]+\s*([0-9]{2})\s*[\-\s]+\s*([0-9])\s*([0-9])\s*([0-9])(?![0-9])'
+          )
 
           def fetch_latest_from_panel_chart(url):
               if not url:
-                  return None
+                  return None, []
               try:
                   c_resp = scraper.get(url, timeout=15)
                   c_soup = BeautifulSoup(c_resp.text, "lxml")
-                  for t in c_soup(["script", "style"]):
-                      t.decompose()
-                  c_text = " ".join(c_soup.get_text(" ", strip=True).split())
-                  # Exclude the tutorial example "346 - 38 - 459" if it appears in footer text
-                  triples = [
-                      t for t in re.findall(r'(?<![0-9])([0-9]{3})\s*[\-\s]\s*([0-9]{2})\s*[\-\s]\s*([0-9]{3})(?![0-9])', c_text)
-                      if not (t[0] == "346" and t[1] == "38" and t[2] == "459")
-                  ]
-                  if triples:
-                      last = triples[-1]
-                      return f"{last[0]}-{last[1]}-{last[2]}"
+                  valid_records = []
+                  # Strictly scan ONLY inside <table> elements (ignores all SEO footer articles)
+                  for tbl in c_soup.find_all("table"):
+                      # Remove date range cells (like "26/10/2026 to 31/10/2026") before scanning
+                      tbl_text = " ".join(tbl.get_text(" ", strip=True).split())
+                      tbl_text = re.sub(r'\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b', ' DATE ', tbl_text)
+                      for m in TABLE_CELL_RE.finditer(tbl_text):
+                          o1, o2, o3, jd, c1, c2, c3 = m.groups()
+                          if is_valid_matka_record(o1, o2, o3, jd, c1, c2, c3):
+                              rec = f"{o1}{o2}{o3}-{jd}-{c1}{c2}{c3}"
+                              valid_records.append(rec)
+                  if valid_records:
+                      return valid_records[-1], valid_records[-5:]
               except Exception as e:
                   print(f"  [Panel Chart Warn] {url}: {e}")
-              return None
+              return None, []
 
           MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
           key_map = {
@@ -99,7 +113,7 @@ jobs:
               "RAJDHANI NIGHT": "rajdhani"
           }
 
-          print("=== LIVE SCOREBOARD & PANEL CHART VERIFICATION ===")
+          print("=== LIVE SCOREBOARD & STRICT <TABLE> PANEL CHART VERIFICATION ===")
           final_results = {}
           for m_name in MARKETS:
               live_slot = parse_first_live_slot(full_page_text, m_name)
@@ -117,10 +131,11 @@ jobs:
                       print(f"  ==> LOCKED FROM LIVE SCOREBOARD: {locked_val}")
 
               if not locked_val and p_url:
-                  chart_val = fetch_latest_from_panel_chart(p_url)
+                  chart_val, last_5 = fetch_latest_from_panel_chart(p_url)
+                  print(f"  ==> Last 5 Real Table Cells in Chart: {last_5}")
                   if chart_val:
                       locked_val = chart_val
-                      print(f"  ==> LOCKED FROM PANEL CHART HISTORY: {locked_val}")
+                      print(f"  ==> LOCKED LATEST REAL TABLE CELL: {locked_val}")
 
               final_results[key_map[m_name]] = locked_val or "WAITING-LIVE"
 
@@ -142,11 +157,9 @@ jobs:
           ist_now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=5, minutes=30)
           state["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
 
-          # 1. Save local fallback file live_feed.json
           with open("live_feed.json", "w", encoding="utf-8") as f:
               json.dump(state, f, indent=2)
 
-          # 2. Update Firebase Nodes
           payload = json.dumps(state).encode('utf-8')
           for node in ["otc_pro_v62_master.json", "otc_pro_v61_real.json", "otc_pro_v51.json"]:
               put_req = urllib.request.Request(
@@ -157,7 +170,6 @@ jobs:
               )
               urllib.request.urlopen(put_req, context=ctx)
 
-          # 3. Telegram Alert
           bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
           chat_id = os.environ.get("TELEGRAM_CHAT_ID")
           if bot_token and chat_id:
