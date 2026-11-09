@@ -1,0 +1,58 @@
+{
+  "charts": {
+    "kalyan": [
+      {
+        "days": [
+          {
+            "close": "678",
+            "jodi": "41",
+            "open": "347"
+          },
+          {
+            "close": "278",
+            "jodi": "17",
+            "open": "467"
+          },
+          {
+            "close": "257",
+            "jodi": "74",
+            "open": "124"
+          }
+        ],
+        "week": "02/11/2026"
+      },
+      {
+        "week": "09/11/2026"
+      }
+    ],
+    "rajdhani": [
+      {
+        "week": "02/11/2026"
+      },
+      {
+        "week": "09/11/2026"
+      }
+    ]
+  },
+  "feeders": {
+    "mainBazar": "557-73-788",
+    "timeBazar": "139-31-579",
+    "kalyan": "346-38-459",
+    "rajdhani": "780-58-134"
+  },
+  "passbook": [
+    {
+      "amount": 500,
+      "date": "Mon Session",
+      "note": "Initial Wallet Seed"
+    }
+  ],
+  "rates": {
+    "dp": 2800,
+    "jodi": 950,
+    "single": 95,
+    "sp": 1400
+  },
+  "updatedAt": "2026-11-09 10:03:26 IST",
+  "weekUpJodi": "41"
+}
