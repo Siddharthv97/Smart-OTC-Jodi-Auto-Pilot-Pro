@@ -1,132 +1,136 @@
-name: Ultimate Live Scraper & Dual-Node JSON Auto-Sync (v6.4)
+name: Live Scraper (sattamatka.email DOM-Lock Test)
 
 on:
-schedule:
-- cron: '30 14,18,22 * * 1-6'
-workflow_dispatch:
+  schedule:
+    - cron: '30 14,18,22 * * 1-6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-sync-and-commit:
-runs-on: ubuntu-latest
-permissions:
-contents: write
-steps:
-- name: Checkout Repository
-uses: actions/checkout@v4
+  scrape-sattamatka-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Cloudscraper & BeautifulSoup4
+        run: pip install cloudscraper beautifulsoup4 lxml
 
-  - name: Set up Python
-    uses: actions/setup-python@v5
-    with:
-      python-version: '3.10'
+      - name: Scrape sattamatka.email with DOM Isolation & Update Firebase
+        run: |
+          python3 - << 'EOF'
+          import cloudscraper
+          from bs4 import BeautifulSoup
+          import re, json, datetime, urllib.request, ssl
 
-  - name: Run Strict Scraper & Dual Firebase + Repo Commit
-    env:
-      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-    run: |
-      python3 - << 'EOF'
-      import urllib.request, re, json, datetime, ssl, os
+          TARGET_URL = "https://sattamatka.email/"
+          FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
+          MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
 
-      FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
-      SOURCES = ["https://dpboss.services/", "https://spboss.blog/", "https://sattamatka.sale/"]
-      BANNED_FAKE = {"246-22-570", "137-19-450", "358-64-266", "147-29-450", "278-24-257", "158-46-367"}
+          # Strict pattern that accepts EITHER real digits OR waiting stars (***-**-***)
+          # so it never skips a waiting market to grab the next market's number
+          RESULT_REGEX = re.compile(
+              r'(?<![0-9\*])([0-9]{3}|\*{3})\s*-\s*([0-9]{1,2}|\*{1,2})(?:\s*-\s*([0-9]{3}|\*{3}))?(?![0-9\*])'
+          )
 
-      ctx = ssl.create_default_context()
-      ctx.check_hostname = False
-      ctx.verify_mode = ssl.CERT_NONE
+          print(f"=== [1] FETCHING {TARGET_URL} ===")
+          scraper = cloudscraper.create_scraper(
+              browser={'browser': 'chrome', 'platform': 'windows', 'mobile': False}
+          )
+          resp = scraper.get(TARGET_URL, timeout=20)
+          print(f"HTTP Status: {resp.status_code} | HTML Length: {len(resp.text)} chars")
 
-      def fetch_clean_text(url):
+          soup = BeautifulSoup(resp.text, "lxml")
+          for tag in soup(["script", "style", "noscript"]):
+              tag.decompose()
+
+          def find_isolated_market_result(soup_obj, market_name):
+              target_upper = market_name.strip().upper()
+              candidates = []
+
+              # Find any HTML element whose direct/stripped text is EXACTLY the market name
+              for el in soup_obj.find_all(["h1", "h2", "h3", "h4", "h5", "h6", "span", "b", "strong", "div", "p", "td"]):
+                  el_text = " ".join(el.get_text(" ", strip=True).split()).upper()
+                  if el_text == target_upper:
+                      # Walk up maximum 2 parent levels to get ONLY this market's box
+                      box = el.parent
+                      if box:
+                          box_text = " ".join(box.get_text(" ", strip=True).split())
+                          # If immediate parent only has the title, check 1 level higher
+                          if not RESULT_REGEX.search(box_text) and box.parent:
+                              box = box.parent
+                              box_text = " ".join(box.get_text(" ", strip=True).split())
+
+                          # Safety cut: Only inspect the text starting from the market name up to 120 chars
+                          idx = box_text.upper().find(target_upper)
+                          if idx != -1:
+                              snippet = box_text[idx:idx + len(target_upper) + 120]
+                              m = RESULT_REGEX.search(snippet)
+                              if m:
+                                  op = m.group(1)
+                                  jd = m.group(2)
+                                  cl = m.group(3) if m.group(3) else "***"
+                                  res_str = f"{op}-{jd}-{cl}"
+                                  candidates.append((res_str, snippet))
+
+              return candidates
+
+          print("\n=== [2] MULTIMETER DOM PROBE RESULTS ===")
+          scraped_clean = {}
+          key_map = {
+              "MAIN BAZAR": "mainBazar",
+              "TIME BAZAR": "timeBazar",
+              "KALYAN": "kalyan",
+              "RAJDHANI NIGHT": "rajdhani"
+          }
+
+          for m_name in MARKETS:
+              matches = find_isolated_market_result(soup, m_name)
+              print(f"\n--- Market: {m_name} (Found {len(matches)} DOM box matches) ---")
+              chosen = None
+              for idx, (res_str, raw_snip) in enumerate(matches):
+                  print(f"  Match #{idx+1}: [{res_str}]  <-- Raw Box: {raw_snip}")
+                  # Prefer a match that has actual digits over ***-**-*** if multiple boxes exist
+                  if not chosen:
+                      chosen = res_str
+                  elif "*" in chosen and not res_str.startswith("***"):
+                      chosen = res_str
+
+              if chosen:
+                  print(f"  ==> LOCKED RESULT FOR {m_name}: {chosen}")
+                  scraped_clean[key_map[m_name]] = chosen
+              else:
+                  print(f"  ==> WARNING: No isolated box found for {m_name}")
+
+          # [3] Update Firebase ONLY with verified results from sattamatka.email
+          ctx = ssl.create_default_context()
+          ctx.check_hostname = False
+          ctx.verify_mode = ssl.CERT_NONE
+
           try:
-              req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-              with urllib.request.urlopen(req, context=ctx, timeout=12) as resp:
-                  html = resp.read().decode('utf-8', errors='ignore')
-                  html = re.sub(r'<script[\s\S]*?</script>', ' ', html, flags=re.I)
-                  html = re.sub(r'<style[\s\S]*?</style>', ' ', html, flags=re.I)
-                  html = re.sub(r'<[^>]+>', ' ', html)
-                  return re.sub(r'\s+', ' ', html)
+              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v62_master.json", context=ctx)
+              state = json.loads(req.read().decode('utf-8')) or {}
           except Exception:
-              return ""
+              state = {}
 
-      def parse_strict_market(text, market_name):
-          escaped = re.escape(market_name).replace(r'\ ', r'\s+')
-          pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|PRO|JACKPOT))[^0-9\*]{{1,90}}?([0-9\*]{{3}})\s*-\s*([0-9\*]{{1,2}})(?:\s*-?\s*([0-9\*]{{3}}))?"
-          m = re.search(pattern, text, re.IGNORECASE)
-          if not m: return None
-          op, jd, cl = m.group(1).strip(), m.group(2).strip(), (m.group(3) or "***").strip()
-          res_str = f"{op}-{jd}-{cl}"
-          if res_str in BANNED_FAKE: return None
-          return res_str
+          feeders = state.get("feeders", {})
+          for k_key, val in scraped_clean.items():
+              # Update Firebase directly with the exact result on sattamatka.email
+              feeders[k_key] = val
 
-      scraped = {}
-      key_map = {"MAIN BAZAR": "mainBazar", "TIME BAZAR": "timeBazar", "KALYAN": "kalyan", "RAJDHANI NIGHT": "rajdhani"}
+          ist_now = datetime.datetime.utcnow() + datetime.timedelta(hours=5, minutes=30)
+          state["feeders"] = feeders
+          state["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
 
-      for src in SOURCES:
-          text = fetch_clean_text(src)
-          if not text: continue
-          for m_label, k_name in key_map.items():
-              if k_name not in scraped:
-                  res = parse_strict_market(text, m_label)
-                  if res: scraped[k_name] = res
-          if len(scraped) == 4: break
+          payload = json.dumps(state).encode('utf-8')
+          for node in ["otc_pro_v62_master.json", "otc_pro_v61_real.json", "otc_pro_v51.json"]:
+              put_req = urllib.request.Request(
+                  f"{FIREBASE_URL}/{node}",
+                  data=payload,
+                  headers={'Content-Type': 'application/json'},
+                  method='PUT'
+              )
+              urllib.request.urlopen(put_req, context=ctx)
 
-      try:
-          req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v62_master.json", context=ctx)
-          state = json.loads(req.read().decode('utf-8')) or {}
-      except Exception:
-          state = {}
-
-      feeders = state.get("feeders", {})
-      for k in ["mainBazar", "timeBazar", "kalyan", "rajdhani"]:
-          if k in scraped: feeders[k] = scraped[k]
-          elif feeders.get(k) in BANNED_FAKE: feeders[k] = "SET-REAL"
-
-      ist_now = datetime.datetime.utcnow() + datetime.timedelta(hours=5, minutes=30)
-      weekday = ist_now.weekday()
-      monday_date = ist_now - datetime.timedelta(days=weekday)
-      current_week_str = monday_date.strftime("%d/%m/%Y")
-
-      charts = state.get("charts", {"kalyan": [], "rajdhani": []})
-      if weekday < 6:
-          for m_key in ["kalyan", "rajdhani"]:
-              if m_key in scraped:
-                  parts = scraped[m_key].split("-")
-                  if len(parts) == 3 and "*" not in parts[0] and "*" not in parts[1] and len(parts[1]) == 2:
-                      m_rows = charts.get(m_key, [])
-                      target_row = next((r for r in m_rows if r.get("week") == current_week_str), None)
-                      if not target_row:
-                          target_row = {"week": current_week_str, "days": [None]*6}
-                          m_rows.append(target_row)
-                      target_row["days"][weekday] = {"open": parts[0], "jodi": parts[1], "close": parts[2]}
-                      charts[m_key] = m_rows
-
-      state["feeders"] = feeders
-      state["charts"] = charts
-      state["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
-
-      # Save local live_feed.json for zero-Firebase dependency
-      with open("live_feed.json", "w") as f:
-          json.dump(state, f, indent=2)
-
-      payload = json.dumps(state).encode('utf-8')
-      for node in ["otc_pro_v62_master.json", "otc_pro_v61_real.json"]:
-          put_req = urllib.request.Request(f"{FIREBASE_URL}/{node}", data=payload, headers={'Content-Type': 'application/json'}, method='PUT')
-          urllib.request.urlopen(put_req, context=ctx)
-
-      # Telegram notification
-      bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-      chat_id = os.environ.get("TELEGRAM_CHAT_ID")
-      if bot_token and chat_id:
-          msg = f"⚡ *Smart OTC Pro v6.4 Sync*\n🕒 {state['updatedAt']}\n👑 Kalyan: `{feeders.get('kalyan')}`\n🌙 Rajdhani: `{feeders.get('rajdhani')}`"
-          url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-          try:
-              urllib.request.urlopen(urllib.request.Request(url, data=json.dumps({"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}).encode('utf-8'), headers={'Content-Type': 'application/json'}))
-          except Exception: pass
-      EOF
-
-  - name: Commit & Push live_feed.json to Repository
-    uses: stefanzweifel/git-auto-commit-action@v5
-    with:
-      commit_message: "🤖 Auto-update live_feed.json from market scraper"
-      file_pattern: live_feed.json
-
-
+          print("\n=== [3] FIREBASE SYNC COMPLETE ===")
+          print(json.dumps(feeders, indent=2))
+          EOF
