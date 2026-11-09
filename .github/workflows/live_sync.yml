@@ -1,142 +1,101 @@
-name: Live 4-Market Auto-Scraper & Firebase Sync (v6.0 Pro)
+name: Live 4-Market Strict Scraper & Firebase v6.1 Sync
 
 on:
   schedule:
-    # IST Timings (UTC + 5:30) for Time Bazar, Kalyan, Rajdhani Night & Main Bazar (Mon-Sat)
-    - cron: '15,45 7,8,10,11,12,16,18 * * 1-6'
-  workflow_dispatch: # 1-Click Manual Run button in Actions tab
+    - cron: '30 14,18,22 * * 1-6'
+  workflow_dispatch:
 
 jobs:
-  sync-4-markets:
+  sync-and-notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Scrape 4 Core Markets, Filter Holidays & Push to Firebase
+      - name: Strict Scrape 4 Markets & Update Clean Firebase Node
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python3 - << 'EOF'
-          import urllib.request, re, json, datetime, ssl
+          import urllib.request, re, json, datetime, ssl, os
 
           FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
-
-          # Target 4 Zero-Noise Markets
-          MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
-
-          # 3 Live Result Sources (Primary + 2 Backup Mirrors)
-          SOURCES = [
-              "https://dpboss.services/",
-              "https://spboss.blog/",
-              "https://sattamatka.sale/"
-          ]
+          SOURCES = ["https://dpboss.services/", "https://spboss.blog/", "https://sattamatka.sale/"]
+          BANNED_FAKE = {"246-22-570", "137-19-450", "358-64-266", "147-29-450", "278-24-257", "158-46-367"}
 
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
 
-          def fetch_html(url):
+          def fetch_clean_text(url):
               try:
-                  req = urllib.request.Request(
-                      url,
-                      headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0'}
-                  )
+                  req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
                   with urllib.request.urlopen(req, context=ctx, timeout=12) as resp:
-                      return resp.read().decode('utf-8', errors='ignore')
-              except Exception as e:
-                  print(f"[Warn] Source failed {url}: {e}")
+                      html = resp.read().decode('utf-8', errors='ignore')
+                      html = re.sub(r'<script[\s\S]*?</script>', ' ', html, flags=re.I)
+                      html = re.sub(r'<style[\s\S]*?</style>', ' ', html, flags=re.I)
+                      html = re.sub(r'<[^>]+>', ' ', html)
+                      return re.sub(r'\s+', ' ', html)
+              except Exception:
                   return ""
 
-          def parse_market_result(html, market_name):
-              # Market heading ke aas-paas Open-Jodi-Close (e.g. 278-24-257 ya 278-2) dhundhein
-              pattern = rf"{market_name}.{{0,450}}?(\d{{3}})\s*-\s*(\d{{1,2}})(?:\s*-\s*(\d{{3}}))?"
-              match = re.search(pattern, html, re.IGNORECASE | re.DOTALL)
-              if match:
-                  op, jd, cl = match.group(1), match.group(2), match.group(3) or "***"
-                  # Reject dummy test data if ever encountered
-                  if op == "246" and jd == "22" and cl == "570":
-                      return None
-                  return {"open": op, "jodi": jd, "close": cl}
-              return None
+          def parse_strict_market(text, market_name):
+              escaped = re.escape(market_name).replace(r'\ ', r'\s+')
+              # Negative lookahead prevents matching KALYAN MORNING / KALYAN NIGHT / RAJDHANI DAY
+              pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|PRO|JACKPOT))[^0-9\*]{{1,90}}?([0-9\*]{{3}})\s*-\s*([0-9\*]{{1,2}})(?:\s*-\s*([0-9\*]{{3}}))?"
+              m = re.search(pattern, text, re.IGNORECASE)
+              if not m:
+                  return None
+              op, jd, cl = m.group(1).strip(), m.group(2).strip(), (m.group(3) or "***").strip()
+              res_str = f"{op}-{jd}-{cl}"
+              if res_str in BANNED_FAKE:
+                  return None
+              return res_str
 
-          # 1. Multi-Site Failover Scraping
           scraped = {}
+          key_map = {
+              "MAIN BAZAR": "mainBazar",
+              "TIME BAZAR": "timeBazar",
+              "KALYAN": "kalyan",
+              "RAJDHANI NIGHT": "rajdhani"
+          }
+
           for src in SOURCES:
-              html = fetch_html(src)
-              if not html:
+              text = fetch_clean_text(src)
+              if not text:
                   continue
-              for m in MARKETS:
-                  if m not in scraped:
-                      res = parse_market_result(html, m)
+              for m_label, k_name in key_map.items():
+                  if k_name not in scraped:
+                      res = parse_strict_market(text, m_label)
                       if res:
-                          scraped[m] = res
-                          print(f"[Live Match] {m} from {src}: {res['open']}-{res['jodi']}-{res['close']}")
-              if len(scraped) == len(MARKETS):
+                          scraped[k_name] = res
+                          print(f"[Matched] {m_label} -> {res} (from {src})")
+              if len(scraped) == 4:
                   break
 
-          # 2. Fetch Current Firebase Data
+          # Load existing clean node
           try:
-              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v51.json", context=ctx)
-              data = json.loads(req.read().decode('utf-8')) or {}
+              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v61_real.json", context=ctx)
+              state = json.loads(req.read().decode('utf-8')) or {}
           except Exception:
-              data = {}
+              state = {}
 
-          if "kalyan" not in data or not isinstance(data["kalyan"], list):
-              data["kalyan"] = []
+          feeders = state.get("feeders", {})
+          for k in ["mainBazar", "timeBazar", "kalyan", "rajdhani"]:
+              if k in scraped:
+                  feeders[k] = scraped[k]
+              elif feeders.get(k) in BANNED_FAKE:
+                  feeders[k] = "SET-REAL"
 
-          # 3. Clean 02/11/2026 Dummy Data (Ensure Fri & Sat stay Holiday)
-          for wk in data["kalyan"]:
-              if wk.get("week") == "02/11/2026":
-                  days_key = "days" if "days" in wk else "d"
-                  if days_key in wk and len(wk[days_key]) >= 6:
-                      wk[days_key][4] = None
-                      wk[days_key][5] = None
-
-          # 4. IST Date & Current Monday Week Calculation (e.g. 09/11/2026)
           ist_now = datetime.datetime.utcnow() + datetime.timedelta(hours=5, minutes=30)
-          weekday = ist_now.weekday() # 0 = Mon ... 5 = Sat, 6 = Sun
-          monday_date = ist_now - datetime.timedelta(days=weekday)
-          current_week_str = monday_date.strftime("%d/%m/%Y")
+          state["feeders"] = feeders
+          state["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
 
-          # Update Kalyan Chart if Mon-Sat and complete result available
-          if weekday < 6 and "KALYAN" in scraped:
-              k_res = scraped["KALYAN"]
-              if len(k_res["jodi"]) == 2 and k_res["close"] != "***":
-                  target_wk = None
-                  for wk in data["kalyan"]:
-                      if wk.get("week") == current_week_str:
-                          target_wk = wk
-                          break
-                  if not target_wk:
-                      target_wk = {"week": current_week_str, "days": [None]*6}
-                      data["kalyan"].append(target_wk)
-                  days_key = "days" if "days" in target_wk else "d"
-                  target_wk[days_key][weekday] = {
-                      "open": k_res["open"],
-                      "jodi": k_res["jodi"],
-                      "close": k_res["close"]
-                  }
-
-          # 5. Save Live 4-Market Pipeline Feeders for v6.0 Double-Lock Relay
-          feeders = data.get("feeders", {})
-          if "MAIN BAZAR" in scraped:
-              feeders["mainBazar"] = scraped["MAIN BAZAR"]
-          if "TIME BAZAR" in scraped:
-              feeders["timeBazar"] = scraped["TIME BAZAR"]
-          if "KALYAN" in scraped:
-              feeders["kalyanLive"] = scraped["KALYAN"]
-          if "RAJDHANI NIGHT" in scraped:
-              feeders["rajdhaniLive"] = scraped["RAJDHANI NIGHT"]
-
-          data["feeders"] = feeders
-          data["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
-
-          # 6. Push Updated Real Data to Both v5.1 & v6.0 Firebase Paths
-          payload = json.dumps(data).encode('utf-8')
-          for path in ["otc_pro_v51.json", "otc_autopilot_data.json"]:
-              put_req = urllib.request.Request(
-                  f"{FIREBASE_URL}/{path}",
-                  data=payload,
-                  headers={'Content-Type': 'application/json'},
-                  method='PUT'
-              )
-              urllib.request.urlopen(put_req, context=ctx)
-
-          print(f"[Success] Synced at {data['updatedAt']} | Active Week: {current_week_str}")
+          payload = json.dumps(state).encode('utf-8')
+          put_req = urllib.request.Request(
+              f"{FIREBASE_URL}/otc_pro_v61_real.json",
+              data=payload,
+              headers={'Content-Type': 'application/json'},
+              method='PUT'
+          )
+          urllib.request.urlopen(put_req, context=ctx)
+          print("Successfully synced clean v6.1 node:", state)
           EOF
