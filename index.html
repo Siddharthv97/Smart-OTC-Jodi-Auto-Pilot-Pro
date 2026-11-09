@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.2 (Full Master Terminal)</title>
+  <meta name="theme-color" content="#0f172a" />
+  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.3 (True-Dynamic Master)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -69,15 +70,15 @@
       border-color: #38bdf8 !important;
     }
     .hl-red-jodi {
-      background: rgba(239, 68, 68, 0.22) !important;
+      background: rgba(239, 68, 68, 0.24) !important;
       border-color: #ef4444 !important;
     }
     .hl-active-fam {
-      background: rgba(56, 189, 248, 0.22) !important;
+      background: rgba(56, 189, 248, 0.24) !important;
       border-color: #38bdf8 !important;
     }
     .hl-repeat-patti {
-      background: rgba(245, 158, 11, 0.22) !important;
+      background: rgba(245, 158, 11, 0.24) !important;
       border-color: #f59e0b !important;
     }
   </style>
@@ -94,7 +95,7 @@
           🔒
         </div>
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.2</span>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.3</span>
           <h2 class="text-lg font-extrabold text-white mt-0.5">Smart OTC & Jodi Pro Terminal</h2>
           <p class="text-xs text-slate-400">Authorized Quantitative Access Only</p>
         </div>
@@ -112,7 +113,7 @@
         <div class="flex items-center justify-between text-xs">
           <label class="flex items-center gap-2 text-slate-400 cursor-pointer">
             <input id="loginRemember" type="checkbox" checked class="accent-sky-400" />
-            <span>Keep unlocked on this browser</span>
+            <span>Keep unlocked on this device</span>
           </label>
           <span id="loginErrorMsg" class="text-rose-400 font-bold hidden">Invalid credentials!</span>
         </div>
@@ -137,12 +138,12 @@
           <div>
             <div class="flex items-center gap-2 flex-wrap">
               <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white">Smart OTC, Jodi & Patti Pro</h1>
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">v6.2 Full Master</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">v6.3 Final Master</span>
               <span id="liveMarketTimerBadge" class="mono text-[11px] font-bold px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">
                 ⏱️ Loading IST Timer...
               </span>
             </div>
-            <p id="syncStatusText" class="text-xs text-slate-400">100% Real-Data Engine • Zero Fake Numbers • Firebase Cloud Ready</p>
+            <p id="syncStatusText" class="text-xs text-slate-400">100% True-Dynamic Math • Live Auto-Stream Active (60s)</p>
           </div>
         </div>
 
@@ -157,7 +158,7 @@
           <button onclick="openShareSlipModal()" class="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
             <i class="fa-solid fa-share-nodes"></i> 📤 Share VIP Slip
           </button>
-          <button onclick="pullFromFirebase()" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs flex items-center gap-1" title="Pull latest from Firebase">
+          <button onclick="pullFromFirebase(false)" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs flex items-center gap-1" title="Pull latest from Firebase">
             <i class="fa-solid fa-cloud-arrow-down"></i> Sync
           </button>
           <button onclick="lockTerminal()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/80 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700" title="Lock Terminal">
@@ -179,7 +180,7 @@
             3. 📊 Passbook, Equity Curve & Panel Chart
           </button>
           <button onclick="switchTab('tab4')" id="btn_tab4" class="tab-btn">
-            4. ☁️ Cloud Sync, Backup & Telegram Bot
+            4. ☁️ Cloud Stream, Backup & Telegram Bot
           </button>
         </div>
 
@@ -206,9 +207,14 @@
           <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
             Zero-Noise 4-Market Pipeline
           </span>
-          <span class="text-xs text-slate-400">Feeder markets confirm sniper targets with zero time overlap (Click any card to edit)</span>
+          <span class="text-xs text-slate-400">Feeder markets confirm sniper targets with zero time overlap (Click any card to update)</span>
         </div>
-        <span id="lastSyncStamp" class="mono text-[11px] text-emerald-400">Status: Clean State Ready</span>
+        <div class="flex items-center gap-2">
+          <span id="autoStreamIndicator" class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold">
+            🟢 Cloud Stream ON
+          </span>
+          <span id="lastSyncStamp" class="mono text-[11px] text-slate-400">Ready</span>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -275,12 +281,12 @@
       <section class="card-panel p-5 border-2 border-emerald-500/50">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-4">
           <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto Money Manager v6.2</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto Money Manager v6.3</span>
               <span id="circuitBreakerTag" class="text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🛡️ Normal Risk Mode</span>
             </div>
             <h2 class="text-lg font-extrabold text-white mt-1">💰 Today's Capital & Bet Distributor (Open / Close / Jodi / Optional Patti)</h2>
-            <p class="text-xs text-slate-400">Apna aaj ka capital daalein aur select karein ki Open, Close Reserve, Jodi aur Patti mein se kya play karna hai</p>
+            <p class="text-xs text-slate-400">Apna aaj ka capital daalein — system Open, Close Reserve, Jodi aur Optional Patti mein exact ₹ stake divide karega</p>
           </div>
 
           <div class="flex flex-wrap items-center gap-3">
@@ -340,7 +346,7 @@
 
           <label class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-amber-500/50 cursor-pointer">
             <div class="flex items-center gap-2">
-              <input id="chkPlayPatti" type="checkbox" onchange="calculateMoneyManagement()" class="w-4 h-4 accent-amber-400" />
+              <input id="chkPlayPatti" type="checkbox" onchange="onPattiToggleManual()" class="w-4 h-4 accent-amber-400" />
               <span class="text-xs font-bold text-amber-300">4. Play VIP Patti? (Optional)</span>
             </div>
             <select id="mmPattiCount" onchange="calculateMoneyManagement()" class="bg-slate-800 text-[11px] text-white px-1.5 py-0.5 rounded border border-slate-600">
@@ -357,7 +363,7 @@
         <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-3">
           <div id="mmActionSummary" class="lg:col-span-1 p-3.5 rounded-xl bg-slate-900 border-l-4 border-sky-400 text-xs space-y-1.5 text-slate-300"></div>
           <div class="lg:col-span-2 p-3.5 rounded-xl bg-slate-900 border border-slate-800 overflow-x-auto">
-            <div class="text-xs font-bold text-slate-300 mb-2">📊 Live Payout & Net Profit Simulator (Dynamic Rates from Tab 2)</div>
+            <div class="text-xs font-bold text-slate-300 mb-2">📊 Live Payout & Net Profit Simulator (Synced with Tab 2 Payout Rates)</div>
             <table class="w-full text-left text-xs">
               <thead>
                 <tr class="text-slate-400 border-b border-slate-800">
@@ -381,9 +387,12 @@
           <!-- Step 1 Inputs -->
           <div class="card-panel p-4">
             <div class="flex items-center justify-between mb-3">
-              <h3 class="font-bold text-sm text-sky-400">⚡ Step 1: Previous Result & Feeder Inputs</h3>
-              <button onclick="syncInputsFromActiveMarket()" class="text-[11px] px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700">
-                🔄 Auto-Load Latest
+              <div>
+                <h3 class="font-bold text-sm text-sky-400">⚡ Step 1: Previous Result & 1-Week Up</h3>
+                <span id="weekUpAutoLabel" class="text-[10px] text-emerald-400">Auto-synced from Panel Chart</span>
+              </div>
+              <button onclick="syncInputsFromActiveMarket()" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-semibold">
+                🔄 Auto-Load Chart
               </button>
             </div>
             <div class="grid grid-cols-3 gap-2 mb-3">
@@ -412,19 +421,19 @@
             </div>
           </div>
 
-          <!-- Live "Active Line" Auto-Scanner (Dynamic Weighted Voting) -->
+          <!-- Live "Active Line" Auto-Scanner (All 5 Formulas Dynamic) -->
           <div class="card-panel p-4">
             <div class="flex items-center justify-between mb-2">
-              <h3 class="font-bold text-sm text-emerald-400">📡 Live "Active Line" Auto-Scanner (Weighted Voting)</h3>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Auto-Boost 70%+</span>
+              <h3 class="font-bold text-sm text-emerald-400">📡 Live "Active Line" Auto-Scanner (All 5 Formulas)</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Dynamic Backtest</span>
             </div>
-            <p class="text-[11px] text-slate-400 mb-2.5">Chart history ke hisaab se har formula ka live Win-% aur vote power:</p>
+            <p class="text-[11px] text-slate-400 mb-2.5">Panel Chart ke sabhi transitions par F1–F5 ka real backtested accuracy aur vote weight:</p>
             <div id="activeLineScannerBox" class="space-y-2 text-xs"></div>
           </div>
 
-          <!-- Cross-Market Double-Lock Relay & Historical Same-Setup Scanner -->
+          <!-- Cross-Market Double-Lock Relay & Real Historical Same-Setup Scanner -->
           <div class="card-panel p-4 space-y-3">
-            <h3 class="font-bold text-sm text-purple-300">🔗 Cross-Market Relay & Historical Setup</h3>
+            <h3 class="font-bold text-sm text-purple-300">🔗 Cross-Market Relay & True Historical Scanner</h3>
             <div id="relayBreakdownBox" class="space-y-2 text-xs text-slate-300"></div>
             <div id="historicalSetupBox" class="p-2.5 rounded-lg bg-indigo-950/50 border border-indigo-500/40 text-xs text-indigo-200"></div>
           </div>
@@ -436,7 +445,7 @@
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-700 pb-3 mb-4">
               <div>
                 <span id="vipTargetBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">👑 KALYAN VIP CARD</span>
-                <h2 class="text-lg font-extrabold text-white mt-1">🎯 Today's Weighted VIP OTC, Jodi, Patti & Sangam</h2>
+                <h2 class="text-lg font-extrabold text-white mt-1">🎯 Today's Weighted VIP OTC, Unique Jodis & Relay Pattis</h2>
               </div>
               <div id="trapStatusBadge" class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                 ✅ HIGH CONFLUENCE PLAYABLE DAY
@@ -446,19 +455,19 @@
             <!-- 4 VIP OTC Boxes -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4" id="vipOtcBoxes"></div>
 
-            <!-- Strong Jodis & 2-Digit Relay Pattis -->
+            <!-- 8 Guaranteed Unique Strong Jodis & True 2-Digit Relay Pattis -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               <div class="p-3.5 rounded-xl bg-slate-900 border border-purple-500/30">
                 <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-xs font-bold text-purple-300">🔥 Top 4 Sniper VIP Jodis (+4 Sup)</span>
-                  <span class="text-[10px] text-slate-400">Stake in Money Mgr</span>
+                  <span class="text-xs font-bold text-purple-300">🔥 8 Unique Strong Jodis (4 VIP + 4 Sup)</span>
+                  <span class="text-[10px] text-emerald-400">Zero Duplicates</span>
                 </div>
                 <div id="vipJodiList" class="mono text-sm font-bold text-white flex flex-wrap gap-2"></div>
               </div>
               <div class="p-3.5 rounded-xl bg-slate-900 border border-amber-500/30">
                 <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-xs font-bold text-amber-300">💎 2-Digit Relay Lock VIP Pattis</span>
-                  <span class="text-[10px] text-slate-400">SP/DP Cut Filter</span>
+                  <span class="text-xs font-bold text-amber-300">💎 True 2-Digit Panel Relay Pattis</span>
+                  <span id="relayBridgeInfo" class="text-[10px] text-amber-400">Bridge Digits</span>
                 </div>
                 <div id="vipPattiList" class="mono text-sm font-bold text-amber-300 flex flex-wrap gap-2"></div>
               </div>
@@ -475,7 +484,7 @@
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <div>
                   <span class="text-xs font-extrabold text-emerald-300">⚡ Live "Open-to-Close" Mid-Game Pivot Engine</span>
-                  <p class="text-[11px] text-slate-400">Open aate hi yahan daalein — Close Running Ank & Recovery Stake turant update hoga</p>
+                  <p class="text-[11px] text-slate-400">Open aate hi yahan daalein — Close Running Ank, Running Patti & Recovery Stake turant update hoga</p>
                 </div>
                 <div class="flex items-center gap-2">
                   <input id="liveOpenPatti" type="text" maxlength="3" placeholder="Open Patti (e.g. 149)" oninput="runMidGamePivot()" class="input-dark mono text-xs w-36 text-center" />
@@ -494,27 +503,30 @@
     <!-- =================================================================== -->
     <div id="tab2" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        <!-- Left 6 Cols: App Payout Rates + Zone Recovery Calculator -->
+        <!-- Left 6 Cols: Persistent App Payout Rates + Zone Recovery Calculator -->
         <div class="lg:col-span-6 space-y-4">
           <div class="card-panel p-5">
-            <h3 class="text-base font-extrabold text-sky-400 mb-1">⚙️ Standard App Payout Rates (Per ₹10 Stake)</h3>
-            <p class="text-xs text-slate-400 mb-3">Aapke app ke exact rates set karein — Money Manager aur Recovery Calculator isi hisaab se chalenge:</p>
+            <div class="flex justify-between items-center mb-1">
+              <h3 class="text-base font-extrabold text-sky-400">⚙️ Persistent App Payout Rates (Per ₹10 Stake)</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Auto-Saves to Cloud</span>
+            </div>
+            <p class="text-xs text-slate-400 mb-3">Aapke app ke exact rates yahan set karein — yeh Firebase aur LocalStorage mein save rehte hain:</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div>
                 <label class="text-[11px] text-slate-400 block mb-1">Single Ank (₹10 ka)</label>
-                <input id="rateSingle" type="number" value="95" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-emerald-400" />
+                <input id="rateSingle" type="number" value="95" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-emerald-400" />
               </div>
               <div>
                 <label class="text-[11px] text-slate-400 block mb-1">Jodi (₹10 ka)</label>
-                <input id="rateJodi" type="number" value="950" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-purple-400" />
+                <input id="rateJodi" type="number" value="950" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-purple-400" />
               </div>
               <div>
                 <label class="text-[11px] text-slate-400 block mb-1">Single Patti (SP)</label>
-                <input id="rateSP" type="number" value="1400" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-amber-400" />
+                <input id="rateSP" type="number" value="1400" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-amber-400" />
               </div>
               <div>
                 <label class="text-[11px] text-slate-400 block mb-1">Double Patti (DP)</label>
-                <input id="rateDP" type="number" value="2800" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-rose-400" />
+                <input id="rateDP" type="number" value="2800" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-rose-400" />
               </div>
             </div>
           </div>
@@ -522,7 +534,7 @@
           <!-- Zone-Recovery Stake Calculator -->
           <div class="card-panel p-5 border border-amber-500/40">
             <h3 class="text-base font-extrabold text-amber-300 mb-1">🛡️ Zone-Recovery Loss Cover Calculator</h3>
-            <p class="text-xs text-slate-400 mb-3">Agar Open session ya pichला din miss hua hai, toh exact kitna stake lagane par purana loss + aaj ka target profit niklega:</p>
+            <p class="text-xs text-slate-400 mb-3">Agar Open session ya pichla din miss hua hai, toh exact kitna stake lagane par purana loss + aaj ka target profit niklega:</p>
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div>
                 <label class="text-xs text-slate-300 block mb-1">Previous Loss to Recover (₹)</label>
@@ -553,7 +565,7 @@
           <div class="card-panel p-5 border border-purple-500/40">
             <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">NO-CODE BACKTEST LAB</span>
             <h3 class="text-base font-extrabold text-white mt-1 mb-1">🧪 Custom Formula Sandbox (Historical Chart Tester)</h3>
-            <p class="text-xs text-slate-400 mb-4">Apna khud ka math formula banayein aur dekhein ki aapke Panel Chart par uska real Win Rate %, Winning Streak aur Losing Streak kitna hai:</p>
+            <p class="text-xs text-slate-400 mb-4">Apna khud ka math formula chunein aur dekhein ki aapke Panel Chart par uska real Win Rate %, Winning Streak aur Losing Streak kitna hai:</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               <div>
@@ -592,7 +604,7 @@
     <!-- =================================================================== -->
     <div id="tab3" class="hidden space-y-6">
 
-      <!-- Row 1: SVG Equity Growth Curve + Automated Evening Report Card -->
+      <!-- Row 1: SVG Equity Growth Curve + True Evening Report Card -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <div class="lg:col-span-7 card-panel p-5">
           <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
@@ -606,20 +618,25 @@
           <div id="svgEquityContainer" class="w-full h-48 bg-slate-950 rounded-xl border border-slate-800 p-2 flex items-center justify-center"></div>
         </div>
 
-        <!-- Automated Evening Report Card & Manual Entry -->
+        <!-- True Evening Report Card & P&L Logger -->
         <div class="lg:col-span-5 card-panel p-5 space-y-3">
           <div class="flex justify-between items-center">
-            <h3 class="text-base font-extrabold text-sky-400">📋 Evening Report Card & P&L Logger</h3>
-            <button onclick="autoAuditTodayResult()" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
-              ⚡ Auto-Audit Today
-            </button>
+            <h3 class="text-base font-extrabold text-sky-400">📋 True Evening Report Card & P&L Logger</h3>
+            <div class="flex gap-1.5">
+              <button onclick="autoAuditTodayResult()" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
+                ⚡ Audit Latest Day
+              </button>
+              <button onclick="logAuditedResultToPassbook()" id="btnLogAuditPnl" class="hidden px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold">
+                + Log P&L
+              </button>
+            </div>
           </div>
           <div id="autoAuditStampBox" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">
-            Click <b>"⚡ Auto-Audit Today"</b> to verify today's active market result against your VIP Card and auto-log profit/loss.
+            Click <b>"⚡ Audit Latest Day"</b> — system pichle din ke setup se nikle prediction ko latest completed result se match karke exact P&L dikhayega.
           </div>
 
           <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800 text-xs">
-            <input id="plNoteInput" type="text" placeholder="Market / Result (e.g. Kalyan 4 Pass)" class="col-span-2 input-dark text-xs" />
+            <input id="plNoteInput" type="text" placeholder="Market / Result (e.g. Kalyan Hit)" class="col-span-2 input-dark text-xs" />
             <input id="plAmountInput" type="number" placeholder="+45 or -100" class="input-dark mono font-bold text-xs" />
           </div>
           <div class="flex justify-between gap-2">
@@ -627,7 +644,7 @@
               + Add Passbook Entry
             </button>
             <button onclick="clearPassbookHistory()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/80 text-slate-400 hover:text-white text-xs">
-              Clear Log
+              Reset Log
             </button>
           </div>
 
@@ -641,11 +658,14 @@
           <div>
             <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">100% REAL CHART ENGINE</span>
             <h3 class="text-lg font-extrabold text-white mt-1">🗓️ Interactive Multi-Week Panel Chart (Mon – Sat)</h3>
-            <p class="text-xs text-slate-400">Kisi bhi din ke cell par click karke Open Patti, Jodi, Close Patti update karein ya <b>HOLIDAY</b> mark karein</p>
+            <p class="text-xs text-slate-400">Kisi bhi cell par click karke edit karein, ya <b>"📋 Bulk Paste Chart"</b> se ek saath kai hafton ka chart import karein</p>
           </div>
 
           <!-- Highlight Filters & Row Actions -->
           <div class="flex flex-wrap items-center gap-2">
+            <button onclick="openBulkPasteModal()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold shadow">
+              📋 Bulk Paste Chart
+            </button>
             <button onclick="toggleChartHighlight('red')" id="hlBtn_red" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-rose-400 hover:border-rose-400">
               🔴 Red / Cut Jodis
             </button>
@@ -682,7 +702,7 @@
     </div>
 
     <!-- =================================================================== -->
-    <!-- TAB 4: CLOUD SYNC, JSON BACKUP & DIRECT TELEGRAM BOT WEBHOOK        -->
+    <!-- TAB 4: CLOUD STREAM, JSON BACKUP, PWA & TELEGRAM BOT WEBHOOK        -->
     <!-- =================================================================== -->
     <div id="tab4" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -691,7 +711,7 @@
           <div>
             <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300">INSTANT MOBILE PUSH</span>
             <h3 class="text-base font-extrabold text-white mt-1">🤖 Telegram Bot Webhook Configuration</h3>
-            <p class="text-xs text-slate-400">Apna Bot Token aur Chat ID save karein — aap website se bhi 1-Click mein VIP Card aur Money Management Bet Slip apne Telegram par bhej sakte hain:</p>
+            <p class="text-xs text-slate-400">Apna Bot Token aur Chat ID save karein — website se 1-Click mein VIP Card aur Money Management Bet Slip apne Telegram par bhejein:</p>
           </div>
           <div class="space-y-3 text-xs">
             <div>
@@ -714,19 +734,24 @@
           </div>
         </div>
 
-        <!-- Firebase Database & JSON Backup Controls -->
+        <!-- Firebase Database, Live Stream & JSON Backup Controls -->
         <div class="card-panel p-5 border border-emerald-500/40 space-y-4">
-          <div>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">CLOUD & BACKUP</span>
-            <h3 class="text-base font-extrabold text-white mt-1">☁️ Firebase Realtime Database & Clean Purge</h3>
-            <p class="text-xs text-slate-400">Connected to clean node: <code class="mono text-amber-300">/otc_pro_v62_master.json</code> (and synced with <code class="mono text-sky-300">/otc_pro_v61_real.json</code>)</p>
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">UNIFIED DUAL-NODE CLOUD</span>
+              <h3 class="text-base font-extrabold text-white mt-1">☁️ Firebase Auto-Stream & Backup Manager</h3>
+              <p class="text-xs text-slate-400">Unified sync across <code class="mono text-amber-300">/otc_pro_v62_master.json</code> & <code class="mono text-sky-300">/otc_pro_v61_real.json</code></p>
+            </div>
+            <button onclick="toggleAutoCloudStream()" id="btnToggleStream" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">
+              🟢 60s Stream: ON
+            </button>
           </div>
 
           <div class="flex flex-wrap gap-2 text-xs">
             <button onclick="saveStateLocalAndCloud(true)" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
               ☁️ Force Push Local Data to Firebase
             </button>
-            <button onclick="pullFromFirebase()" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold">
+            <button onclick="pullFromFirebase(false)" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold">
               🔄 Pull Data from Firebase
             </button>
             <button onclick="exportBackupJson()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700">
@@ -843,14 +868,42 @@
     </div>
   </div>
 
+  <!-- ===================================================================== -->
+  <!-- MODAL 4: BULK PASTE MULTI-WEEK CHART TEXT IMPORTER                    -->
+  <!-- ===================================================================== -->
+  <div id="bulkPasteModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="card-panel max-w-2xl w-full p-5 space-y-4 border border-indigo-500/50">
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
+        <h3 class="font-extrabold text-base text-white">📋 Bulk Paste Multi-Week Panel Chart Text</h3>
+        <button onclick="closeBulkPasteModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
+      </div>
+      <p class="text-xs text-slate-300">
+        Kisi bhi Panel Chart website se 1 ya zyada hafton ke results copy karke niche paste karein. Engine automatically <code class="mono text-amber-300">Open-Jodi-Close</code> (e.g. <code class="mono text-emerald-300">347-41-678</code>) aur <code class="mono text-rose-300">***-**-***</code> (Holiday) ko pehchan kar 6-day (`Mon–Sat`) rows mein set kar dega:
+      </p>
+      <textarea id="bulkPasteTextarea" rows="8" placeholder="Paste chart text here... e.g.&#10;347-41-678  467-17-278  124-74-257  ***-**-***  ***-**-***  ***-**-***" class="input-dark mono text-xs w-full p-3"></textarea>
+      <div class="flex justify-between items-center pt-2">
+        <label class="flex items-center gap-2 text-xs text-slate-300">
+          <input id="bulkReplaceMode" type="checkbox" class="accent-indigo-400" />
+          <span>Replace existing chart rows (Unchecked = Append to bottom)</span>
+        </label>
+        <div class="flex gap-2">
+          <button onclick="closeBulkPasteModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
+          <button onclick="importBulkChartText()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold shadow">
+            ⚡ Parse & Import to Chart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // =========================================================================
-    // 1. MASTER STATE & STRICT ANTI-DUMMY SANITIZER
+    // 1. MASTER STATE, ANTI-DUMMY SANITIZER & PWA MANIFEST
     // =========================================================================
     const FIREBASE_BASE = "https://smart-otc-cloud-default-rtdb.firebaseio.com";
     const MASTER_DB_PATH = "/otc_pro_v62_master.json";
     const REAL_V61_PATH = "/otc_pro_v61_real.json";
-    const LOCAL_KEY = "otc_pro_v62_master_state";
+    const LOCAL_KEY = "otc_pro_v63_master_state";
 
     // Strictly banned fake/polluted numbers from older versions
     const BANNED_FAKE_RESULTS = new Set([
@@ -896,7 +949,7 @@
         ]
       },
       passbook: [
-        { date: "Mon Session", note: "Initial Wallet Seed", amount: 500 }
+        { date: "Initial", note: "Starting Wallet Balance", amount: 500 }
       ],
       updatedAt: null
     };
@@ -905,6 +958,11 @@
     let editingCellRef = null;
     let latestCalculatedPrediction = null;
     let latestMoneySlip = null;
+    let lastAuditedPnlEntry = null;
+    let userManualPattiOverride = false;
+    let autoCloudStreamEnabled = true;
+
+    const cutOf = d => (Number(d) + 5) % 10;
 
     function sanitizeResultStr(val) {
       if (!val || typeof val !== "string") return "SET-REAL";
@@ -929,6 +987,22 @@
         wk.days = dArr;
       });
     }
+
+    // Inject Dynamic Web App Manifest for Mobile PWA Support
+    (function setupDynamicPWA() {
+      const manifest = {
+        name: "Smart OTC, Jodi & Patti Pro v6.3",
+        short_name: "OTC Pro v6.3",
+        start_url: ".",
+        display: "standalone",
+        background_color: "#0f172a",
+        theme_color: "#0f172a"
+      };
+      const link = document.createElement("link");
+      link.rel = "manifest";
+      link.href = "data:application/manifest+json," + encodeURIComponent(JSON.stringify(manifest));
+      document.head.appendChild(link);
+    })();
 
     // =========================================================================
     // 2. OWNER LOGIN GATE & NAVIGATION TABS
@@ -982,14 +1056,14 @@
     }
 
     // =========================================================================
-    // 3. LIVE MARKET IST COUNTDOWN TIMER
+    // 3. LIVE MARKET IST COUNTDOWN TIMER & 60s CLOUD AUTO-STREAM
     // =========================================================================
     function updateMarketCountdown() {
       const badge = document.getElementById("liveMarketTimerBadge");
       const now = new Date();
       const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
       const istNow = new Date(utcMs + 5.5 * 3600000);
-      const day = istNow.getDay(); // 0 = Sun
+      const day = istNow.getDay();
       const minsNow = istNow.getHours() * 60 + istNow.getMinutes();
 
       if (day === 0) {
@@ -1017,6 +1091,25 @@
       badge.textContent = `⏱️ ${nextEv.name} in ${h}h ${m}m (IST)`;
     }
     setInterval(updateMarketCountdown, 15000);
+
+    function toggleAutoCloudStream() {
+      autoCloudStreamEnabled = !autoCloudStreamEnabled;
+      const btn = document.getElementById("btnToggleStream");
+      const ind = document.getElementById("autoStreamIndicator");
+      if (autoCloudStreamEnabled) {
+        btn.className = "px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold";
+        btn.textContent = "🟢 60s Stream: ON";
+        ind.textContent = "🟢 Cloud Stream ON";
+      } else {
+        btn.className = "px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 text-xs font-bold";
+        btn.textContent = "⏸️ 60s Stream: PAUSED";
+        ind.textContent = "⏸️ Stream Paused";
+      }
+    }
+
+    setInterval(() => {
+      if (autoCloudStreamEnabled) pullFromFirebase(true);
+    }, 60000);
 
     // =========================================================================
     // 4. STRICT REGEX LIVE WEB SCRAPER & MANUAL REAL EDITOR
@@ -1144,7 +1237,7 @@
         open: m[1] || "***",
         jodi: m[2] || "**",
         close: m[3] || "***",
-        valid: !m[1].includes("*") && !m[2].includes("*")
+        valid: !m[1].includes("*") && !m[2].includes("*") && m[2].length === 2
       };
     }
 
@@ -1158,17 +1251,58 @@
       }
     }
 
-    function getLatestValidChartCell(marketKey) {
+    // FIX #3: Auto-lookup both Latest Valid Cell AND Exact 1-Week Up Same-Day Jodi from Panel Chart
+    function getLatestChartSetupAndWeekUp(marketKey) {
       const rows = appState.charts[marketKey] || [];
+      let latestCell = null;
+      let latestW = -1;
+      let latestD = -1;
+
       for (let r = rows.length - 1; r >= 0; r--) {
         const days = rows[r].days || [];
         for (let d = 5; d >= 0; d--) {
-          if (days[d] && days[d].open && days[d].jodi && !BANNED_FAKE_RESULTS.has(`${days[d].open}-${days[d].jodi}-${days[d].close}`)) {
-            return days[d];
+          const c = days[d];
+          if (c && c.open && c.jodi && c.jodi.length === 2 && !BANNED_FAKE_RESULTS.has(`${c.open}-${c.jodi}-${c.close}`)) {
+            latestCell = c;
+            latestW = r;
+            latestD = d;
+            break;
           }
         }
+        if (latestCell) break;
       }
-      return { open: "124", jodi: "74", close: "257" };
+
+      if (!latestCell) {
+        return {
+          prev: { open: "124", jodi: "74", close: "257" },
+          weekUpJodi: appState.weekUpJodi || "41",
+          targetDayLabel: "Next Session"
+        };
+      }
+
+      // Target prediction day is the next trading day after latestD
+      const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const nextD = (latestD + 1) % 6;
+      const targetWeekIdx = nextD === 0 ? latestW + 1 : latestW;
+
+      // 1-Week Up is at (targetWeekIdx - 1) on column nextD, or fallback to latest valid in column nextD
+      let weekUpJodi = appState.weekUpJodi || "41";
+      let weekUpSource = `Default (${weekUpJodi})`;
+
+      for (let r = Math.min(rows.length - 1, targetWeekIdx - 1); r >= 0; r--) {
+        const cand = (rows[r].days || [])[nextD];
+        if (cand && cand.jodi && cand.jodi.length === 2) {
+          weekUpJodi = cand.jodi;
+          weekUpSource = `Auto-loaded ${dayNames[nextD]} (${rows[r].week})`;
+          break;
+        }
+      }
+
+      return {
+        prev: latestCell,
+        weekUpJodi,
+        targetDayLabel: weekUpSource
+      };
     }
 
     function syncInputsFromActiveMarket() {
@@ -1176,74 +1310,164 @@
       const pipeStr = target === "kalyan" ? appState.feeders.kalyan : appState.feeders.rajdhani;
       const feederStr = target === "kalyan" ? appState.feeders.timeBazar : appState.feeders.kalyan;
 
+      const chartInfo = getLatestChartSetupAndWeekUp(target);
       let pParts = parseResultParts(pipeStr);
       if (!pParts.valid) {
-        pParts = getLatestValidChartCell(target);
+        pParts = chartInfo.prev;
       }
       const fParts = parseResultParts(feederStr);
 
       document.getElementById("inpPrevOpen").value = pParts.open.includes("*") ? "124" : pParts.open;
       document.getElementById("inpPrevJodi").value = pParts.jodi.includes("*") ? "74" : pParts.jodi;
       document.getElementById("inpPrevClose").value = pParts.close.includes("*") ? "257" : pParts.close;
-      document.getElementById("inpWeekUpJodi").value = appState.weekUpJodi || "41";
-      document.getElementById("inpFeederJodi").value = fParts.jodi.includes("*") ? "41" : fParts.jodi;
+      document.getElementById("inpWeekUpJodi").value = chartInfo.weekUpJodi;
+      document.getElementById("weekUpAutoLabel").textContent = chartInfo.targetDayLabel;
+      document.getElementById("inpFeederJodi").value = fParts.valid ? fParts.jodi : chartInfo.weekUpJodi;
     }
 
     // =========================================================================
-    // 5. LIVE "ACTIVE LINE" AUTO-SCANNER & WEIGHTED 5-FORMULA ENGINE
+    // 5. TRUE DYNAMIC 2-DIGIT PANEL RELAY PATTI GENERATOR & ALL 5 FORMULAS
     // =========================================================================
-    const cutOf = d => (Number(d) + 5) % 10;
+    // In Matka, digit order is 1,2,3,4,5,6,7,8,9,0 (0 = 10, highest)
+    const MATKA_ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
-    function computeDynamicFormulaWeights(marketKey) {
+    function generateTrueRelayPattisForAnk(targetAnk, bridgeDigitsSet) {
+      const candidates = [];
+      for (let i = 0; i < MATKA_ORDER.length; i++) {
+        for (let j = i; j < MATKA_ORDER.length; j++) {
+          for (let k = j; k < MATKA_ORDER.length; k++) {
+            // Skip Triple Pattis (e.g. 777) for standard SP/DP relay
+            if (i === j && j === k) continue;
+            const d1 = MATKA_ORDER[i], d2 = MATKA_ORDER[j], d3 = MATKA_ORDER[k];
+            if ((d1 + d2 + d3) % 10 !== Number(targetAnk)) continue;
+
+            // Count how many digits match the previous day's Open/Close panels (or their cuts)
+            let bridgeHits = 0;
+            if (bridgeDigitsSet.has(d1)) bridgeHits += 2;
+            else if (bridgeDigitsSet.has(cutOf(d1))) bridgeHits += 1;
+
+            if (bridgeDigitsSet.has(d2)) bridgeHits += 2;
+            else if (bridgeDigitsSet.has(cutOf(d2))) bridgeHits += 1;
+
+            if (bridgeDigitsSet.has(d3)) bridgeHits += 2;
+            else if (bridgeDigitsSet.has(cutOf(d3))) bridgeHits += 1;
+
+            // Prefer Single Pattis (SP) slightly for consistency, plus high bridge hits
+            const isSP = (i !== j && j !== k) ? 0.5 : 0;
+            const score = bridgeHits + isSP;
+            candidates.push({ patti: `${d1}${d2}${d3}`, score });
+          }
+        }
+      }
+      candidates.sort((a, b) => b.score - a.score);
+      return candidates.slice(0, 2).map(c => c.patti);
+    }
+
+    // Real backtest of ALL 5 Formulas (F1, F2, F3, F4, F5) across the 2D Panel Chart
+    function computeDynamicFormulaWeights(marketKey, feederJodiStr) {
       const rows = appState.charts[marketKey] || [];
-      const flatDays = [];
-      rows.forEach(wk => {
-        (wk.days || []).forEach(cell => {
-          if (cell && cell.jodi && cell.open && cell.close) flatDays.push(cell);
+      const flat = [];
+      rows.forEach((wk, wIdx) => {
+        (wk.days || []).forEach((cell, dIdx) => {
+          if (cell && cell.jodi && cell.jodi.length === 2 && cell.open && cell.close) {
+            flat.push({ ...cell, wIdx, dIdx });
+          }
         });
       });
 
-      // Default weights if fewer than 3 historical days
       const stats = [
-        { id: "F1", name: "Direct + Cut Line (F1)", hits: 4, total: 5 },
-        { id: "F2", name: "1-Week Vertical Line (F2)", hits: 4, total: 5 },
-        { id: "F3", name: "Jodi Berij & Farak (F3)", hits: 3, total: 5 },
-        { id: "F4", name: "Patti Middle Bridge (F4)", hits: 3, total: 5 },
-        { id: "F5", name: "Cross-Market Feeder Relay (F5)", hits: 4, total: 5 }
+        { id: "F1", name: "Direct + Cut Line (F1)", hits: 0, total: 0 },
+        { id: "F2", name: "1-Week Vertical Line (F2)", hits: 0, total: 0 },
+        { id: "F3", name: "Jodi Berij & Farak (F3)", hits: 0, total: 0 },
+        { id: "F4", name: "Patti Middle Bridge (F4)", hits: 0, total: 0 },
+        { id: "F5", name: "Cross-Market / Cut-Bridge (F5)", hits: 0, total: 0 }
       ];
 
-      if (flatDays.length >= 3) {
-        let f1H = 0, f3H = 0, f4H = 0, count = 0;
-        for (let i = 1; i < flatDays.length; i++) {
-          const prev = flatDays[i - 1];
-          const curr = flatDays[i];
-          const currO = Number(curr.jodi[0]), currC = Number(curr.jodi[1]);
-          const pO = Number(prev.jodi[0]), pC = Number(prev.jodi[1]);
+      for (let i = 1; i < flat.length; i++) {
+        const prev = flat[i - 1];
+        const curr = flat[i];
+        const currO = Number(curr.jodi[0]), currC = Number(curr.jodi[1]);
+        const pO = Number(prev.jodi[0]), pC = Number(prev.jodi[1]);
 
-          const f1Set = new Set([pO, pC, cutOf(pO), cutOf(pC)]);
-          if (f1Set.has(currO) || f1Set.has(currC)) f1H++;
+        // F1: Direct + Cut
+        const f1Set = new Set([pO, pC, cutOf(pO), cutOf(pC)]);
+        stats[0].total++;
+        if (f1Set.has(currO) || f1Set.has(currC)) stats[0].hits++;
 
-          const berij = (pO + pC) % 10, farak = Math.abs(pC - pO) % 10;
-          const f3Set = new Set([berij, cutOf(berij), farak, cutOf(farak)]);
-          if (f3Set.has(currO) || f3Set.has(currC)) f3H++;
-
-          const mO = Number(prev.open[1]) || 0, mC = Number(prev.close[1]) || 0;
-          const f4Set = new Set([mO, mC, (mO + mC) % 10, cutOf((mO + mC) % 10)]);
-          if (f4Set.has(currO) || f4Set.has(currC)) f4H++;
-
-          count++;
+        // F2: 1-Week Vertical (Check same weekday in previous week row if available, else 1-step vertical)
+        let wkUpCell = null;
+        if (curr.wIdx > 0 && rows[curr.wIdx - 1]?.days?.[curr.dIdx]?.jodi) {
+          wkUpCell = rows[curr.wIdx - 1].days[curr.dIdx];
+        } else {
+          wkUpCell = prev;
         }
-        stats[0].hits = f1H; stats[0].total = count;
-        stats[2].hits = f3H; stats[2].total = count;
-        stats[3].hits = f4H; stats[3].total = count;
+        const wO = Number(wkUpCell.jodi[0]), wC = Number(wkUpCell.jodi[1]);
+        const f2Set = new Set([wO, wC, cutOf(wO), cutOf(wC)]);
+        stats[1].total++;
+        if (f2Set.has(currO) || f2Set.has(currC)) stats[1].hits++;
+
+        // F3: Berij & Farak
+        const berij = (pO + pC) % 10, farak = Math.abs(pC - pO) % 10;
+        const f3Set = new Set([berij, cutOf(berij), farak, cutOf(farak)]);
+        stats[2].total++;
+        if (f3Set.has(currO) || f3Set.has(currC)) stats[2].hits++;
+
+        // F4: Patti Middle Bridge
+        const mO = Number(prev.open[1]) || 0, mC = Number(prev.close[1]) || 0;
+        const f4Set = new Set([mO, mC, (mO + mC) % 10, cutOf((mO + mC) % 10)]);
+        stats[3].total++;
+        if (f4Set.has(currO) || f4Set.has(currC)) stats[3].hits++;
+
+        // F5: Panel Last Digit + Berij Relay
+        const lO = Number(prev.open[2]) || 0, lC = Number(prev.close[2]) || 0;
+        const f5Set = new Set([lO, lC, (lO + lC) % 10, cutOf((lO + lC) % 10)]);
+        stats[4].total++;
+        if (f5Set.has(currO) || f5Set.has(currC)) stats[4].hits++;
       }
 
       return stats.map(s => {
-        const pct = Math.round((s.hits / Math.max(1, s.total)) * 100);
+        const pct = s.total > 0 ? Math.round((s.hits / s.total) * 100) : 75;
         const weight = pct >= 70 ? 2.0 : pct < 40 ? 0.5 : 1.3;
         const badge = pct >= 70 ? "2.0x BOOST" : pct < 40 ? "0.5x MUTED" : "1.3x ACTIVE";
         return { ...s, pct, weight, badge };
       });
+    }
+
+    // Real Historical Same-Setup Scanner across Panel Chart
+    function scanHistoricalSameSetup(marketKey, prevJodiStr, weekUpJodiStr, topVip1, topVip2) {
+      const rows = appState.charts[marketKey] || [];
+      const flat = [];
+      rows.forEach(wk => {
+        (wk.days || []).forEach(c => {
+          if (c && c.jodi && c.jodi.length === 2) flat.push(c);
+        });
+      });
+
+      const famSignature = j => {
+        const a = Math.min(Number(j[0]), cutOf(Number(j[0])));
+        const b = Math.min(Number(j[1]), cutOf(Number(j[1])));
+        return `${a}${b}`;
+      };
+
+      const targetSig = famSignature(prevJodiStr);
+      let matchCount = 0;
+      let vipHitCount = 0;
+
+      for (let i = 0; i < flat.length - 1; i++) {
+        if (famSignature(flat[i].jodi) === targetSig) {
+          matchCount++;
+          const nextJ = flat[i + 1].jodi;
+          const nO = Number(nextJ[0]), nC = Number(nextJ[1]);
+          const vipFamSet = new Set([topVip1, cutOf(topVip1), topVip2, cutOf(topVip2)]);
+          if (vipFamSet.has(nO) || vipFamSet.has(nC)) vipHitCount++;
+        }
+      }
+
+      if (matchCount > 0) {
+        const hitPct = Math.round((vipHitCount / matchCount) * 100);
+        return `🔍 <b>Real Historical Chart Scan:</b> Pichle chart mein Prev Jodi Family (<b>${prevJodiStr}</b>) ka setup <b>${matchCount} baar</b> bana hai, jisme agle din <b>${topVip1}/${cutOf(topVip1)}</b> ya <b>${topVip2}/${cutOf(topVip2)}</b> family <b>${hitPct}% (${vipHitCount}/${matchCount})</b> baar pass hui hai.`;
+      }
+      return `🔍 <b>Real Historical Chart Scan:</b> Prev Jodi (<b>${prevJodiStr}</b>) + 1-Week Up (<b>${weekUpJodiStr}</b>) confluence par Super VIP <b>${topVip1}</b> & <b>${topVip2}</b> top-ranked hain. (Import more weeks in Tab 3 for deeper history).`;
     }
 
     function recalculateAll() {
@@ -1257,16 +1481,15 @@
       const weekUpJodi = (document.getElementById("inpWeekUpJodi").value || "41").padStart(2, "0");
       const feederJodi = (document.getElementById("inpFeederJodi").value || "41").padStart(2, "0");
 
-      const lineStats = computeDynamicFormulaWeights(target);
+      const lineStats = computeDynamicFormulaWeights(target, feederJodi);
 
-      // Render Active Line Scanner UI
       document.getElementById("activeLineScannerBox").innerHTML = lineStats.map(st => `
         <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between">
           <div>
             <span class="font-bold text-slate-200">${st.name}</span>
             <span class="ml-2 text-[10px] px-1.5 py-0.5 rounded ${st.pct >= 70 ? 'bg-emerald-500/20 text-emerald-300' : st.pct < 40 ? 'bg-rose-500/20 text-rose-300' : 'bg-sky-500/20 text-sky-300'}">${st.badge}</span>
           </div>
-          <span class="mono font-extrabold ${st.pct >= 70 ? 'text-emerald-400' : 'text-amber-400'}">${st.pct}% Win</span>
+          <span class="mono font-extrabold ${st.pct >= 70 ? 'text-emerald-400' : 'text-amber-400'}">${st.pct}% (${st.hits}/${st.total || 1})</span>
         </div>
       `).join("");
 
@@ -1277,7 +1500,7 @@
       const scores = Array(10).fill(0);
       const addVote = (d, w) => { scores[((d % 10) + 10) % 10] += w; };
 
-      // Apply Weighted Votes from Active Line Scanner
+      // Weighted Votes from F1..F5
       const wF1 = lineStats[0].weight;
       addVote(o1, wF1); addVote(c1, wF1); addVote(cutOf(o1), wF1 * 0.8); addVote(cutOf(c1), wF1 * 0.8);
 
@@ -1304,7 +1527,7 @@
       const vip1 = top4[0].digit, vip2 = top4[1].digit;
       const sup1 = top4[2].digit, sup2 = top4[3].digit;
 
-      // Check Trap Day Condition (Red Jodi on Prev Day or Low Top Score)
+      // Trap Day Alert check
       const isPrevRed = o1 === c1 || o1 === cutOf(c1);
       const trapBadge = document.getElementById("trapStatusBadge");
       if (isPrevRed && top4[0].pts < 5.5) {
@@ -1326,23 +1549,32 @@
         </div>
       `).join("");
 
-      // Build 8 Strong Jodis (4 VIP + 4 Support)
-      const sniperJodis = [
-        `${vip1}${fBerij}`, `${vip1}${cutOf(vip2)}`,
-        `${vip2}${vip1}`, `${vip2}${fFarak}`,
-        `${sup1}${vip1}`, `${sup2}${vip2}`,
-        `${vip1}${sup1}`, `${vip2}${sup2}`
+      // FIX #2: Guaranteed 8 Unique Strong Jodis (Zero Duplicates)
+      const rawCandidateJodis = [
+        `${vip1}${fBerij}`, `${vip1}${cutOf(vip2)}`, `${vip2}${vip1}`, `${vip2}${fFarak}`,
+        `${vip1}${vip2}`, `${vip2}${cutOf(vip1)}`, `${sup1}${vip1}`, `${sup2}${vip2}`,
+        `${vip1}${sup1}`, `${vip2}${sup2}`, `${sup1}${fBerij}`, `${sup2}${fFarak}`,
+        `${vip1}${cutOf(sup1)}`, `${vip2}${cutOf(sup2)}`
       ];
-      document.getElementById("vipJodiList").innerHTML = sniperJodis.map((j, i) => `
+      const uniqueJodis = [...new Set(rawCandidateJodis)].slice(0, 8);
+
+      document.getElementById("vipJodiList").innerHTML = uniqueJodis.map((j, i) => `
         <span class="px-2.5 py-1 rounded ${i < 4 ? 'bg-purple-500/20 text-purple-200 border border-purple-400/50' : 'bg-slate-800 text-slate-400'}">${j}</span>
       `).join("");
 
-      // Build 2-Digit Relay Pattis
-      const pMap = {
-        0: ["145", "235"], 1: ["128", "137"], 2: ["147", "237"], 3: ["139", "148"], 4: ["149", "257"],
-        5: ["159", "267"], 6: ["169", "259"], 7: ["179", "278"], 8: ["189", "260"], 9: ["289", "379"]
-      };
-      const pattis = [...(pMap[vip1] || []), ...(pMap[vip2] || []), ...(pMap[sup1] || []), ...(pMap[sup2] || [])];
+      // FIX #6: True Dynamic 2-Digit Panel Relay Lock Patti Generator
+      const bridgeDigits = new Set(
+        [...prevOpen, ...prevClose].map(ch => Number(ch)).filter(n => !isNaN(n))
+      );
+      document.getElementById("relayBridgeInfo").textContent = `Bridge: ${[...bridgeDigits].join(",")}`;
+
+      const pattis = [
+        ...generateTrueRelayPattisForAnk(vip1, bridgeDigits),
+        ...generateTrueRelayPattisForAnk(vip2, bridgeDigits),
+        ...generateTrueRelayPattisForAnk(sup1, bridgeDigits),
+        ...generateTrueRelayPattisForAnk(sup2, bridgeDigits)
+      ];
+
       document.getElementById("vipPattiList").innerHTML = pattis.map((p, i) => `
         <span class="px-2 py-1 rounded ${i < 4 ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50' : 'bg-slate-800 text-slate-400'}">${p}</span>
       `).join("");
@@ -1350,14 +1582,14 @@
       // Render Half-Sangam Condenser
       document.getElementById("halfSangamBox").innerHTML = `
         <div class="p-2 rounded bg-slate-950 border border-slate-800">
-          • <b>Half-Sangam A:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${(pMap[vip2] || ["257"])[0]}</b>
+          • <b>Half-Sangam A:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${pattis[2] || "257"}</b>
         </div>
         <div class="p-2 rounded bg-slate-950 border border-slate-800">
-          • <b>Half-Sangam B:</b> Open Patti <b class="text-amber-300">${(pMap[vip1] || ["149"])[0]}</b> × Close <b class="text-sky-300">${vip2}</b>
+          • <b>Half-Sangam B:</b> Open Patti <b class="text-amber-300">${pattis[0] || "149"}</b> × Close <b class="text-sky-300">${vip2}</b>
         </div>
       `;
 
-      // Render Cross-Market Relay & Historical Same-Setup Finder
+      // Render Cross-Market Relay & Real Historical Same-Setup Finder
       document.getElementById("relayBreakdownBox").innerHTML = `
         <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
           • <b>Feeder Jodi (${feederJodi}):</b> Berij = <b class="text-sky-300">${fBerij}</b> (Cut ${cutOf(fBerij)}) | Farak = <b class="text-sky-300">${fFarak}</b>
@@ -1366,18 +1598,17 @@
           • <b>1-Week Up Vertical (${weekUpJodi}):</b> Direct <b class="text-emerald-300">${w1}, ${w2}</b> & Cut <b class="text-emerald-300">${cutOf(w1)}, ${cutOf(w2)}</b>
         </div>
         <div class="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-semibold">
-          🔥 Double-Lock Intersection: Super VIP <b>${vip1}</b> & <b>${vip2}</b> confirmed!
+          🔥 Double-Lock Intersection: Super VIP <b>${vip1}</b> & <b>${vip2}</b> highest confluence!
         </div>
       `;
 
-      document.getElementById("historicalSetupBox").innerHTML = `
-        🔍 <b>Historical Same-Setup Match:</b> Jab-jab Prev Jodi Family (<b>${o1}/${cutOf(o1)}-${c1}/${cutOf(c1)}</b>) ke upar <b>${weekUpJodi}</b> family aayi hai, agle din <b>${vip1}</b> ya <b>${vip2}</b> family 82% baar Open/Close mein pass hui hai.
-      `;
+      document.getElementById("historicalSetupBox").innerHTML =
+        scanHistoricalSameSetup(target, prevJodi, weekUpJodi, vip1, vip2);
 
       latestCalculatedPrediction = {
         market: target === "kalyan" ? "KALYAN" : "RAJDHANI NIGHT",
         top4: top4.map(t => t.digit),
-        jodis: sniperJodis,
+        jodis: uniqueJodis,
         pattis
       };
 
@@ -1407,19 +1638,50 @@
       } else {
         const d = Number(openAnk);
         const c1 = cutOf(d), c2 = (d + 1) % 10, c3 = cutOf(c2);
-        out.innerHTML = `<span class="text-amber-300 font-bold">⚡ Open Missed (${openAnk}) ➔ Activate Close Recovery Reserve (₹${latestMoneySlip?.closeTotal || 50}) on Running Close Ank: <b class="mono text-white">${c1}, ${d}, ${c2}, ${c3}</b> | Running Jodis: <b class="mono text-purple-300">${openAnk}${c1}, ${openAnk}${d}, ${openAnk}${c2}, ${openAnk}${c3}</b></span>`;
+        const bridgeSet = new Set(openPatti.length === 3 ? [...openPatti].map(Number) : [d, c1]);
+        const closePattis = [
+          ...generateTrueRelayPattisForAnk(c1, bridgeSet).slice(0, 1),
+          ...generateTrueRelayPattisForAnk(d, bridgeSet).slice(0, 1),
+          ...generateTrueRelayPattisForAnk(c2, bridgeSet).slice(0, 1),
+          ...generateTrueRelayPattisForAnk(c3, bridgeSet).slice(0, 1)
+        ];
+        out.innerHTML = `<span class="text-amber-300 font-bold">⚡ Open Missed (${openAnk}) ➔ Activate Close Recovery Reserve (₹${latestMoneySlip?.closeTotal || 50}) on Close Ank: <b class="mono text-white">${c1}, ${d}, ${c2}, ${c3}</b> | Running Jodis: <b class="mono text-purple-300">${openAnk}${c1}, ${openAnk}${d}, ${openAnk}${c2}, ${openAnk}${c3}</b> | Close Relay Pattis: <b class="mono text-amber-300">${closePattis.join(", ")}</b></span>`;
       }
     }
 
     // =========================================================================
-    // 6. SMART MONEY MANAGEMENT & BET DISTRIBUTOR ENGINE
+    // 6. SMART MONEY MANAGEMENT + ACTIVE CIRCUIT BREAKER ENFORCEMENT
     // =========================================================================
+    function isCircuitBreakerTriggered() {
+      const list = appState.passbook || [];
+      return list.length >= 3 && Number(list[list.length - 1].amount) < 0 && Number(list[list.length - 2].amount) < 0;
+    }
+
+    function onPattiToggleManual() {
+      userManualPattiOverride = true;
+      calculateMoneyManagement();
+    }
+
     function setQuickCapital(amount) {
       document.getElementById("mmCapital").value = amount;
       calculateMoneyManagement();
     }
 
     function calculateMoneyManagement() {
+      const cbActive = isCircuitBreakerTriggered();
+      const cbTag = document.getElementById("circuitBreakerTag");
+      if (cbActive) {
+        cbTag.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40";
+        cbTag.textContent = "🚨 CIRCUIT BREAKER ACTIVE: 2 Losses ➔ Auto Safe Mode";
+        if (!userManualPattiOverride) {
+          document.getElementById("chkPlayPatti").checked = false;
+          document.getElementById("mmStrategy").value = "safe";
+        }
+      } else {
+        cbTag.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30";
+        cbTag.textContent = "🛡️ Normal Risk Mode";
+      }
+
       const totalCap = Math.max(20, parseFloat(document.getElementById("mmCapital").value) || 100);
       const strategy = document.getElementById("mmStrategy").value;
       const playOpen = document.getElementById("chkPlayOpen").checked;
@@ -1430,10 +1692,9 @@
       const playPatti = document.getElementById("chkPlayPatti").checked;
       const pattiCount = parseInt(document.getElementById("mmPattiCount").value, 10);
 
-      // Dynamic payout multipliers from Tab 2 (per ₹1)
-      const singleMult = (parseFloat(document.getElementById("rateSingle")?.value) || 95) / 10;
-      const jodiMult = (parseFloat(document.getElementById("rateJodi")?.value) || 950) / 10;
-      const spMult = (parseFloat(document.getElementById("rateSP")?.value) || 1400) / 10;
+      const singleMult = (Number(appState.rates?.single) || 95) / 10;
+      const jodiMult = (Number(appState.rates?.jodi) || 950) / 10;
+      const spMult = (Number(appState.rates?.sp) || 1400) / 10;
 
       let wOpen = playOpen ? (strategy === "safe" ? 30 : strategy === "aggressive" ? 26 : 30) : 0;
       let wClose = playClose ? (strategy === "safe" ? 52 : strategy === "aggressive" ? 38 : 46) : 0;
@@ -1485,11 +1746,23 @@
       const phase1Cost = openTotal + jodiTotal + pattiTotal;
       const grandTotalUsed = phase1Cost + closeTotal;
 
+      const openVipPayout = openVipEach * singleMult;
+      const openVipNet = openVipPayout + closeTotal - grandTotalUsed;
+      const closeVipPayout = closeVipEach * singleMult;
+      const closeVipNet = closeVipPayout - grandTotalUsed;
+      const jodiPayout = jodiEach * jodiMult;
+      const jodiNet = jodiPayout + openVipPayout - grandTotalUsed;
+      const pattiPayout = pattiEach * spMult;
+      const pattiNet = pattiPayout + openVipPayout + closeTotal - grandTotalUsed;
+
       latestMoneySlip = {
         grandTotalUsed, phase1Cost, openTotal, openVipEach, openSupEach,
         jodiTotal, jodiEach, jodiCount,
         pattiTotal, pattiEach, pattiCount, playPatti,
-        closeTotal, closeVipEach, closeSupEach
+        closeTotal, closeVipEach, closeSupEach,
+        openVipNet: Number(openVipNet.toFixed(1)),
+        closeVipNet: Number(closeVipNet.toFixed(1)),
+        jodiNet: Number(jodiNet.toFixed(0))
       };
 
       const d = latestCalculatedPrediction?.top4 || [4, 2, 7, 9];
@@ -1551,15 +1824,6 @@
         <div><b>3. Golden Rule:</b> Open pass = <b class="text-emerald-400">STOP CLOSE!</b> Open miss = Bacha hua <b>₹${closeTotal}</b> Close Running Ank par lagayein.</div>
       `;
 
-      const openVipPayout = openVipEach * singleMult;
-      const openVipNet = openVipPayout + closeTotal - grandTotalUsed;
-      const closeVipPayout = closeVipEach * singleMult;
-      const closeVipNet = closeVipPayout - grandTotalUsed;
-      const jodiPayout = jodiEach * jodiMult;
-      const jodiNet = jodiPayout + openVipPayout - grandTotalUsed;
-      const pattiPayout = pattiEach * spMult;
-      const pattiNet = pattiPayout + openVipPayout + closeTotal - grandTotalUsed;
-
       document.getElementById("mmProfitTableBody").innerHTML = `
         <tr>
           <td class="py-1.5 text-sky-300 font-semibold">✅ Open Super VIP Hits (Stop Close)</td>
@@ -1595,17 +1859,35 @@
     }
 
     // =========================================================================
-    // 7. TAB 2: ZONE RECOVERY, NIGHT SHIELD & CUSTOM FORMULA SANDBOX
+    // 7. TAB 2: PERSISTENT PAYOUT RATES, ZONE RECOVERY & SANDBOX
     // =========================================================================
+    // FIX #4: Save Payout Rates to appState + LocalStorage + Cloud
+    function onRatesChange() {
+      appState.rates = {
+        single: parseFloat(document.getElementById("rateSingle").value) || 95,
+        jodi: parseFloat(document.getElementById("rateJodi").value) || 950,
+        sp: parseFloat(document.getElementById("rateSP").value) || 1400,
+        dp: parseFloat(document.getElementById("rateDP").value) || 2800
+      };
+      saveStateLocalAndCloud();
+      calculateMoneyManagement();
+      runZoneRecoveryCalc();
+    }
+
+    function syncRateInputsUI() {
+      document.getElementById("rateSingle").value = appState.rates?.single || 95;
+      document.getElementById("rateJodi").value = appState.rates?.jodi || 950;
+      document.getElementById("rateSP").value = appState.rates?.sp || 1400;
+      document.getElementById("rateDP").value = appState.rates?.dp || 2800;
+    }
+
     function runZoneRecoveryCalc() {
       const loss = Math.max(0, parseFloat(document.getElementById("recPrevLoss").value) || 0);
       const target = Math.max(0, parseFloat(document.getElementById("recTargetProfit").value) || 0);
-      const singleMult = (parseFloat(document.getElementById("rateSingle").value) || 95) / 10;
+      const singleMult = (Number(appState.rates?.single) || 95) / 10;
       const needTotal = loss + target;
 
-      // For 2 VIP Ank (net multiplier = singleMult - 2)
       const stake2AnkEach = Math.ceil(needTotal / Math.max(1, singleMult - 2));
-      // For 4 OTC Ank (net multiplier = singleMult - 4)
       const stake4AnkEach = Math.ceil(needTotal / Math.max(1, singleMult - 4));
 
       document.getElementById("zoneRecoveryOutput").innerHTML = `
@@ -1619,7 +1901,7 @@
       const shieldBudget = Math.round(kProfit * 0.35);
       const lockedProfit = kProfit - shieldBudget;
       document.getElementById("nightShieldOutput").innerHTML = `
-        ✅ <b>Locked Home Profit: ₹${lockedProfit}</b> (100% Untouchable) | 🎯 <b>Risk-Free Rajdhani Night Budget (35%): ₹${shieldBudget}</b> (Click ₹${shieldBudget} in Money Manager to play Rajdhani Night with zero base-wallet risk!)
+        ✅ <b>Locked Home Profit: ₹${lockedProfit}</b> (100% Untouchable) | 🎯 <b>Risk-Free Rajdhani Night Budget (35%): ₹${shieldBudget}</b> (Play Rajdhani Night with zero base-wallet risk!)
       `;
     }
 
@@ -1698,11 +1980,11 @@
         </div>
       `;
       document.getElementById("sandboxLogList").innerHTML =
-        logs.join("") || `<div class="text-slate-400">Add more real days in Tab 3 Panel Chart to expand backtest log.</div>`;
+        logs.join("") || `<div class="text-slate-400">Use '📋 Bulk Paste Chart' in Tab 3 to test across more weeks.</div>`;
     }
 
     // =========================================================================
-    // 8. TAB 3: PASSBOOK, SVG EQUITY GRAPH & INTERACTIVE PANEL CHART
+    // 8. TAB 3: PASSBOOK, TRUE EVENING AUDIT & BULK CHART PASTE IMPORTER
     // =========================================================================
     function renderPassbookAndEquity() {
       const list = appState.passbook || [];
@@ -1724,17 +2006,8 @@
       document.getElementById("passbookTableContainer").innerHTML = rowsHtml;
       document.getElementById("passbookSummaryStats").textContent = `Current Wallet Balance: ₹${running}`;
 
-      // Check Circuit Breaker (last 2 entries negative)
-      const cbTag = document.getElementById("circuitBreakerTag");
-      if (list.length >= 3 && list[list.length - 1].amount < 0 && list[list.length - 2].amount < 0) {
-        cbTag.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40";
-        cbTag.textContent = "🚨 CIRCUIT BREAKER ACTIVE: 2 Losses ➔ Safe Mode";
-      } else {
-        cbTag.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30";
-        cbTag.textContent = "🛡️ Normal Risk Mode";
-      }
+      calculateMoneyManagement(); // Refresh Circuit Breaker status
 
-      // Draw SVG Curve
       const svgBox = document.getElementById("svgEquityContainer");
       if (points.length < 2) points.unshift(0);
       const minV = Math.min(...points, 0);
@@ -1772,46 +2045,150 @@
 
     function clearPassbookHistory() {
       if (!confirm("Reset P&L Passbook to ₹500 starting balance?")) return;
-      appState.passbook = [{ date: "Start", note: "Initial Wallet Seed", amount: 500 }];
+      appState.passbook = [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }];
+      userManualPattiOverride = false;
       saveStateLocalAndCloud();
       renderPassbookAndEquity();
     }
 
+    // FIX #5: True Evening Audit (Compares Prior Day's Prediction against Latest Completed Day's Result)
     function autoAuditTodayResult() {
       const target = document.getElementById("activeTargetSelect").value;
-      const resStr = target === "kalyan" ? appState.feeders.kalyan : appState.feeders.rajdhani;
-      const parts = parseResultParts(resStr);
-      const stampBox = document.getElementById("autoAuditStampBox");
+      const rows = appState.charts[target] || [];
+      const flat = [];
+      rows.forEach((wk, wIdx) => {
+        (wk.days || []).forEach((c, dIdx) => {
+          if (c && c.jodi && c.jodi.length === 2 && c.open && c.close) {
+            flat.push({ ...c, wIdx, dIdx, week: wk.week });
+          }
+        });
+      });
 
-      if (!parts.valid) {
-        stampBox.innerHTML = `⚠️ Latest ${target.toUpperCase()} result is not set yet. Click "✏️ Set / Edit Real Data" first.`;
+      const stampBox = document.getElementById("autoAuditStampBox");
+      const btnLog = document.getElementById("btnLogAuditPnl");
+
+      if (flat.length < 2) {
+        stampBox.innerHTML = `⚠️ Need at least 2 completed days in ${target.toUpperCase()} chart to audit transition.`;
+        btnLog.classList.add("hidden");
         return;
       }
 
-      const oAnk = Number(parts.jodi[0]), cAnk = Number(parts.jodi[1]);
-      const top4 = latestCalculatedPrediction?.top4 || [];
-      const jodis = latestCalculatedPrediction?.jodis || [];
-      const pattis = latestCalculatedPrediction?.pattis || [];
+      const setupDay = flat[flat.length - 2]; // Prior day that generated the prediction
+      const actualDay = flat[flat.length - 1]; // Latest day being audited
 
-      const openHit = top4.includes(oAnk);
-      const closeHit = top4.includes(cAnk);
-      const jodiHit = jodis.includes(parts.jodi);
-      const pattiHit = pattis.includes(parts.open) || pattis.includes(parts.close);
+      const pO = Number(setupDay.jodi[0]), pC = Number(setupDay.jodi[1]);
+      const berij = (pO + pC) % 10, farak = Math.abs(pC - pO) % 10;
+      const mO = Number(setupDay.open[1]) || 0, mC = Number(setupDay.close[1]) || 0;
 
-      let badges = [];
-      if (openHit) badges.push("✅ OPEN OTC PASS");
-      if (closeHit) badges.push("✅ CLOSE OTC PASS");
-      if (jodiHit) badges.push("🔥 JODI BLAST");
-      if (pattiHit) badges.push("💎 PATTI BLAST");
+      const s = Array(10).fill(0);
+      const vote = (d, w) => { s[((d % 10) + 10) % 10] += w; };
+      vote(pO, 2.0); vote(pC, 2.0); vote(cutOf(pO), 1.6); vote(cutOf(pC), 1.6);
+      vote(berij, 1.3); vote(cutOf(berij), 1.1); vote(farak, 1.3);
+      vote(mO, 1.4); vote(mC, 1.4); vote((mO + mC) % 10, 1.4);
 
-      if (badges.length > 0) {
-        stampBox.innerHTML = `<span class="text-emerald-400 font-extrabold">${badges.join(" + ")} on Result ${resStr}!</span>`;
+      const predTop4 = s.map((pts, d) => ({ d, pts })).sort((a, b) => b.pts - a.pts).slice(0, 4).map(x => x.d);
+      const aO = Number(actualDay.jodi[0]), aC = Number(actualDay.jodi[1]);
+
+      const openHit = predTop4.includes(aO);
+      const closeHit = predTop4.includes(aC);
+
+      let netPnl = 0;
+      let statusLabel = "";
+      if (openHit) {
+        netPnl = latestMoneySlip?.openVipNet || 45;
+        statusLabel = `✅ OPEN OTC HIT (Ank ${aO})`;
+      } else if (closeHit) {
+        netPnl = latestMoneySlip?.closeVipNet || 35;
+        statusLabel = `🛡️ CLOSE RECOVERY HIT (Ank ${aC})`;
       } else {
-        stampBox.innerHTML = `<span class="text-rose-400 font-bold">❌ Session Missed (${resStr}) — Use Tab 2 Zone Recovery for next session.</span>`;
+        netPnl = -(latestMoneySlip?.grandTotalUsed || 100);
+        statusLabel = `❌ SESSION MISSED`;
       }
+
+      lastAuditedPnlEntry = {
+        note: `${target.toUpperCase()} ${actualDay.open}-${actualDay.jodi}-${actualDay.close} (${statusLabel})`,
+        amount: Math.round(netPnl)
+      };
+
+      btnLog.classList.remove("hidden");
+      stampBox.innerHTML = `
+        <div><b>Setup (${setupDay.open}-${setupDay.jodi}-${setupDay.close}) ➔ Predicted OTC [${predTop4.join(", ")}]</b></div>
+        <div class="mt-1 ${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-extrabold">
+          Result ${actualDay.open}-${actualDay.jodi}-${actualDay.close}: ${statusLabel} | Est. P&L: ${netPnl >= 0 ? '+' : ''}₹${Math.round(netPnl)}
+        </div>
+      `;
     }
 
-    // Panel Chart Table & Filters
+    function logAuditedResultToPassbook() {
+      if (!lastAuditedPnlEntry) return;
+      appState.passbook.push({
+        date: new Date().toLocaleDateString("en-IN"),
+        note: lastAuditedPnlEntry.note,
+        amount: lastAuditedPnlEntry.amount
+      });
+      document.getElementById("btnLogAuditPnl").classList.add("hidden");
+      saveStateLocalAndCloud();
+      renderPassbookAndEquity();
+    }
+
+    // Bulk Paste Chart Modal & Importer
+    function openBulkPasteModal() {
+      document.getElementById("bulkPasteModal").classList.remove("hidden");
+    }
+
+    function closeBulkPasteModal() {
+      document.getElementById("bulkPasteModal").classList.add("hidden");
+    }
+
+    function importBulkChartText() {
+      const raw = document.getElementById("bulkPasteTextarea").value.trim();
+      if (!raw) return alert("Please paste chart text first.");
+      const replace = document.getElementById("bulkReplaceMode").checked;
+      const target = document.getElementById("activeTargetSelect").value;
+
+      // Match all tokens like 347-41-678 or ***-**-***
+      const tokenRegex = /([0-9\*]{3})\s*-\s*([0-9\*]{1,2})\s*-\s*([0-9\*]{3})/g;
+      const tokens = [];
+      let m;
+      while ((m = tokenRegex.exec(raw)) !== null) {
+        const op = m[1], jd = m[2], cl = m[3];
+        if (op.includes("*") || jd.includes("*")) {
+          tokens.push(null);
+        } else if (!BANNED_FAKE_RESULTS.has(`${op}-${jd}-${cl}`)) {
+          tokens.push({ open: op, jodi: jd.padStart(2, "0"), close: cl });
+        } else {
+          tokens.push(null);
+        }
+      }
+
+      if (tokens.length === 0) {
+        return alert("No valid Open-Jodi-Close patterns (e.g. 347-41-678) found in text.");
+      }
+
+      const newWeeks = [];
+      for (let i = 0; i < tokens.length; i += 6) {
+        const chunk = tokens.slice(i, i + 6);
+        while (chunk.length < 6) chunk.push(null);
+        newWeeks.push({
+          week: `Wk-${newWeeks.length + 1}`,
+          days: chunk
+        });
+      }
+
+      if (replace) {
+        appState.charts[target] = newWeeks;
+      } else {
+        appState.charts[target] = [...(appState.charts[target] || []), ...newWeeks];
+      }
+
+      saveStateLocalAndCloud();
+      closeBulkPasteModal();
+      syncInputsFromActiveMarket();
+      recalculateAll();
+      renderPanelChartTable();
+      alert(`Successfully imported ${tokens.length} day slots (${newWeeks.length} week rows)!`);
+    }
+
     function toggleChartHighlight(mode) {
       currentHighlightMode = currentHighlightMode === mode ? null : mode;
       ["red", "family", "patti"].forEach(m => {
@@ -1825,7 +2202,6 @@
       const weeks = appState.charts[target] || [];
       const topDigits = new Set((latestCalculatedPrediction?.top4 || []).map(String));
 
-      // Count patti occurrences for Repeat Patti filter
       const pattiCounts = {};
       weeks.forEach(wk => {
         (wk.days || []).forEach(c => {
@@ -1907,9 +2283,10 @@
       if (!jd) return alert("Please enter Jodi (or click Mark as Holiday).");
 
       const { target, wIdx, dIdx } = editingCellRef;
-      appState.charts[target][wIdx].days[dIdx] = { open: op, jodi: jd, close: cl };
+      appState.charts[target][wIdx].days[dIdx] = { open: op, jodi: jd.padStart(2, "0"), close: cl };
       saveStateLocalAndCloud();
       closeCellModal();
+      syncInputsFromActiveMarket();
       renderPanelChartTable();
       recalculateAll();
     }
@@ -1920,6 +2297,7 @@
       appState.charts[target][wIdx].days[dIdx] = null;
       saveStateLocalAndCloud();
       closeCellModal();
+      syncInputsFromActiveMarket();
       renderPanelChartTable();
       recalculateAll();
     }
@@ -1948,12 +2326,12 @@
       const p = latestCalculatedPrediction || { market: "KALYAN", top4: [4, 2, 7, 9], jodis: ["42", "24"], pattis: ["149", "257"] };
       const m = latestMoneySlip || { grandTotalUsed: 100, phase1Cost: 50, openTotal: 30, openVipEach: 10, jodiTotal: 20, jodiEach: 5, closeTotal: 50 };
       return [
-        `⚡ *SMART OTC & JODI PRO v6.2 VIP SLIP* ⚡`,
+        `⚡ *SMART OTC & JODI PRO v6.3 VIP SLIP* ⚡`,
         `🎯 *Market:* ${p.market}`,
         `🔥 *Super VIP OTC:* ${p.top4[0]}, ${p.top4[1]}`,
         `⚡ *Support OTC:* ${p.top4[2]}, ${p.top4[3]}`,
         `💜 *Top 4 Sniper Jodis:* ${p.jodis.slice(0, 4).join(", ")}`,
-        `💎 *VIP Relay Pattis:* ${p.pattis.slice(0, 4).join(", ")}`,
+        `💎 *2-Digit Relay Pattis:* ${p.pattis.slice(0, 4).join(", ")}`,
         `────────────────────`,
         `💰 *Money Manager Plan (Budget ₹${m.grandTotalUsed}):*`,
         `• Open OTC Stake: ₹${m.openTotal} (VIP ₹${m.openVipEach} each)`,
@@ -2021,7 +2399,7 @@
     }
 
     // =========================================================================
-    // 10. FIREBASE CLOUD SYNC, BACKUP & HARD WIPE
+    // 10. UNIFIED DUAL-NODE FIREBASE CLOUD SYNC, BACKUP & HARD WIPE
     // =========================================================================
     async function saveStateLocalAndCloud(showAlert = false) {
       localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
@@ -2045,35 +2423,56 @@
       }
     }
 
-    async function pullFromFirebase() {
+    // FIX #1: Reads from BOTH /otc_pro_v62_master.json AND /otc_pro_v61_real.json so GitHub Actions & Web App stay 100% unified
+    async function pullFromFirebase(silent = false) {
       try {
-        const res = await fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}?t=${Date.now()}`);
-        if (res.ok) {
-          const cloud = await res.json();
-          if (cloud && cloud.feeders) {
-            appState.feeders.mainBazar = sanitizeResultStr(cloud.feeders.mainBazar);
-            appState.feeders.timeBazar = sanitizeResultStr(cloud.feeders.timeBazar);
-            appState.feeders.kalyan = sanitizeResultStr(cloud.feeders.kalyan);
-            appState.feeders.rajdhani = sanitizeResultStr(cloud.feeders.rajdhani);
-            if (cloud.weekUpJodi) appState.weekUpJodi = cloud.weekUpJodi;
-            if (cloud.charts) {
-              sanitizeChartWeeks(cloud.charts.kalyan);
-              sanitizeChartWeeks(cloud.charts.rajdhani);
-              appState.charts = cloud.charts;
+        const [resMaster, resV61] = await Promise.all([
+          fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}?t=${Date.now()}`),
+          fetch(`${FIREBASE_BASE}${REAL_V61_PATH}?t=${Date.now()}`)
+        ]);
+
+        const cloudMaster = resMaster.ok ? await resMaster.json() : null;
+        const cloudV61 = resV61.ok ? await resV61.json() : null;
+        const cloud = cloudMaster || cloudV61;
+
+        if (cloud) {
+          // Merge latest feeders from either node (preferring valid non-"SET-REAL" values from GitHub Actions)
+          const mergedFeeders = {
+            ...(cloudMaster?.feeders || {}),
+            ...(cloudV61?.feeders || {})
+          };
+
+          ["mainBazar", "timeBazar", "kalyan", "rajdhani"].forEach(k => {
+            const candidate = sanitizeResultStr(mergedFeeders[k]);
+            if (candidate !== "SET-REAL") {
+              appState.feeders[k] = candidate;
             }
-            if (cloud.passbook) appState.passbook = cloud.passbook;
-            appState.updatedAt = cloud.updatedAt;
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
-            renderPipelineUI();
-            syncInputsFromActiveMarket();
-            recalculateAll();
-            renderPanelChartTable();
-            renderPassbookAndEquity();
-            document.getElementById("syncStatusText").textContent = `Pulled Clean Master Data from Firebase (${cloud.updatedAt || "Now"})`;
-            return;
+          });
+
+          if (cloud.weekUpJodi) appState.weekUpJodi = cloud.weekUpJodi;
+          if (cloud.rates) appState.rates = { ...appState.rates, ...cloud.rates };
+          if (cloud.charts) {
+            sanitizeChartWeeks(cloud.charts.kalyan);
+            sanitizeChartWeeks(cloud.charts.rajdhani);
+            appState.charts = cloud.charts;
+          }
+          if (cloud.passbook) appState.passbook = cloud.passbook;
+          appState.updatedAt = cloudV61?.updatedAt || cloudMaster?.updatedAt || appState.updatedAt;
+
+          localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
+          syncRateInputsUI();
+          renderPipelineUI();
+          syncInputsFromActiveMarket();
+          recalculateAll();
+          renderPanelChartTable();
+          renderPassbookAndEquity();
+          if (!silent) {
+            document.getElementById("syncStatusText").textContent = `Unified Cloud Sync Complete (${appState.updatedAt || "Live"})`;
           }
         }
-      } catch (e) {}
+      } catch (e) {
+        if (!silent) console.warn("Cloud pull warning:", e);
+      }
     }
 
     function exportBackupJson() {
@@ -2081,7 +2480,7 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `smart_otc_v62_backup_${Date.now()}.json`;
+      a.download = `smart_otc_v63_backup_${Date.now()}.json`;
       a.click();
     }
 
@@ -2127,12 +2526,13 @@
         } catch (e) {}
       }
 
+      syncRateInputsUI();
       renderPipelineUI();
       syncInputsFromActiveMarket();
       recalculateAll();
       renderPassbookAndEquity();
       renderPanelChartTable();
-      pullFromFirebase();
+      pullFromFirebase(true);
     });
   </script>
 </body>
