@@ -37,12 +37,13 @@ jobs:
           resp = scraper.get(TARGET_URL, timeout=20)
           soup = BeautifulSoup(resp.text, "lxml")
 
+          # FIX #2: Strictly capture ONLY the "Panel" chart URL (never "jodi-chart")
           chart_links = {}
           for a in soup.find_all("a", href=True):
               href = a["href"]
               txt = " ".join(a.get_text(" ", strip=True).split()).upper()
               parent_txt = " ".join(a.parent.get_text(" ", strip=True).split()).upper() if a.parent else ""
-              if "PANEL" in txt or "CHART" in href.upper():
+              if txt == "PANEL" or "PANEL-CHART" in href.upper() or "PANEL_CHART" in href.upper():
                   full_url = href if href.startswith("http") else TARGET_URL.rstrip("/") + "/" + href.lstrip("/")
                   for m in ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]:
                       if re.search(rf"(?<![A-Z]){m}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE))", parent_txt + " " + full_url.upper().replace("-", " ")):
@@ -54,27 +55,40 @@ jobs:
 
           full_page_text = " ".join(soup.get_text(" ", strip=True).split())
 
-          def parse_live_slot(page_text, market_name):
+          def parse_first_live_slot(page_text, market_name):
               escaped = re.escape(market_name).replace(r"\ ", r"\s+")
               pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|JACKPOT))\s+Jodi\s+(.*?)\s+Panel"
               matches = list(re.finditer(pattern, page_text, re.IGNORECASE))
-              return [m.group(1).strip() for m in matches]
+              # FIX #1: Only inspect matches[0] (the actual live scoreboard box) and enforce max 45 chars
+              # so it NEVER reads the 500-char SEO example article at the bottom of the page
+              if matches:
+                  first_slot = matches[0].group(1).strip()
+                  if len(first_slot) <= 45:
+                      return first_slot
+              return None
 
-          DIGIT_SLOT_RE = re.compile(r'([0-9\*]{3})\s*-\s*([0-9\*]{1,2})(?:\s*-\s*([0-9\*]{3}))?')
+          # Supports both full result (123-45-678) and half-time Open result (123-4 or 123-4*-***)
+          DIGIT_SLOT_RE = re.compile(r'([0-9]{3})\s*-\s*([0-9\*]{1,2})(?:\s*-\s*([0-9\*]{3}))?')
 
-          def fetch_latest_from_chart_url(url):
+          def fetch_latest_from_panel_chart(url):
               if not url:
                   return None
               try:
                   c_resp = scraper.get(url, timeout=15)
                   c_soup = BeautifulSoup(c_resp.text, "lxml")
+                  for t in c_soup(["script", "style"]):
+                      t.decompose()
                   c_text = " ".join(c_soup.get_text(" ", strip=True).split())
-                  triples = re.findall(r'(?<![0-9])([0-9]{3})\s*[\-\s]\s*([0-9]{2})\s*[\-\s]\s*([0-9]{3})(?![0-9])', c_text)
+                  # Exclude the tutorial example "346 - 38 - 459" if it appears in footer text
+                  triples = [
+                      t for t in re.findall(r'(?<![0-9])([0-9]{3})\s*[\-\s]\s*([0-9]{2})\s*[\-\s]\s*([0-9]{3})(?![0-9])', c_text)
+                      if not (t[0] == "346" and t[1] == "38" and t[2] == "459")
+                  ]
                   if triples:
                       last = triples[-1]
                       return f"{last[0]}-{last[1]}-{last[2]}"
-              except Exception:
-                  pass
+              except Exception as e:
+                  print(f"  [Panel Chart Warn] {url}: {e}")
               return None
 
           MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
@@ -85,23 +99,33 @@ jobs:
               "RAJDHANI NIGHT": "rajdhani"
           }
 
+          print("=== LIVE SCOREBOARD & PANEL CHART VERIFICATION ===")
           final_results = {}
           for m_name in MARKETS:
-              slots = parse_live_slot(full_page_text, m_name)
-              locked_val = None
-              for s in slots:
-                  dm = DIGIT_SLOT_RE.search(s)
-                  if dm and not dm.group(1).startswith("*"):
-                      op, jd, cl = dm.group(1), dm.group(2), dm.group(3) or "***"
-                      locked_val = f"{op}-{jd}-{cl}"
-                      break
+              live_slot = parse_first_live_slot(full_page_text, m_name)
+              p_url = chart_links.get(m_name)
+              print(f"\n[{m_name}] Live Box Slot: '{live_slot}' | Panel Chart URL: {p_url}")
 
-              if not locked_val and chart_links.get(m_name):
-                  chart_val = fetch_latest_from_chart_url(chart_links[m_name])
+              locked_val = None
+              if live_slot:
+                  dm = DIGIT_SLOT_RE.search(live_slot)
+                  if dm:
+                      op, jd, cl = dm.group(1), dm.group(2), dm.group(3) or "***"
+                      if len(jd) == 1:
+                          jd = f"{jd}*"
+                      locked_val = f"{op}-{jd}-{cl}"
+                      print(f"  ==> LOCKED FROM LIVE SCOREBOARD: {locked_val}")
+
+              if not locked_val and p_url:
+                  chart_val = fetch_latest_from_panel_chart(p_url)
                   if chart_val:
                       locked_val = chart_val
+                      print(f"  ==> LOCKED FROM PANEL CHART HISTORY: {locked_val}")
 
               final_results[key_map[m_name]] = locked_val or "WAITING-LIVE"
+
+          print("\n=== FINAL VERIFIED PAYLOAD ===")
+          print(json.dumps(final_results, indent=2))
 
           # Load Firebase State
           ctx = ssl.create_default_context()
@@ -151,8 +175,6 @@ jobs:
                   urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_data, headers={'Content-Type': 'application/json'}))
               except Exception:
                   pass
-
-          print("Master Sync Complete successfully!")
           EOF
 
       - name: Commit & Push live_feed.json
