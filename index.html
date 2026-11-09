@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.3 (True-Dynamic Master)</title>
+  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.4 (Ultimate Master)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -69,18 +69,9 @@
       transform: translateY(-1px);
       border-color: #38bdf8 !important;
     }
-    .hl-red-jodi {
-      background: rgba(239, 68, 68, 0.24) !important;
-      border-color: #ef4444 !important;
-    }
-    .hl-active-fam {
-      background: rgba(56, 189, 248, 0.24) !important;
-      border-color: #38bdf8 !important;
-    }
-    .hl-repeat-patti {
-      background: rgba(245, 158, 11, 0.24) !important;
-      border-color: #f59e0b !important;
-    }
+    .hl-red-jodi { background: rgba(239, 68, 68, 0.24) !important; border-color: #ef4444 !important; }
+    .hl-active-fam { background: rgba(56, 189, 248, 0.24) !important; border-color: #38bdf8 !important; }
+    .hl-repeat-patti { background: rgba(245, 158, 11, 0.24) !important; border-color: #f59e0b !important; }
   </style>
 </head>
 <body class="min-h-screen pb-20">
@@ -95,8 +86,8 @@
           🔒
         </div>
         <div>
-          <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.3</span>
-          <h2 class="text-lg font-extrabold text-white mt-0.5">Smart OTC & Jodi Pro Terminal</h2>
+          <span class="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.4</span>
+          <h2 class="text-lg font-extrabold text-white mt-0.5">Smart OTC & Jodi Pro Ultimate</h2>
           <p class="text-xs text-slate-400">Authorized Quantitative Access Only</p>
         </div>
       </div>
@@ -118,7 +109,7 @@
           <span id="loginErrorMsg" class="text-rose-400 font-bold hidden">Invalid credentials!</span>
         </div>
         <button type="submit" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 hover:from-sky-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm shadow-lg">
-          ⚡ Unlock Quantitative Terminal
+          ⚡ Unlock Ultimate Master Terminal
         </button>
       </form>
     </div>
@@ -129,7 +120,6 @@
   <!-- ===================================================================== -->
   <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800 px-4 py-3">
     <div class="max-w-7xl mx-auto flex flex-col gap-3">
-      <!-- Row 1: Brand, Countdown & Quick Cloud Actions -->
       <div class="flex flex-wrap items-center justify-between gap-3">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-400 font-extrabold text-lg">
@@ -138,50 +128,40 @@
           <div>
             <div class="flex items-center gap-2 flex-wrap">
               <h1 class="font-extrabold text-base sm:text-lg tracking-tight text-white">Smart OTC, Jodi & Patti Pro</h1>
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">v6.3 Final Master</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">v6.4 Ultimate</span>
               <span id="liveMarketTimerBadge" class="mono text-[11px] font-bold px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">
                 ⏱️ Loading IST Timer...
               </span>
             </div>
-            <p id="syncStatusText" class="text-xs text-slate-400">100% True-Dynamic Math • Live Auto-Stream Active (60s)</p>
+            <p id="syncStatusText" class="text-xs text-slate-400">Zero-Dummy Engine • Dual-Node Cloud & live_feed.json Active</p>
           </div>
         </div>
 
-        <!-- Global Toolbar Actions -->
         <div class="flex flex-wrap items-center gap-2">
           <button onclick="scrapeLiveFromBrowser()" id="btnLiveWeb" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
             <i class="fa-solid fa-globe"></i> 🌐 Fetch Live Web
           </button>
           <button onclick="openEditPipelineModal()" class="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-1.5 shadow">
-            <i class="fa-solid fa-pen-to-square"></i> ✏️ Set / Edit Real Data
+            <i class="fa-solid fa-pen-to-square"></i> ✏️ Set Real Data
           </button>
           <button onclick="openShareSlipModal()" class="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs flex items-center gap-1.5 shadow">
             <i class="fa-solid fa-share-nodes"></i> 📤 Share VIP Slip
           </button>
-          <button onclick="pullFromFirebase(false)" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs flex items-center gap-1" title="Pull latest from Firebase">
+          <button onclick="pullFromCloudAndRepo(false)" class="px-2.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs flex items-center gap-1">
             <i class="fa-solid fa-cloud-arrow-down"></i> Sync
           </button>
-          <button onclick="lockTerminal()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/80 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700" title="Lock Terminal">
+          <button onclick="lockTerminal()" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/80 text-slate-300 hover:text-white text-xs font-semibold border border-slate-700">
             <i class="fa-solid fa-lock"></i>
           </button>
         </div>
       </div>
 
-      <!-- Row 2: 4 Core Navigation Tabs + Active Market Switcher -->
       <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800/80">
         <div class="flex flex-wrap items-center gap-1.5">
-          <button onclick="switchTab('tab1')" id="btn_tab1" class="tab-btn active">
-            1. 🎯 Morning Prediction & Money Manager
-          </button>
-          <button onclick="switchTab('tab2')" id="btn_tab2" class="tab-btn">
-            2. 🧪 Wallet Simulator & Formula Sandbox
-          </button>
-          <button onclick="switchTab('tab3')" id="btn_tab3" class="tab-btn">
-            3. 📊 Passbook, Equity Curve & Panel Chart
-          </button>
-          <button onclick="switchTab('tab4')" id="btn_tab4" class="tab-btn">
-            4. ☁️ Cloud Stream, Backup & Telegram Bot
-          </button>
+          <button onclick="switchTab('tab1')" id="btn_tab1" class="tab-btn active">1. 🎯 Morning Prediction & Money Manager</button>
+          <button onclick="switchTab('tab2')" id="btn_tab2" class="tab-btn">2. 🧪 Wallet Simulator & Sandbox</button>
+          <button onclick="switchTab('tab3')" id="btn_tab3" class="tab-btn">3. 📊 Passbook, Equity & Panel Chart</button>
+          <button onclick="switchTab('tab4')" id="btn_tab4" class="tab-btn">4. ☁️ Dual-Stream Cloud & Telegram Bot</button>
         </div>
 
         <div class="flex items-center gap-2">
@@ -195,94 +175,52 @@
     </div>
   </header>
 
-  <!-- ===================================================================== -->
-  <!-- MAIN CONTAINER                                                        -->
-  <!-- ===================================================================== -->
   <main class="max-w-7xl mx-auto px-4 mt-5 space-y-6">
 
-    <!-- ALWAYS-ON: ZERO-NOISE 4-MARKET PIPELINE BAR -->
+    <!-- ZERO-NOISE 4-MARKET PIPELINE BAR -->
     <section class="card-panel p-4">
       <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
         <div class="flex items-center gap-2">
-          <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-            Zero-Noise 4-Market Pipeline
-          </span>
-          <span class="text-xs text-slate-400">Feeder markets confirm sniper targets with zero time overlap (Click any card to update)</span>
+          <span class="text-[11px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Zero-Noise 4-Market Pipeline</span>
+          <span class="text-xs text-slate-400">Zero time overlap (Click any card to update)</span>
         </div>
         <div class="flex items-center gap-2">
-          <span id="autoStreamIndicator" class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold">
-            🟢 Cloud Stream ON
-          </span>
+          <span id="autoStreamIndicator" class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold">🟢 Dual Stream ON</span>
           <span id="lastSyncStamp" class="mono text-[11px] text-slate-400">Ready</span>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <!-- 1. Main Bazar -->
         <div onclick="openEditPipelineModal()" class="cursor-pointer p-3 rounded-xl bg-slate-900/90 border border-purple-500/40 hover:border-purple-400 transition">
-          <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-            <span class="font-bold text-purple-300">1. OVERNIGHT ANCHOR</span>
-            <span>12:05 AM Close</span>
-          </div>
-          <div class="flex justify-between items-center my-1.5">
-            <span class="font-bold text-sm text-white">Main Bazar</span>
-            <span id="dispMainBazar" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span>
-          </div>
+          <div class="flex justify-between text-[11px] text-slate-400 mb-1"><span class="font-bold text-purple-300">1. OVERNIGHT ANCHOR</span><span>12:05 AM</span></div>
+          <div class="flex justify-between items-center my-1.5"><span class="font-bold text-sm text-white">Main Bazar</span><span id="dispMainBazar" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span></div>
           <div class="text-[11px] text-emerald-400">Feeds Next-Day Kalyan</div>
         </div>
-
-        <!-- 2. Time Bazar -->
         <div onclick="openEditPipelineModal()" class="cursor-pointer p-3 rounded-xl bg-slate-900/90 border border-sky-500/40 hover:border-sky-400 transition">
-          <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-            <span class="font-bold text-sky-300">2. DAY TREND FEEDER</span>
-            <span>02:00 PM Complete</span>
-          </div>
-          <div class="flex justify-between items-center my-1.5">
-            <span class="font-bold text-sm text-white">Time Bazar</span>
-            <span id="dispTimeBazar" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span>
-          </div>
+          <div class="flex justify-between text-[11px] text-slate-400 mb-1"><span class="font-bold text-sky-300">2. DAY TREND FEEDER</span><span>02:00 PM</span></div>
+          <div class="flex justify-between items-center my-1.5"><span class="font-bold text-sm text-white">Time Bazar</span><span id="dispTimeBazar" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span></div>
           <div class="text-[11px] text-emerald-400">2-Hr Pre-Kalyan Signal</div>
         </div>
-
-        <!-- 3. Kalyan -->
         <div onclick="openEditPipelineModal()" class="cursor-pointer p-3 rounded-xl bg-slate-900/90 border-2 border-amber-500/60 hover:border-amber-400 transition">
-          <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-            <span class="font-bold text-amber-300">3. PRIMARY TARGET #1</span>
-            <span>04:15 PM – 06:15 PM</span>
-          </div>
-          <div class="flex justify-between items-center my-1.5">
-            <span class="font-bold text-sm text-white">👑 Kalyan</span>
-            <span id="dispKalyan" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span>
-          </div>
+          <div class="flex justify-between text-[11px] text-slate-400 mb-1"><span class="font-bold text-amber-300">3. PRIMARY TARGET #1</span><span>04:15 PM</span></div>
+          <div class="flex justify-between items-center my-1.5"><span class="font-bold text-sm text-white">👑 Kalyan</span><span id="dispKalyan" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span></div>
           <div class="text-[11px] text-emerald-400">Feeds Rajdhani Night (3h Gap)</div>
         </div>
-
-        <!-- 4. Rajdhani Night -->
         <div onclick="openEditPipelineModal()" class="cursor-pointer p-3 rounded-xl bg-slate-900/90 border border-indigo-500/40 hover:border-indigo-400 transition">
-          <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-            <span class="font-bold text-indigo-300">4. PRIMARY TARGET #2</span>
-            <span>09:35 PM – 11:45 PM</span>
-          </div>
-          <div class="flex justify-between items-center my-1.5">
-            <span class="font-bold text-sm text-white">🌙 Rajdhani Night</span>
-            <span id="dispRajdhani" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span>
-          </div>
+          <div class="flex justify-between text-[11px] text-slate-400 mb-1"><span class="font-bold text-indigo-300">4. PRIMARY TARGET #2</span><span>09:35 PM</span></div>
+          <div class="flex justify-between items-center my-1.5"><span class="font-bold text-sm text-white">🌙 Rajdhani Night</span><span id="dispRajdhani" class="mono font-extrabold text-sm px-2.5 py-1 rounded bg-slate-950 text-amber-400 border border-slate-700">SET-REAL</span></div>
           <div class="text-[11px] text-emerald-400">Kalyan Double-Lock Target</div>
         </div>
       </div>
     </section>
 
-    <!-- =================================================================== -->
-    <!-- TAB 1: MORNING PREDICTION, MONEY MANAGER & ACTIVE LINE SCANNER      -->
-    <!-- =================================================================== -->
+    <!-- TAB 1 -->
     <div id="tab1" class="space-y-6">
-
-      <!-- SMART DAILY CAPITAL & BET DISTRIBUTOR (MONEY MANAGEMENT SYSTEM) -->
       <section class="card-panel p-5 border-2 border-emerald-500/50">
         <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700 pb-4 mb-4">
           <div>
             <div class="flex items-center gap-2 flex-wrap">
-              <span class="text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto Money Manager v6.3</span>
+              <span class="text-[11px] font-extrabold uppercase px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Auto Money Manager v6.4</span>
               <span id="circuitBreakerTag" class="text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">🛡️ Normal Risk Mode</span>
             </div>
             <h2 class="text-lg font-extrabold text-white mt-1">💰 Today's Capital & Bet Distributor (Open / Close / Jodi / Optional Patti)</h2>
@@ -312,7 +250,6 @@
           </div>
         </div>
 
-        <!-- 4 Selection Checkboxes -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
           <label class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-700 cursor-pointer">
             <div class="flex items-center gap-2">
@@ -324,7 +261,6 @@
               <option value="2">Top 2 VIP Only</option>
             </select>
           </label>
-
           <label class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-700 cursor-pointer">
             <div class="flex items-center gap-2">
               <input id="chkPlayCloseReserve" type="checkbox" checked onchange="calculateMoneyManagement()" class="w-4 h-4 accent-emerald-400" />
@@ -332,7 +268,6 @@
             </div>
             <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Loss Shield</span>
           </label>
-
           <label class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-slate-700 cursor-pointer">
             <div class="flex items-center gap-2">
               <input id="chkPlayJodi" type="checkbox" checked onchange="calculateMoneyManagement()" class="w-4 h-4 accent-purple-400" />
@@ -343,7 +278,6 @@
               <option value="8">All 8 Jodis</option>
             </select>
           </label>
-
           <label class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900 border border-amber-500/50 cursor-pointer">
             <div class="flex items-center gap-2">
               <input id="chkPlayPatti" type="checkbox" onchange="onPattiToggleManual()" class="w-4 h-4 accent-amber-400" />
@@ -356,14 +290,12 @@
           </label>
         </div>
 
-        <!-- 4 Allocated Cards -->
         <div id="mmCardsContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
 
-        <!-- Action Summary + Profit Table -->
         <div class="mt-4 grid grid-cols-1 lg:grid-cols-3 gap-3">
           <div id="mmActionSummary" class="lg:col-span-1 p-3.5 rounded-xl bg-slate-900 border-l-4 border-sky-400 text-xs space-y-1.5 text-slate-300"></div>
           <div class="lg:col-span-2 p-3.5 rounded-xl bg-slate-900 border border-slate-800 overflow-x-auto">
-            <div class="text-xs font-bold text-slate-300 mb-2">📊 Live Payout & Net Profit Simulator (Synced with Tab 2 Payout Rates)</div>
+            <div class="text-xs font-bold text-slate-300 mb-2">📊 Live Payout & Net Profit Simulator</div>
             <table class="w-full text-left text-xs">
               <thead>
                 <tr class="text-slate-400 border-b border-slate-800">
@@ -380,66 +312,42 @@
         </div>
       </section>
 
-      <!-- MAIN PREDICTION GRID: LEFT INPUT/SCANNER (5 COLS) + RIGHT VIP CARD (7 COLS) -->
       <section class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        <!-- Left 5 Cols -->
         <div class="lg:col-span-5 space-y-4">
-          <!-- Step 1 Inputs -->
           <div class="card-panel p-4">
             <div class="flex items-center justify-between mb-3">
               <div>
                 <h3 class="font-bold text-sm text-sky-400">⚡ Step 1: Previous Result & 1-Week Up</h3>
                 <span id="weekUpAutoLabel" class="text-[10px] text-emerald-400">Auto-synced from Panel Chart</span>
               </div>
-              <button onclick="syncInputsFromActiveMarket()" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-semibold">
-                🔄 Auto-Load Chart
-              </button>
+              <button onclick="syncInputsFromActiveMarket()" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 font-semibold">🔄 Auto-Load</button>
             </div>
             <div class="grid grid-cols-3 gap-2 mb-3">
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Prev Open Patti</label>
-                <input id="inpPrevOpen" type="text" maxlength="3" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center" />
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Prev Jodi</label>
-                <input id="inpPrevJodi" type="text" maxlength="2" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center text-amber-400" />
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Prev Close Patti</label>
-                <input id="inpPrevClose" type="text" maxlength="3" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center" />
-              </div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">Prev Open</label><input id="inpPrevOpen" type="text" maxlength="3" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center" /></div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">Prev Jodi</label><input id="inpPrevJodi" type="text" maxlength="2" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center text-amber-400" /></div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">Prev Close</label><input id="inpPrevClose" type="text" maxlength="3" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center" /></div>
             </div>
             <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">1-Week Up Same-Day Jodi</label>
-                <input id="inpWeekUpJodi" type="text" maxlength="2" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center text-emerald-400" />
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Feeder Market Jodi</label>
-                <input id="inpFeederJodi" type="text" maxlength="2" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center text-purple-400" />
-              </div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">1-Wk Up Jodi</label><input id="inpWeekUpJodi" type="text" maxlength="2" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center text-emerald-400" /></div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">Feeder Jodi</label><input id="inpFeederJodi" type="text" maxlength="2" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center text-purple-400" /></div>
             </div>
           </div>
 
-          <!-- Live "Active Line" Auto-Scanner (All 5 Formulas Dynamic) -->
           <div class="card-panel p-4">
             <div class="flex items-center justify-between mb-2">
-              <h3 class="font-bold text-sm text-emerald-400">📡 Live "Active Line" Auto-Scanner (All 5 Formulas)</h3>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Dynamic Backtest</span>
+              <h3 class="font-bold text-sm text-emerald-400">📡 Active Line Auto-Scanner (F1–F5)</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Dynamic</span>
             </div>
-            <p class="text-[11px] text-slate-400 mb-2.5">Panel Chart ke sabhi transitions par F1–F5 ka real backtested accuracy aur vote weight:</p>
             <div id="activeLineScannerBox" class="space-y-2 text-xs"></div>
           </div>
 
-          <!-- Cross-Market Double-Lock Relay & Real Historical Same-Setup Scanner -->
           <div class="card-panel p-4 space-y-3">
-            <h3 class="font-bold text-sm text-purple-300">🔗 Cross-Market Relay & True Historical Scanner</h3>
+            <h3 class="font-bold text-sm text-purple-300">🔗 Cross-Market Relay & Historical Setup</h3>
             <div id="relayBreakdownBox" class="space-y-2 text-xs text-slate-300"></div>
             <div id="historicalSetupBox" class="p-2.5 rounded-lg bg-indigo-950/50 border border-indigo-500/40 text-xs text-indigo-200"></div>
           </div>
         </div>
 
-        <!-- Right 7 Cols: Today's Morning VIP OTC, Jodi, Patti & Mid-Game Pivot -->
         <div class="lg:col-span-7 space-y-4">
           <div class="card-panel p-5 border border-sky-500/40">
             <div class="flex flex-wrap justify-between items-center gap-2 border-b border-slate-700 pb-3 mb-4">
@@ -447,47 +355,35 @@
                 <span id="vipTargetBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">👑 KALYAN VIP CARD</span>
                 <h2 class="text-lg font-extrabold text-white mt-1">🎯 Today's Weighted VIP OTC, Unique Jodis & Relay Pattis</h2>
               </div>
-              <div id="trapStatusBadge" class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                ✅ HIGH CONFLUENCE PLAYABLE DAY
-              </div>
+              <div id="trapStatusBadge" class="px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">✅ PLAYABLE DAY</div>
             </div>
 
-            <!-- 4 VIP OTC Boxes -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4" id="vipOtcBoxes"></div>
 
-            <!-- 8 Guaranteed Unique Strong Jodis & True 2-Digit Relay Pattis -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               <div class="p-3.5 rounded-xl bg-slate-900 border border-purple-500/30">
-                <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-xs font-bold text-purple-300">🔥 8 Unique Strong Jodis (4 VIP + 4 Sup)</span>
-                  <span class="text-[10px] text-emerald-400">Zero Duplicates</span>
-                </div>
+                <div class="flex justify-between items-center mb-1.5"><span class="text-xs font-bold text-purple-300">🔥 8 Unique Jodis</span><span class="text-[10px] text-emerald-400">Zero Dup</span></div>
                 <div id="vipJodiList" class="mono text-sm font-bold text-white flex flex-wrap gap-2"></div>
               </div>
               <div class="p-3.5 rounded-xl bg-slate-900 border border-amber-500/30">
-                <div class="flex justify-between items-center mb-1.5">
-                  <span class="text-xs font-bold text-amber-300">💎 True 2-Digit Panel Relay Pattis</span>
-                  <span id="relayBridgeInfo" class="text-[10px] text-amber-400">Bridge Digits</span>
-                </div>
+                <div class="flex justify-between items-center mb-1.5"><span class="text-xs font-bold text-amber-300">💎 True Relay Pattis</span><span id="relayBridgeInfo" class="text-[10px] text-amber-400">Bridge</span></div>
                 <div id="vipPattiList" class="mono text-sm font-bold text-amber-300 flex flex-wrap gap-2"></div>
               </div>
             </div>
 
-            <!-- Half-Sangam & Family Cluster Condenser -->
             <div class="p-3 rounded-xl bg-slate-900/90 border border-indigo-500/30 mb-4">
-              <div class="text-xs font-bold text-indigo-300 mb-1">🎯 Sniper Half-Sangam Condenser & Dominant Family Cluster</div>
+              <div class="text-xs font-bold text-indigo-300 mb-1">🎯 Half-Sangam Condenser</div>
               <div id="halfSangamBox" class="mono text-xs text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
             </div>
 
-            <!-- Live Open-to-Close Mid-Game Pivot Engine -->
             <div class="p-4 rounded-xl bg-slate-900 border-2 border-emerald-500/40">
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <div>
-                  <span class="text-xs font-extrabold text-emerald-300">⚡ Live "Open-to-Close" Mid-Game Pivot Engine</span>
-                  <p class="text-[11px] text-slate-400">Open aate hi yahan daalein — Close Running Ank, Running Patti & Recovery Stake turant update hoga</p>
+                  <span class="text-xs font-extrabold text-emerald-300">⚡ Live Mid-Game Pivot Engine</span>
+                  <p class="text-[11px] text-slate-400">Open aate hi yahan daalein — Close Running Ank & Recovery update hoga</p>
                 </div>
                 <div class="flex items-center gap-2">
-                  <input id="liveOpenPatti" type="text" maxlength="3" placeholder="Open Patti (e.g. 149)" oninput="runMidGamePivot()" class="input-dark mono text-xs w-36 text-center" />
+                  <input id="liveOpenPatti" type="text" maxlength="3" placeholder="Patti" oninput="runMidGamePivot()" class="input-dark mono text-xs w-32 text-center" />
                   <input id="liveOpenAnk" type="text" maxlength="1" placeholder="Ank" oninput="runMidGamePivot()" class="input-dark mono text-xs w-14 text-center font-bold text-amber-400" />
                 </div>
               </div>
@@ -498,201 +394,117 @@
       </section>
     </div>
 
-    <!-- =================================================================== -->
-    <!-- TAB 2: WALLET SIMULATOR, ZONE RECOVERY & CUSTOM FORMULA SANDBOX     -->
-    <!-- =================================================================== -->
+    <!-- TAB 2 -->
     <div id="tab2" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        <!-- Left 6 Cols: Persistent App Payout Rates + Zone Recovery Calculator -->
         <div class="lg:col-span-6 space-y-4">
           <div class="card-panel p-5">
             <div class="flex justify-between items-center mb-1">
-              <h3 class="text-base font-extrabold text-sky-400">⚙️ Persistent App Payout Rates (Per ₹10 Stake)</h3>
-              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Auto-Saves to Cloud</span>
+              <h3 class="text-base font-extrabold text-sky-400">⚙️ Persistent App Payout Rates (Per ₹10)</h3>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Auto-Saves</span>
             </div>
-            <p class="text-xs text-slate-400 mb-3">Aapke app ke exact rates yahan set karein — yeh Firebase aur LocalStorage mein save rehte hain:</p>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Single Ank (₹10 ka)</label>
-                <input id="rateSingle" type="number" value="95" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-emerald-400" />
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Jodi (₹10 ka)</label>
-                <input id="rateJodi" type="number" value="950" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-purple-400" />
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Single Patti (SP)</label>
-                <input id="rateSP" type="number" value="1400" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-amber-400" />
-              </div>
-              <div>
-                <label class="text-[11px] text-slate-400 block mb-1">Double Patti (DP)</label>
-                <input id="rateDP" type="number" value="2800" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-rose-400" />
-              </div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">Single</label><input id="rateSingle" type="number" value="95" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-emerald-400" /></div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">Jodi</label><input id="rateJodi" type="number" value="950" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-purple-400" /></div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">SP Patti</label><input id="rateSP" type="number" value="1400" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-amber-400" /></div>
+              <div><label class="text-[11px] text-slate-400 block mb-1">DP Patti</label><input id="rateDP" type="number" value="2800" oninput="onRatesChange()" class="input-dark mono font-bold w-full text-rose-400" /></div>
             </div>
           </div>
 
-          <!-- Zone-Recovery Stake Calculator -->
           <div class="card-panel p-5 border border-amber-500/40">
             <h3 class="text-base font-extrabold text-amber-300 mb-1">🛡️ Zone-Recovery Loss Cover Calculator</h3>
-            <p class="text-xs text-slate-400 mb-3">Agar Open session ya pichla din miss hua hai, toh exact kitna stake lagane par purana loss + aaj ka target profit niklega:</p>
             <div class="grid grid-cols-2 gap-3 mb-3">
-              <div>
-                <label class="text-xs text-slate-300 block mb-1">Previous Loss to Recover (₹)</label>
-                <input id="recPrevLoss" type="number" value="50" oninput="runZoneRecoveryCalc()" class="input-dark mono font-bold w-full text-rose-400" />
-              </div>
-              <div>
-                <label class="text-xs text-slate-300 block mb-1">Desired Net Profit Target (₹)</label>
-                <input id="recTargetProfit" type="number" value="50" oninput="runZoneRecoveryCalc()" class="input-dark mono font-bold w-full text-emerald-400" />
-              </div>
+              <div><label class="text-xs text-slate-300 block mb-1">Prev Loss (₹)</label><input id="recPrevLoss" type="number" value="50" oninput="runZoneRecoveryCalc()" class="input-dark mono font-bold w-full text-rose-400" /></div>
+              <div><label class="text-xs text-slate-300 block mb-1">Target Profit (₹)</label><input id="recTargetProfit" type="number" value="50" oninput="runZoneRecoveryCalc()" class="input-dark mono font-bold w-full text-emerald-400" /></div>
             </div>
             <div id="zoneRecoveryOutput" class="p-3.5 rounded-xl bg-slate-900 border border-slate-800 text-xs space-y-2"></div>
           </div>
 
-          <!-- Day Profit -> Night Shield Calculator -->
           <div class="card-panel p-5 border border-indigo-500/40">
-            <h3 class="text-base font-extrabold text-indigo-300 mb-1">🌙 "Kalyan Day Profit ➔ Rajdhani Night Shield"</h3>
-            <p class="text-xs text-slate-400 mb-3">Kalyan pass hone ke baad base wallet ko lock rakhein aur sirf Kalyan profit ke 35% se Rajdhani Night khelein:</p>
+            <h3 class="text-base font-extrabold text-indigo-300 mb-1">🌙 Kalyan Day Profit ➔ Rajdhani Shield</h3>
             <div class="flex items-center gap-3 mb-3">
-              <label class="text-xs text-slate-300">Today's Kalyan Net Profit (₹):</label>
+              <label class="text-xs text-slate-300">Kalyan Profit (₹):</label>
               <input id="dayKalyanProfit" type="number" value="95" oninput="runNightShieldCalc()" class="input-dark mono font-bold w-28 text-emerald-400" />
             </div>
             <div id="nightShieldOutput" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300"></div>
           </div>
         </div>
 
-        <!-- Right 6 Cols: Custom Formula Sandbox (No-Code Strategy Backtester) -->
         <div class="lg:col-span-6 space-y-4">
           <div class="card-panel p-5 border border-purple-500/40">
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">NO-CODE BACKTEST LAB</span>
-            <h3 class="text-base font-extrabold text-white mt-1 mb-1">🧪 Custom Formula Sandbox (Historical Chart Tester)</h3>
-            <p class="text-xs text-slate-400 mb-4">Apna khud ka math formula chunein aur dekhein ki aapke Panel Chart par uska real Win Rate %, Winning Streak aur Losing Streak kitna hai:</p>
-
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">NO-CODE LAB</span>
+            <h3 class="text-base font-extrabold text-white mt-1 mb-1">🧪 Custom Formula Sandbox</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               <div>
-                <label class="text-xs text-slate-300 block mb-1">Select Operand A</label>
                 <select id="sandOpA" onchange="runSandboxBacktest()" class="input-dark w-full text-xs font-semibold">
                   <option value="prevOpenAnk">Previous Day Open Ank</option>
                   <option value="prevCloseAnk">Previous Day Close Ank</option>
                   <option value="jodiBerij">Previous Jodi Berij (Sum)</option>
                   <option value="jodiFarak">Previous Jodi Farak (Diff)</option>
-                  <option value="openPattiMid">Open Patti Middle Digit</option>
-                  <option value="closePattiMid">Close Patti Middle Digit</option>
                 </select>
               </div>
               <div>
-                <label class="text-xs text-slate-300 block mb-1">Select Math Operation + Operand B</label>
                 <select id="sandOpB" onchange="runSandboxBacktest()" class="input-dark w-full text-xs font-semibold">
                   <option value="plus_prevCloseAnk">+ Previous Close Ank ( & Cut )</option>
                   <option value="plus_1">+ 1 Step Running ( & Cut )</option>
                   <option value="plus_2">+ 2 Step Running ( & Cut )</option>
-                  <option value="plus_openMid">+ Open Patti Middle Digit ( & Cut )</option>
-                  <option value="direct_cut">Direct + Cut + Neighbour (4 Ank)</option>
                 </select>
               </div>
             </div>
-
             <div id="sandboxMetricsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-4"></div>
-            <div class="text-xs font-bold text-slate-300 mb-2">Recent Day-by-Day Backtest Audit Log:</div>
             <div id="sandboxLogList" class="max-h-64 overflow-y-auto space-y-1.5 pr-1 text-xs mono"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- =================================================================== -->
-    <!-- TAB 3: PASSBOOK, SVG EQUITY GRAPH & FULL INTERACTIVE PANEL CHART    -->
-    <!-- =================================================================== -->
+    <!-- TAB 3 -->
     <div id="tab3" class="hidden space-y-6">
-
-      <!-- Row 1: SVG Equity Growth Curve + True Evening Report Card -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
         <div class="lg:col-span-7 card-panel p-5">
           <div class="flex flex-wrap justify-between items-center gap-2 mb-3">
-            <div>
-              <h3 class="text-base font-extrabold text-emerald-400">📈 Visual Wallet Equity Growth Curve</h3>
-              <p class="text-xs text-slate-400">Cumulative P&L performance across your recorded sessions</p>
-            </div>
+            <div><h3 class="text-base font-extrabold text-emerald-400">📈 Visual Equity Growth Curve</h3></div>
             <div id="passbookSummaryStats" class="mono text-xs font-bold text-white"></div>
           </div>
-          <!-- Dynamic SVG Chart -->
           <div id="svgEquityContainer" class="w-full h-48 bg-slate-950 rounded-xl border border-slate-800 p-2 flex items-center justify-center"></div>
         </div>
 
-        <!-- True Evening Report Card & P&L Logger -->
         <div class="lg:col-span-5 card-panel p-5 space-y-3">
           <div class="flex justify-between items-center">
-            <h3 class="text-base font-extrabold text-sky-400">📋 True Evening Report Card & P&L Logger</h3>
+            <h3 class="text-base font-extrabold text-sky-400">📋 Evening Report Card & P&L</h3>
             <div class="flex gap-1.5">
-              <button onclick="autoAuditTodayResult()" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
-                ⚡ Audit Latest Day
-              </button>
-              <button onclick="logAuditedResultToPassbook()" id="btnLogAuditPnl" class="hidden px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold">
-                + Log P&L
-              </button>
+              <button onclick="autoAuditTodayResult()" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-xs font-bold">⚡ Audit Day</button>
+              <button onclick="logAuditedResultToPassbook()" id="btnLogAuditPnl" class="hidden px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 text-xs font-extrabold">+ Log</button>
             </div>
           </div>
-          <div id="autoAuditStampBox" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">
-            Click <b>"⚡ Audit Latest Day"</b> — system pichle din ke setup se nikle prediction ko latest completed result se match karke exact P&L dikhayega.
-          </div>
-
+          <div id="autoAuditStampBox" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">Click "⚡ Audit Day" to verify prediction vs actual result.</div>
           <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800 text-xs">
-            <input id="plNoteInput" type="text" placeholder="Market / Result (e.g. Kalyan Hit)" class="col-span-2 input-dark text-xs" />
+            <input id="plNoteInput" type="text" placeholder="Note (e.g. Kalyan Hit)" class="col-span-2 input-dark text-xs" />
             <input id="plAmountInput" type="number" placeholder="+45 or -100" class="input-dark mono font-bold text-xs" />
           </div>
           <div class="flex justify-between gap-2">
-            <button onclick="addPassbookEntry()" class="flex-1 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs">
-              + Add Passbook Entry
-            </button>
-            <button onclick="clearPassbookHistory()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/80 text-slate-400 hover:text-white text-xs">
-              Reset Log
-            </button>
+            <button onclick="addPassbookEntry()" class="flex-1 py-1.5 rounded-lg bg-sky-600 text-white font-bold text-xs">+ Add Entry</button>
+            <button onclick="clearPassbookHistory()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 text-xs">Reset</button>
           </div>
-
           <div id="passbookTableContainer" class="max-h-36 overflow-y-auto divide-y divide-slate-800 text-xs mono"></div>
         </div>
       </div>
 
-      <!-- Row 2: FULL MULTI-WEEK INTERACTIVE PANEL CHART (MON-SAT TABLE) -->
       <div class="card-panel p-5">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-700 pb-4 mb-4">
-          <div>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">100% REAL CHART ENGINE</span>
-            <h3 class="text-lg font-extrabold text-white mt-1">🗓️ Interactive Multi-Week Panel Chart (Mon – Sat)</h3>
-            <p class="text-xs text-slate-400">Kisi bhi cell par click karke edit karein, ya <b>"📋 Bulk Paste Chart"</b> se ek saath kai hafton ka chart import karein</p>
-          </div>
-
-          <!-- Highlight Filters & Row Actions -->
+          <div><h3 class="text-lg font-extrabold text-white">🗓️ Interactive Panel Chart (Mon – Sat)</h3></div>
           <div class="flex flex-wrap items-center gap-2">
-            <button onclick="openBulkPasteModal()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold shadow">
-              📋 Bulk Paste Chart
-            </button>
-            <button onclick="toggleChartHighlight('red')" id="hlBtn_red" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-rose-400 hover:border-rose-400">
-              🔴 Red / Cut Jodis
-            </button>
-            <button onclick="toggleChartHighlight('family')" id="hlBtn_family" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-sky-400 hover:border-sky-400">
-              ⚡ Active VIP Family
-            </button>
-            <button onclick="toggleChartHighlight('patti')" id="hlBtn_patti" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-amber-400 hover:border-amber-400">
-              💎 Repeat Pattis
-            </button>
-            <button onclick="addNewWeekRow()" class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
-              + Add Week Row
-            </button>
+            <button onclick="openBulkPasteModal()" class="px-3 py-1.5 rounded-lg bg-indigo-600 text-white text-xs font-extrabold shadow">📋 Bulk Paste Chart</button>
+            <button onclick="toggleChartHighlight('red')" id="hlBtn_red" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-rose-400">🔴 Red Jodis</button>
+            <button onclick="toggleChartHighlight('family')" id="hlBtn_family" class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs font-bold text-sky-400">⚡ Active Family</button>
+            <button onclick="addNewWeekRow()" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">+ Week</button>
           </div>
         </div>
-
         <div class="overflow-x-auto">
           <table class="w-full text-center border-collapse">
             <thead>
               <tr class="bg-slate-900 text-slate-300 text-xs uppercase border-b border-slate-700">
-                <th class="p-2.5 text-left">Week Range</th>
-                <th class="p-2.5">Mon</th>
-                <th class="p-2.5">Tue</th>
-                <th class="p-2.5">Wed</th>
-                <th class="p-2.5">Thu</th>
-                <th class="p-2.5">Fri</th>
-                <th class="p-2.5">Sat</th>
-                <th class="p-2.5">Action</th>
+                <th class="p-2.5 text-left">Week</th><th class="p-2.5">Mon</th><th class="p-2.5">Tue</th><th class="p-2.5">Wed</th><th class="p-2.5">Thu</th><th class="p-2.5">Fri</th><th class="p-2.5">Sat</th><th class="p-2.5">Action</th>
               </tr>
             </thead>
             <tbody id="panelChartTableBody" class="divide-y divide-slate-800 text-xs mono"></tbody>
@@ -701,256 +513,116 @@
       </div>
     </div>
 
-    <!-- =================================================================== -->
-    <!-- TAB 4: CLOUD STREAM, JSON BACKUP, PWA & TELEGRAM BOT WEBHOOK        -->
-    <!-- =================================================================== -->
+    <!-- TAB 4 -->
     <div id="tab4" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <!-- Telegram Bot Direct Webhook Integration -->
         <div class="card-panel p-5 border border-sky-500/40 space-y-4">
-          <div>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300">INSTANT MOBILE PUSH</span>
-            <h3 class="text-base font-extrabold text-white mt-1">🤖 Telegram Bot Webhook Configuration</h3>
-            <p class="text-xs text-slate-400">Apna Bot Token aur Chat ID save karein — website se 1-Click mein VIP Card aur Money Management Bet Slip apne Telegram par bhejein:</p>
-          </div>
+          <div><h3 class="text-base font-extrabold text-white">🤖 Telegram Bot Webhook</h3></div>
           <div class="space-y-3 text-xs">
-            <div>
-              <label class="block text-slate-300 font-bold mb-1">Telegram Bot Token (from @BotFather)</label>
-              <input id="tgBotToken" type="password" placeholder="123456789:ABCdefGHIjklMNO..." class="input-dark w-full mono" />
-            </div>
-            <div>
-              <label class="block text-slate-300 font-bold mb-1">Telegram Chat ID / Channel ID</label>
-              <input id="tgChatId" type="text" placeholder="e.g. 987654321" class="input-dark w-full mono" />
-            </div>
-            <div class="flex flex-wrap gap-2 pt-1">
-              <button onclick="saveTelegramConfig()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold border border-slate-600">
-                💾 Save Bot Settings
-              </button>
-              <button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-slate-950 font-extrabold shadow">
-                🚀 Send Today's VIP Slip to Telegram Now
-              </button>
+            <div><label class="block text-slate-300 font-bold mb-1">Bot Token</label><input id="tgBotToken" type="password" placeholder="123456:ABC..." class="input-dark w-full mono" /></div>
+            <div><label class="block text-slate-300 font-bold mb-1">Chat ID</label><input id="tgChatId" type="text" placeholder="987654321" class="input-dark w-full mono" /></div>
+            <div class="flex gap-2">
+              <button onclick="saveTelegramConfig()" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-bold border border-slate-600">Save</button>
+              <button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-sky-500 text-slate-950 font-extrabold">Send Slip to Telegram</button>
             </div>
             <div id="tgStatusMsg" class="text-xs text-emerald-400"></div>
           </div>
         </div>
 
-        <!-- Firebase Database, Live Stream & JSON Backup Controls -->
         <div class="card-panel p-5 border border-emerald-500/40 space-y-4">
           <div class="flex justify-between items-start">
-            <div>
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">UNIFIED DUAL-NODE CLOUD</span>
-              <h3 class="text-base font-extrabold text-white mt-1">☁️ Firebase Auto-Stream & Backup Manager</h3>
-              <p class="text-xs text-slate-400">Unified sync across <code class="mono text-amber-300">/otc_pro_v62_master.json</code> & <code class="mono text-sky-300">/otc_pro_v61_real.json</code></p>
-            </div>
-            <button onclick="toggleAutoCloudStream()" id="btnToggleStream" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">
-              🟢 60s Stream: ON
-            </button>
+            <div><h3 class="text-base font-extrabold text-white">☁️ Dual-Stream & live_feed.json Backup</h3></div>
+            <button onclick="toggleAutoCloudStream()" id="btnToggleStream" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold">🟢 Dual Stream: ON</button>
           </div>
-
           <div class="flex flex-wrap gap-2 text-xs">
-            <button onclick="saveStateLocalAndCloud(true)" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold">
-              ☁️ Force Push Local Data to Firebase
-            </button>
-            <button onclick="pullFromFirebase(false)" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold">
-              🔄 Pull Data from Firebase
-            </button>
-            <button onclick="exportBackupJson()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700">
-              📥 Download JSON Backup
-            </button>
-            <button onclick="hardResetDatabase()" class="px-4 py-2 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white font-bold">
-              🗑️ Wipe All Polluted Firebase Nodes
-            </button>
+            <button onclick="saveStateLocalAndCloud(true)" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold">Force Push to Cloud</button>
+            <button onclick="pullFromCloudAndRepo(false)" class="px-4 py-2 rounded-lg bg-sky-600 text-white font-bold">Pull Cloud / live_feed</button>
+            <button onclick="exportBackupJson()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-200 font-bold border border-slate-700">Download Backup</button>
+            <button onclick="hardResetDatabase()" class="px-4 py-2 rounded-lg bg-rose-600 text-white font-bold">Wipe Nodes</button>
           </div>
         </div>
       </div>
     </div>
-
   </main>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 1: EDIT 4-MARKET PIPELINE REAL NUMBERS                          -->
-  <!-- ===================================================================== -->
+  <!-- MODALS -->
   <div id="editModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="card-panel max-w-lg w-full p-5 space-y-4 border border-sky-500/50">
-      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-        <h3 class="font-extrabold text-base text-white">✏️ Set 100% Real Market Results (Syncs to Firebase)</h3>
-        <button onclick="closeEditPipelineModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
-      </div>
-
-      <p class="text-xs text-slate-300">Format: <code class="mono text-amber-300">OpenPatti-Jodi-ClosePatti</code> (e.g. <code class="mono text-emerald-300">138-25-267</code>) ya half-time Open ke liye <code class="mono text-emerald-300">138-2*-***</code>:</p>
-
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3"><h3 class="font-extrabold text-base text-white">✏️ Set Real Market Results</h3><button onclick="closeEditPipelineModal()" class="text-slate-400 text-lg">&times;</button></div>
       <div class="space-y-3 text-xs">
-        <div class="grid grid-cols-3 items-center gap-2">
-          <label class="font-bold text-purple-300">1. Main Bazar (Last Night):</label>
-          <input id="modMainBazar" type="text" placeholder="e.g. 149-42-570" class="col-span-2 input-dark mono font-bold" />
-        </div>
-        <div class="grid grid-cols-3 items-center gap-2">
-          <label class="font-bold text-sky-300">2. Time Bazar (2 PM):</label>
-          <input id="modTimeBazar" type="text" placeholder="e.g. 238-39-450" class="col-span-2 input-dark mono font-bold" />
-        </div>
-        <div class="grid grid-cols-3 items-center gap-2">
-          <label class="font-bold text-amber-300">3. Kalyan (Latest Real):</label>
-          <input id="modKalyan" type="text" placeholder="e.g. 369-81-470" class="col-span-2 input-dark mono font-bold" />
-        </div>
-        <div class="grid grid-cols-3 items-center gap-2">
-          <label class="font-bold text-indigo-300">4. Rajdhani Night (Latest):</label>
-          <input id="modRajdhani" type="text" placeholder="e.g. 125-84-680" class="col-span-2 input-dark mono font-bold" />
-        </div>
-        <div class="grid grid-cols-3 items-center gap-2 pt-2 border-t border-slate-800">
-          <label class="font-bold text-emerald-300">1-Week Up Same-Day Jodi:</label>
-          <input id="modWeekUpJodi" type="text" maxlength="2" placeholder="e.g. 41" class="col-span-2 input-dark mono font-bold" />
-        </div>
+        <div class="grid grid-cols-3 items-center gap-2"><label class="font-bold text-purple-300">Main Bazar:</label><input id="modMainBazar" type="text" placeholder="149-42-570" class="col-span-2 input-dark mono font-bold" /></div>
+        <div class="grid grid-cols-3 items-center gap-2"><label class="font-bold text-sky-300">Time Bazar:</label><input id="modTimeBazar" type="text" placeholder="238-39-450" class="col-span-2 input-dark mono font-bold" /></div>
+        <div class="grid grid-cols-3 items-center gap-2"><label class="font-bold text-amber-300">Kalyan:</label><input id="modKalyan" type="text" placeholder="369-81-470" class="col-span-2 input-dark mono font-bold" /></div>
+        <div class="grid grid-cols-3 items-center gap-2"><label class="font-bold text-indigo-300">Rajdhani Night:</label><input id="modRajdhani" type="text" placeholder="125-84-680" class="col-span-2 input-dark mono font-bold" /></div>
+        <div class="grid grid-cols-3 items-center gap-2 pt-2 border-t border-slate-800"><label class="font-bold text-emerald-300">1-Wk Up Jodi:</label><input id="modWeekUpJodi" type="text" maxlength="2" placeholder="41" class="col-span-2 input-dark mono font-bold" /></div>
       </div>
-
-      <div class="flex justify-end gap-2 pt-3 border-t border-slate-700">
-        <button onclick="closeEditPipelineModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold">Cancel</button>
-        <button onclick="saveManualRealResults()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow">💾 Save Real Data & Sync Cloud</button>
-      </div>
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-700"><button onclick="closeEditPipelineModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-xs">Cancel</button><button onclick="saveManualRealResults()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">Save & Sync</button></div>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 2: EDIT SPECIFIC CHART CELL (OPEN-JODI-CLOSE OR HOLIDAY)        -->
-  <!-- ===================================================================== -->
   <div id="cellEditModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="card-panel max-w-md w-full p-5 space-y-4 border border-amber-500/50">
-      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-        <h3 id="cellModalTitle" class="font-extrabold text-base text-white">Edit Chart Day Result</h3>
-        <button onclick="closeCellModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
-      </div>
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3"><h3 id="cellModalTitle" class="font-extrabold text-base text-white">Edit Cell</h3><button onclick="closeCellModal()" class="text-slate-400 text-lg">&times;</button></div>
       <div class="grid grid-cols-3 gap-2 text-xs">
-        <div>
-          <label class="block text-slate-400 mb-1">Open Patti</label>
-          <input id="cellOpenInput" type="text" maxlength="3" placeholder="128" class="input-dark mono font-bold w-full text-center" />
-        </div>
-        <div>
-          <label class="block text-slate-400 mb-1">Jodi</label>
-          <input id="cellJodiInput" type="text" maxlength="2" placeholder="14" class="input-dark mono font-bold w-full text-center text-amber-400" />
-        </div>
-        <div>
-          <label class="block text-slate-400 mb-1">Close Patti</label>
-          <input id="cellCloseInput" type="text" maxlength="3" placeholder="257" class="input-dark mono font-bold w-full text-center" />
-        </div>
+        <div><label class="block text-slate-400 mb-1">Open</label><input id="cellOpenInput" type="text" maxlength="3" class="input-dark mono font-bold w-full text-center" /></div>
+        <div><label class="block text-slate-400 mb-1">Jodi</label><input id="cellJodiInput" type="text" maxlength="2" class="input-dark mono font-bold w-full text-center text-amber-400" /></div>
+        <div><label class="block text-slate-400 mb-1">Close</label><input id="cellCloseInput" type="text" maxlength="3" class="input-dark mono font-bold w-full text-center" /></div>
       </div>
       <div class="flex justify-between items-center pt-3 border-t border-slate-700">
-        <button onclick="markCellAsHoliday()" class="px-3 py-2 rounded-lg bg-rose-600/80 hover:bg-rose-600 text-white text-xs font-bold">
-          🏖️ Mark as Holiday (Band)
-        </button>
-        <div class="flex gap-2">
-          <button onclick="closeCellModal()" class="px-3 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
-          <button onclick="saveCellModalResult()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">Save Cell</button>
-        </div>
+        <button onclick="markCellAsHoliday()" class="px-3 py-2 rounded-lg bg-rose-600 text-white text-xs font-bold">🏖️ Holiday</button>
+        <div class="flex gap-2"><button onclick="closeCellModal()" class="px-3 py-2 rounded-lg bg-slate-800 text-xs">Cancel</button><button onclick="saveCellModalResult()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">Save</button></div>
       </div>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 3: 1-CLICK WHATSAPP / TELEGRAM VIP SHARE SLIP                   -->
-  <!-- ===================================================================== -->
   <div id="shareSlipModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="card-panel max-w-lg w-full p-5 space-y-4 border border-purple-500/50">
-      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-        <h3 class="font-extrabold text-base text-white">📤 1-Click Share VIP Prediction & Bet Slip</h3>
-        <button onclick="closeShareSlipModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
-      </div>
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3"><h3 class="font-extrabold text-base text-white">📤 VIP Share Slip</h3><button onclick="closeShareSlipModal()" class="text-slate-400 text-lg">&times;</button></div>
       <textarea id="shareSlipTextarea" rows="11" readonly class="input-dark mono text-xs w-full p-3 leading-relaxed"></textarea>
       <div class="flex flex-wrap justify-end gap-2">
-        <button onclick="copyShareSlip()" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold">
-          📋 Copy Text Slip
-        </button>
-        <button onclick="shareOnWhatsApp()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold">
-          💬 Send on WhatsApp
-        </button>
-        <button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold">
-          🤖 Push to Telegram Bot
-        </button>
+        <button onclick="copyShareSlip()" class="px-4 py-2 rounded-lg bg-sky-600 text-white text-xs font-bold">📋 Copy</button>
+        <button onclick="shareOnWhatsApp()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">💬 WhatsApp</button>
+        <button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-purple-600 text-white text-xs font-bold">🤖 Telegram</button>
       </div>
     </div>
   </div>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL 4: BULK PASTE MULTI-WEEK CHART TEXT IMPORTER                    -->
-  <!-- ===================================================================== -->
   <div id="bulkPasteModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="card-panel max-w-2xl w-full p-5 space-y-4 border border-indigo-500/50">
-      <div class="flex justify-between items-center border-b border-slate-700 pb-3">
-        <h3 class="font-extrabold text-base text-white">📋 Bulk Paste Multi-Week Panel Chart Text</h3>
-        <button onclick="closeBulkPasteModal()" class="text-slate-400 hover:text-white text-lg">&times;</button>
-      </div>
-      <p class="text-xs text-slate-300">
-        Kisi bhi Panel Chart website se 1 ya zyada hafton ke results copy karke niche paste karein. Engine automatically <code class="mono text-amber-300">Open-Jodi-Close</code> (e.g. <code class="mono text-emerald-300">347-41-678</code>) aur <code class="mono text-rose-300">***-**-***</code> (Holiday) ko pehchan kar 6-day (`Mon–Sat`) rows mein set kar dega:
-      </p>
-      <textarea id="bulkPasteTextarea" rows="8" placeholder="Paste chart text here... e.g.&#10;347-41-678  467-17-278  124-74-257  ***-**-***  ***-**-***  ***-**-***" class="input-dark mono text-xs w-full p-3"></textarea>
+      <div class="flex justify-between items-center border-b border-slate-700 pb-3"><h3 class="font-extrabold text-base text-white">📋 Bulk Paste Chart Text</h3><button onclick="closeBulkPasteModal()" class="text-slate-400 text-lg">&times;</button></div>
+      <textarea id="bulkPasteTextarea" rows="8" placeholder="Paste chart text here... e.g. 347-41-678 467-17-278" class="input-dark mono text-xs w-full p-3"></textarea>
       <div class="flex justify-between items-center pt-2">
-        <label class="flex items-center gap-2 text-xs text-slate-300">
-          <input id="bulkReplaceMode" type="checkbox" class="accent-indigo-400" />
-          <span>Replace existing chart rows (Unchecked = Append to bottom)</span>
-        </label>
-        <div class="flex gap-2">
-          <button onclick="closeBulkPasteModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 text-xs">Cancel</button>
-          <button onclick="importBulkChartText()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold shadow">
-            ⚡ Parse & Import to Chart
-          </button>
-        </div>
+        <label class="flex items-center gap-2 text-xs text-slate-300"><input id="bulkReplaceMode" type="checkbox" class="accent-indigo-400" /><span>Replace existing chart rows</span></label>
+        <div class="flex gap-2"><button onclick="closeBulkPasteModal()" class="px-4 py-2 rounded-lg bg-slate-800 text-xs">Cancel</button><button onclick="importBulkChartText()" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-xs font-extrabold">Import</button></div>
       </div>
     </div>
   </div>
 
   <script>
-    // =========================================================================
-    // 1. MASTER STATE, ANTI-DUMMY SANITIZER & PWA MANIFEST
-    // =========================================================================
     const FIREBASE_BASE = "https://smart-otc-cloud-default-rtdb.firebaseio.com";
-    const MASTER_DB_PATH = "/otc_pro_v62_master.json";
+    const MASTER_DB_PATH = "/otc_pro_v64_master.json";
     const REAL_V61_PATH = "/otc_pro_v61_real.json";
-    const LOCAL_KEY = "otc_pro_v63_master_state";
+    const LOCAL_KEY = "otc_pro_v64_master_state";
 
-    // Strictly banned fake/polluted numbers from older versions
     const BANNED_FAKE_RESULTS = new Set([
       "246-22-570", "137-19-450", "358-64-266", "147-29-450", "278-24-257", "158-46-367"
     ]);
 
     let appState = {
-      feeders: {
-        mainBazar: "SET-REAL",
-        timeBazar: "SET-REAL",
-        kalyan: "SET-REAL",
-        rajdhani: "SET-REAL"
-      },
+      feeders: { mainBazar: "SET-REAL", timeBazar: "SET-REAL", kalyan: "SET-REAL", rajdhani: "SET-REAL" },
       weekUpJodi: "41",
       rates: { single: 95, jodi: 950, sp: 1400, dp: 2800 },
       charts: {
         kalyan: [
-          {
-            week: "02/11/2026",
-            days: [
-              { open: "347", jodi: "41", close: "678" },
-              { open: "467", jodi: "17", close: "278" },
-              { open: "124", jodi: "74", close: "257" },
-              null,
-              null,
-              null
-            ]
-          },
-          {
-            week: "09/11/2026",
-            days: [null, null, null, null, null, null]
-          }
+          { week: "02/11/2026", days: [{ open: "347", jodi: "41", close: "678" }, { open: "467", jodi: "17", close: "278" }, { open: "124", jodi: "74", close: "257" }, null, null, null] },
+          { week: "09/11/2026", days: [null, null, null, null, null, null] }
         ],
         rajdhani: [
-          {
-            week: "02/11/2026",
-            days: [null, null, null, null, null, null]
-          },
-          {
-            week: "09/11/2026",
-            days: [null, null, null, null, null, null]
-          }
+          { week: "02/11/2026", days: [null, null, null, null, null, null] },
+          { week: "09/11/2026", days: [null, null, null, null, null, null] }
         ]
       },
-      passbook: [
-        { date: "Initial", note: "Starting Wallet Balance", amount: 500 }
-      ],
+      passbook: [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }],
       updatedAt: null
     };
 
@@ -979,36 +651,15 @@
           const cell = dArr[i];
           if (cell && typeof cell === "object") {
             const combo = `${cell.open}-${cell.jodi}-${cell.close}`;
-            if (BANNED_FAKE_RESULTS.has(combo)) {
-              dArr[i] = null;
-            }
+            if (BANNED_FAKE_RESULTS.has(combo)) dArr[i] = null;
           }
         }
         wk.days = dArr;
       });
     }
 
-    // Inject Dynamic Web App Manifest for Mobile PWA Support
-    (function setupDynamicPWA() {
-      const manifest = {
-        name: "Smart OTC, Jodi & Patti Pro v6.3",
-        short_name: "OTC Pro v6.3",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#0f172a",
-        theme_color: "#0f172a"
-      };
-      const link = document.createElement("link");
-      link.rel = "manifest";
-      link.href = "data:application/manifest+json," + encodeURIComponent(JSON.stringify(manifest));
-      document.head.appendChild(link);
-    })();
-
-    // =========================================================================
-    // 2. OWNER LOGIN GATE & NAVIGATION TABS
-    // =========================================================================
     function checkLoginStatus() {
-      const unlocked = localStorage.getItem("otc_v62_unlocked") === "true" || sessionStorage.getItem("otc_v62_unlocked") === "true";
+      const unlocked = localStorage.getItem("otc_v64_unlocked") === "true" || sessionStorage.getItem("otc_v64_unlocked") === "true";
       document.getElementById("loginGateOverlay").classList.toggle("hidden", unlocked);
     }
 
@@ -1018,8 +669,8 @@
       const p = document.getElementById("loginPass").value.trim();
       const rem = document.getElementById("loginRemember").checked;
       if (u === "siddharth" && p === "1234") {
-        sessionStorage.setItem("otc_v62_unlocked", "true");
-        if (rem) localStorage.setItem("otc_v62_unlocked", "true");
+        sessionStorage.setItem("otc_v64_unlocked", "true");
+        if (rem) localStorage.setItem("otc_v64_unlocked", "true");
         document.getElementById("loginErrorMsg").classList.add("hidden");
         document.getElementById("loginGateOverlay").classList.add("hidden");
       } else {
@@ -1028,8 +679,8 @@
     }
 
     function lockTerminal() {
-      localStorage.removeItem("otc_v62_unlocked");
-      sessionStorage.removeItem("otc_v62_unlocked");
+      localStorage.removeItem("otc_v64_unlocked");
+      sessionStorage.removeItem("otc_v64_unlocked");
       document.getElementById("loginPass").value = "";
       document.getElementById("loginGateOverlay").classList.remove("hidden");
     }
@@ -1055,9 +706,6 @@
       renderPanelChartTable();
     }
 
-    // =========================================================================
-    // 3. LIVE MARKET IST COUNTDOWN TIMER & 60s CLOUD AUTO-STREAM
-    // =========================================================================
     function updateMarketCountdown() {
       const badge = document.getElementById("liveMarketTimerBadge");
       const now = new Date();
@@ -1066,11 +714,7 @@
       const day = istNow.getDay();
       const minsNow = istNow.getHours() * 60 + istNow.getMinutes();
 
-      if (day === 0) {
-        badge.textContent = "🏖️ SUNDAY MARKET HOLIDAY";
-        return;
-      }
-
+      if (day === 0) { badge.textContent = "🏖️ SUNDAY HOLIDAY"; return; }
       const schedule = [
         { name: "Time Bazar Open", mins: 13 * 60 },
         { name: "Time Bazar Close", mins: 14 * 60 },
@@ -1079,16 +723,10 @@
         { name: "Rajdhani Open", mins: 21 * 60 + 35 },
         { name: "Rajdhani Close", mins: 23 * 60 + 45 }
       ];
-
       const nextEv = schedule.find(s => s.mins > minsNow);
-      if (!nextEv) {
-        badge.textContent = "🌙 Night Markets Complete • Next: Time Bazar 1:00 PM";
-        return;
-      }
+      if (!nextEv) { badge.textContent = "🌙 Night Markets Complete"; return; }
       const diff = nextEv.mins - minsNow;
-      const h = Math.floor(diff / 60);
-      const m = diff % 60;
-      badge.textContent = `⏱️ ${nextEv.name} in ${h}h ${m}m (IST)`;
+      badge.textContent = `⏱️ ${nextEv.name} in ${Math.floor(diff / 60)}h ${diff % 60}m (IST)`;
     }
     setInterval(updateMarketCountdown, 15000);
 
@@ -1098,39 +736,26 @@
       const ind = document.getElementById("autoStreamIndicator");
       if (autoCloudStreamEnabled) {
         btn.className = "px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold";
-        btn.textContent = "🟢 60s Stream: ON";
-        ind.textContent = "🟢 Cloud Stream ON";
+        btn.textContent = "🟢 Dual Stream: ON";
+        ind.textContent = "🟢 Dual Stream ON";
       } else {
         btn.className = "px-3 py-1.5 rounded-lg bg-slate-700 text-slate-300 text-xs font-bold";
-        btn.textContent = "⏸️ 60s Stream: PAUSED";
+        btn.textContent = "⏸️ Stream: PAUSED";
         ind.textContent = "⏸️ Stream Paused";
       }
     }
 
     setInterval(() => {
-      if (autoCloudStreamEnabled) pullFromFirebase(true);
+      if (autoCloudStreamEnabled) pullFromCloudAndRepo(true);
     }, 60000);
 
-    // =========================================================================
-    // 4. STRICT REGEX LIVE WEB SCRAPER & MANUAL REAL EDITOR
-    // =========================================================================
     function extractStrictMarketResult(html, marketName) {
-      const cleanHtml = html
-        .replace(/<script[\s\S]*?<\/script>/gi, " ")
-        .replace(/<style[\s\S]*?<\/style>/gi, " ")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/\s+/g, " ");
-
+      const cleanHtml = html.replace(/<script[\s\S]*?<\/script>/gi, " ").replace(/<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
       const escaped = marketName.replace(/\s+/g, "\\s+");
-      const regex = new RegExp(
-        `(?<![A-Z0-9])${escaped}(?!\\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|PRO|JACKPOT|OPEN|CLOSE))[^0-9\\*]{1,90}?([0-9\\*]{3})\\s*-\\s*([0-9\\*]{1,2})(?:\\s*-\\s*([0-9\\*]{3}))?`,
-        "i"
-      );
+      const regex = new RegExp(`(?<![A-Z0-9])${escaped}(?!\\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|PRO|JACKPOT|OPEN|CLOSE))[^0-9\\*]{1,90}?([0-9\\*]{3})\\s*-\\s*([0-9\\*]{1,2})(?:\\s*-\\s*([0-9\\*]{3}))?`, "i");
       const match = cleanHtml.match(regex);
       if (!match) return null;
-      const op = match[1].trim();
-      const jd = match[2].trim();
-      const cl = (match[3] || "***").trim();
+      const op = match[1].trim(), jd = match[2].trim(), cl = (match[3] || "***").trim();
       const combined = `${op}-${jd}-${cl}`;
       if (BANNED_FAKE_RESULTS.has(combined)) return null;
       return combined;
@@ -1141,7 +766,7 @@
       const status = document.getElementById("syncStatusText");
       btn.disabled = true;
       btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Scanning...`;
-      status.textContent = "Scanning live matka mirrors with strict boundary regex...";
+      status.textContent = "Scanning live matka mirrors...";
 
       const sites = ["https://dpboss.services/", "https://spboss.blog/", "https://sattamatka.sale/"];
       const proxies = [
@@ -1171,10 +796,7 @@
 
       let count = 0;
       ["mainBazar", "timeBazar", "kalyan", "rajdhani"].forEach(k => {
-        if (found[k]) {
-          appState.feeders[k] = found[k];
-          count++;
-        }
+        if (found[k]) { appState.feeders[k] = found[k]; count++; }
       });
 
       btn.disabled = false;
@@ -1186,9 +808,9 @@
         renderPipelineUI();
         syncInputsFromActiveMarket();
         recalculateAll();
-        status.textContent = `Live Web Sync Success (${count} markets updated at ${appState.updatedAt})`;
+        status.textContent = `Live Web Sync Success (${count} updated at ${appState.updatedAt})`;
       } else {
-        status.textContent = "CORS blocked or markets showing waiting (***). Enter exact results in modal.";
+        status.textContent = "CORS blocked. Please enter exact results in modal.";
         openEditPipelineModal();
       }
     }
@@ -1202,9 +824,7 @@
       document.getElementById("editModal").classList.remove("hidden");
     }
 
-    function closeEditPipelineModal() {
-      document.getElementById("editModal").classList.add("hidden");
-    }
+    function closeEditPipelineModal() { document.getElementById("editModal").classList.add("hidden"); }
 
     async function saveManualRealResults() {
       const mb = document.getElementById("modMainBazar").value.trim();
@@ -1246,12 +866,9 @@
       document.getElementById("dispTimeBazar").textContent = appState.feeders.timeBazar;
       document.getElementById("dispKalyan").textContent = appState.feeders.kalyan;
       document.getElementById("dispRajdhani").textContent = appState.feeders.rajdhani;
-      if (appState.updatedAt) {
-        document.getElementById("lastSyncStamp").textContent = `Updated: ${appState.updatedAt}`;
-      }
+      if (appState.updatedAt) document.getElementById("lastSyncStamp").textContent = `Updated: ${appState.updatedAt}`;
     }
 
-    // FIX #3: Auto-lookup both Latest Valid Cell AND Exact 1-Week Up Same-Day Jodi from Panel Chart
     function getLatestChartSetupAndWeekUp(marketKey) {
       const rows = appState.charts[marketKey] || [];
       let latestCell = null;
@@ -1263,9 +880,7 @@
         for (let d = 5; d >= 0; d--) {
           const c = days[d];
           if (c && c.open && c.jodi && c.jodi.length === 2 && !BANNED_FAKE_RESULTS.has(`${c.open}-${c.jodi}-${c.close}`)) {
-            latestCell = c;
-            latestW = r;
-            latestD = d;
+            latestCell = c; latestW = r; latestD = d;
             break;
           }
         }
@@ -1273,19 +888,13 @@
       }
 
       if (!latestCell) {
-        return {
-          prev: { open: "124", jodi: "74", close: "257" },
-          weekUpJodi: appState.weekUpJodi || "41",
-          targetDayLabel: "Next Session"
-        };
+        return { prev: { open: "124", jodi: "74", close: "257" }, weekUpJodi: appState.weekUpJodi || "41", targetDayLabel: "Next Session" };
       }
 
-      // Target prediction day is the next trading day after latestD
       const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       const nextD = (latestD + 1) % 6;
       const targetWeekIdx = nextD === 0 ? latestW + 1 : latestW;
 
-      // 1-Week Up is at (targetWeekIdx - 1) on column nextD, or fallback to latest valid in column nextD
       let weekUpJodi = appState.weekUpJodi || "41";
       let weekUpSource = `Default (${weekUpJodi})`;
 
@@ -1298,11 +907,7 @@
         }
       }
 
-      return {
-        prev: latestCell,
-        weekUpJodi,
-        targetDayLabel: weekUpSource
-      };
+      return { prev: latestCell, weekUpJodi, targetDayLabel: weekUpSource };
     }
 
     function syncInputsFromActiveMarket() {
@@ -1312,9 +917,7 @@
 
       const chartInfo = getLatestChartSetupAndWeekUp(target);
       let pParts = parseResultParts(pipeStr);
-      if (!pParts.valid) {
-        pParts = chartInfo.prev;
-      }
+      if (!pParts.valid) pParts = chartInfo.prev;
       const fParts = parseResultParts(feederStr);
 
       document.getElementById("inpPrevOpen").value = pParts.open.includes("*") ? "124" : pParts.open;
@@ -1325,10 +928,6 @@
       document.getElementById("inpFeederJodi").value = fParts.valid ? fParts.jodi : chartInfo.weekUpJodi;
     }
 
-    // =========================================================================
-    // 5. TRUE DYNAMIC 2-DIGIT PANEL RELAY PATTI GENERATOR & ALL 5 FORMULAS
-    // =========================================================================
-    // In Matka, digit order is 1,2,3,4,5,6,7,8,9,0 (0 = 10, highest)
     const MATKA_ORDER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
 
     function generateTrueRelayPattisForAnk(targetAnk, bridgeDigitsSet) {
@@ -1336,26 +935,17 @@
       for (let i = 0; i < MATKA_ORDER.length; i++) {
         for (let j = i; j < MATKA_ORDER.length; j++) {
           for (let k = j; k < MATKA_ORDER.length; k++) {
-            // Skip Triple Pattis (e.g. 777) for standard SP/DP relay
             if (i === j && j === k) continue;
             const d1 = MATKA_ORDER[i], d2 = MATKA_ORDER[j], d3 = MATKA_ORDER[k];
             if ((d1 + d2 + d3) % 10 !== Number(targetAnk)) continue;
 
-            // Count how many digits match the previous day's Open/Close panels (or their cuts)
             let bridgeHits = 0;
-            if (bridgeDigitsSet.has(d1)) bridgeHits += 2;
-            else if (bridgeDigitsSet.has(cutOf(d1))) bridgeHits += 1;
+            if (bridgeDigitsSet.has(d1)) bridgeHits += 2; else if (bridgeDigitsSet.has(cutOf(d1))) bridgeHits += 1;
+            if (bridgeDigitsSet.has(d2)) bridgeHits += 2; else if (bridgeDigitsSet.has(cutOf(d2))) bridgeHits += 1;
+            if (bridgeDigitsSet.has(d3)) bridgeHits += 2; else if (bridgeDigitsSet.has(cutOf(d3))) bridgeHits += 1;
 
-            if (bridgeDigitsSet.has(d2)) bridgeHits += 2;
-            else if (bridgeDigitsSet.has(cutOf(d2))) bridgeHits += 1;
-
-            if (bridgeDigitsSet.has(d3)) bridgeHits += 2;
-            else if (bridgeDigitsSet.has(cutOf(d3))) bridgeHits += 1;
-
-            // Prefer Single Pattis (SP) slightly for consistency, plus high bridge hits
             const isSP = (i !== j && j !== k) ? 0.5 : 0;
-            const score = bridgeHits + isSP;
-            candidates.push({ patti: `${d1}${d2}${d3}`, score });
+            candidates.push({ patti: `${d1}${d2}${d3}`, score: bridgeHits + isSP });
           }
         }
       }
@@ -1363,15 +953,12 @@
       return candidates.slice(0, 2).map(c => c.patti);
     }
 
-    // Real backtest of ALL 5 Formulas (F1, F2, F3, F4, F5) across the 2D Panel Chart
-    function computeDynamicFormulaWeights(marketKey, feederJodiStr) {
+    function computeDynamicFormulaWeights(marketKey) {
       const rows = appState.charts[marketKey] || [];
       const flat = [];
       rows.forEach((wk, wIdx) => {
         (wk.days || []).forEach((cell, dIdx) => {
-          if (cell && cell.jodi && cell.jodi.length === 2 && cell.open && cell.close) {
-            flat.push({ ...cell, wIdx, dIdx });
-          }
+          if (cell && cell.jodi && cell.jodi.length === 2 && cell.open && cell.close) flat.push({ ...cell, wIdx, dIdx });
         });
       });
 
@@ -1384,45 +971,29 @@
       ];
 
       for (let i = 1; i < flat.length; i++) {
-        const prev = flat[i - 1];
-        const curr = flat[i];
+        const prev = flat[i - 1], curr = flat[i];
         const currO = Number(curr.jodi[0]), currC = Number(curr.jodi[1]);
         const pO = Number(prev.jodi[0]), pC = Number(prev.jodi[1]);
 
-        // F1: Direct + Cut
         const f1Set = new Set([pO, pC, cutOf(pO), cutOf(pC)]);
-        stats[0].total++;
-        if (f1Set.has(currO) || f1Set.has(currC)) stats[0].hits++;
+        stats[0].total++; if (f1Set.has(currO) || f1Set.has(currC)) stats[0].hits++;
 
-        // F2: 1-Week Vertical (Check same weekday in previous week row if available, else 1-step vertical)
-        let wkUpCell = null;
-        if (curr.wIdx > 0 && rows[curr.wIdx - 1]?.days?.[curr.dIdx]?.jodi) {
-          wkUpCell = rows[curr.wIdx - 1].days[curr.dIdx];
-        } else {
-          wkUpCell = prev;
-        }
+        let wkUpCell = (curr.wIdx > 0 && rows[curr.wIdx - 1]?.days?.[curr.dIdx]?.jodi) ? rows[curr.wIdx - 1].days[curr.dIdx] : prev;
         const wO = Number(wkUpCell.jodi[0]), wC = Number(wkUpCell.jodi[1]);
         const f2Set = new Set([wO, wC, cutOf(wO), cutOf(wC)]);
-        stats[1].total++;
-        if (f2Set.has(currO) || f2Set.has(currC)) stats[1].hits++;
+        stats[1].total++; if (f2Set.has(currO) || f2Set.has(currC)) stats[1].hits++;
 
-        // F3: Berij & Farak
         const berij = (pO + pC) % 10, farak = Math.abs(pC - pO) % 10;
         const f3Set = new Set([berij, cutOf(berij), farak, cutOf(farak)]);
-        stats[2].total++;
-        if (f3Set.has(currO) || f3Set.has(currC)) stats[2].hits++;
+        stats[2].total++; if (f3Set.has(currO) || f3Set.has(currC)) stats[2].hits++;
 
-        // F4: Patti Middle Bridge
         const mO = Number(prev.open[1]) || 0, mC = Number(prev.close[1]) || 0;
         const f4Set = new Set([mO, mC, (mO + mC) % 10, cutOf((mO + mC) % 10)]);
-        stats[3].total++;
-        if (f4Set.has(currO) || f4Set.has(currC)) stats[3].hits++;
+        stats[3].total++; if (f4Set.has(currO) || f4Set.has(currC)) stats[3].hits++;
 
-        // F5: Panel Last Digit + Berij Relay
         const lO = Number(prev.open[2]) || 0, lC = Number(prev.close[2]) || 0;
         const f5Set = new Set([lO, lC, (lO + lC) % 10, cutOf((lO + lC) % 10)]);
-        stats[4].total++;
-        if (f5Set.has(currO) || f5Set.has(currC)) stats[4].hits++;
+        stats[4].total++; if (f5Set.has(currO) || f5Set.has(currC)) stats[4].hits++;
       }
 
       return stats.map(s => {
@@ -1433,25 +1004,14 @@
       });
     }
 
-    // Real Historical Same-Setup Scanner across Panel Chart
     function scanHistoricalSameSetup(marketKey, prevJodiStr, weekUpJodiStr, topVip1, topVip2) {
       const rows = appState.charts[marketKey] || [];
       const flat = [];
-      rows.forEach(wk => {
-        (wk.days || []).forEach(c => {
-          if (c && c.jodi && c.jodi.length === 2) flat.push(c);
-        });
-      });
+      rows.forEach(wk => { (wk.days || []).forEach(c => { if (c && c.jodi && c.jodi.length === 2) flat.push(c); }); });
 
-      const famSignature = j => {
-        const a = Math.min(Number(j[0]), cutOf(Number(j[0])));
-        const b = Math.min(Number(j[1]), cutOf(Number(j[1])));
-        return `${a}${b}`;
-      };
-
+      const famSignature = j => `${Math.min(Number(j[0]), cutOf(Number(j[0])))}${Math.min(Number(j[1]), cutOf(Number(j[1])))}`;
       const targetSig = famSignature(prevJodiStr);
-      let matchCount = 0;
-      let vipHitCount = 0;
+      let matchCount = 0, vipHitCount = 0;
 
       for (let i = 0; i < flat.length - 1; i++) {
         if (famSignature(flat[i].jodi) === targetSig) {
@@ -1465,15 +1025,14 @@
 
       if (matchCount > 0) {
         const hitPct = Math.round((vipHitCount / matchCount) * 100);
-        return `🔍 <b>Real Historical Chart Scan:</b> Pichle chart mein Prev Jodi Family (<b>${prevJodiStr}</b>) ka setup <b>${matchCount} baar</b> bana hai, jisme agle din <b>${topVip1}/${cutOf(topVip1)}</b> ya <b>${topVip2}/${cutOf(topVip2)}</b> family <b>${hitPct}% (${vipHitCount}/${matchCount})</b> baar pass hui hai.`;
+        return `🔍 <b>Real Historical Scan:</b> Prev Jodi Family (<b>${prevJodiStr}</b>) setup appeared <b>${matchCount} times</b>, with Super VIP hitting next day in <b>${hitPct}% (${vipHitCount}/${matchCount})</b> of instances.`;
       }
-      return `🔍 <b>Real Historical Chart Scan:</b> Prev Jodi (<b>${prevJodiStr}</b>) + 1-Week Up (<b>${weekUpJodiStr}</b>) confluence par Super VIP <b>${topVip1}</b> & <b>${topVip2}</b> top-ranked hain. (Import more weeks in Tab 3 for deeper history).`;
+      return `🔍 <b>Real Historical Scan:</b> Prev Jodi (<b>${prevJodiStr}</b>) confluence ranks Super VIP <b>${topVip1}</b> & <b>${topVip2}</b> highest.`;
     }
 
     function recalculateAll() {
       const target = document.getElementById("activeTargetSelect").value;
-      document.getElementById("vipTargetBadge").textContent =
-        target === "kalyan" ? "👑 KALYAN VIP CARD" : "🌙 RAJDHANI NIGHT VIP CARD";
+      document.getElementById("vipTargetBadge").textContent = target === "kalyan" ? "👑 KALYAN VIP CARD" : "🌙 RAJDHANI NIGHT VIP CARD";
 
       const prevOpen = (document.getElementById("inpPrevOpen").value || "124").padStart(3, "0");
       const prevJodi = (document.getElementById("inpPrevJodi").value || "74").padStart(2, "0");
@@ -1481,14 +1040,11 @@
       const weekUpJodi = (document.getElementById("inpWeekUpJodi").value || "41").padStart(2, "0");
       const feederJodi = (document.getElementById("inpFeederJodi").value || "41").padStart(2, "0");
 
-      const lineStats = computeDynamicFormulaWeights(target, feederJodi);
+      const lineStats = computeDynamicFormulaWeights(target);
 
       document.getElementById("activeLineScannerBox").innerHTML = lineStats.map(st => `
         <div class="p-2 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-between">
-          <div>
-            <span class="font-bold text-slate-200">${st.name}</span>
-            <span class="ml-2 text-[10px] px-1.5 py-0.5 rounded ${st.pct >= 70 ? 'bg-emerald-500/20 text-emerald-300' : st.pct < 40 ? 'bg-rose-500/20 text-rose-300' : 'bg-sky-500/20 text-sky-300'}">${st.badge}</span>
-          </div>
+          <div><span class="font-bold text-slate-200">${st.name}</span><span class="ml-2 text-[10px] px-1.5 py-0.5 rounded ${st.pct >= 70 ? 'bg-emerald-500/20 text-emerald-300' : 'bg-sky-500/20 text-sky-300'}">${st.badge}</span></div>
           <span class="mono font-extrabold ${st.pct >= 70 ? 'text-emerald-400' : 'text-amber-400'}">${st.pct}% (${st.hits}/${st.total || 1})</span>
         </div>
       `).join("");
@@ -1500,61 +1056,31 @@
       const scores = Array(10).fill(0);
       const addVote = (d, w) => { scores[((d % 10) + 10) % 10] += w; };
 
-      // Weighted Votes from F1..F5
-      const wF1 = lineStats[0].weight;
-      addVote(o1, wF1); addVote(c1, wF1); addVote(cutOf(o1), wF1 * 0.8); addVote(cutOf(c1), wF1 * 0.8);
-
-      const wF2 = lineStats[1].weight;
-      addVote(w1, wF2); addVote(w2, wF2); addVote(cutOf(w1), wF2 * 0.7); addVote(cutOf(w2), wF2 * 0.7);
-
-      const wF3 = lineStats[2].weight;
+      addVote(o1, lineStats[0].weight); addVote(c1, lineStats[0].weight); addVote(cutOf(o1), lineStats[0].weight * 0.8); addVote(cutOf(c1), lineStats[0].weight * 0.8);
+      addVote(w1, lineStats[1].weight); addVote(w2, lineStats[1].weight); addVote(cutOf(w1), lineStats[1].weight * 0.7); addVote(cutOf(w2), lineStats[1].weight * 0.7);
       const berij = (o1 + c1) % 10, farak = Math.abs(c1 - o1) % 10;
-      addVote(berij, wF3); addVote(cutOf(berij), wF3 * 0.8); addVote(farak, wF3);
-
-      const wF4 = lineStats[3].weight;
+      addVote(berij, lineStats[2].weight); addVote(cutOf(berij), lineStats[2].weight * 0.8); addVote(farak, lineStats[2].weight);
       const midO = Number(prevOpen[1]) || 0, midC = Number(prevClose[1]) || 0;
-      addVote(midO, wF4); addVote(midC, wF4); addVote((midO + midC) % 10, wF4);
-
-      const wF5 = lineStats[4].weight;
+      addVote(midO, lineStats[3].weight); addVote(midC, lineStats[3].weight); addVote((midO + midC) % 10, lineStats[3].weight);
       const fBerij = (f1 + f2) % 10, fFarak = Math.abs(f2 - f1) % 10;
-      addVote(f1, wF5 * 0.9); addVote(f2, wF5 * 0.9); addVote(fBerij, wF5 * 1.1); addVote(cutOf(fBerij), wF5 * 0.9);
+      addVote(f1, lineStats[4].weight * 0.9); addVote(f2, lineStats[4].weight * 0.9); addVote(fBerij, lineStats[4].weight * 1.1);
 
-      const ranked = scores
-        .map((pts, digit) => ({ digit, pts: Number(pts.toFixed(1)) }))
-        .sort((a, b) => b.pts - a.pts);
-
+      const ranked = scores.map((pts, digit) => ({ digit, pts: Number(pts.toFixed(1)) })).sort((a, b) => b.pts - a.pts);
       const top4 = ranked.slice(0, 4);
-      const vip1 = top4[0].digit, vip2 = top4[1].digit;
-      const sup1 = top4[2].digit, sup2 = top4[3].digit;
+      const vip1 = top4[0].digit, vip2 = top4[1].digit, sup1 = top4[2].digit, sup2 = top4[3].digit;
 
-      // Trap Day Alert check
-      const isPrevRed = o1 === c1 || o1 === cutOf(c1);
-      const trapBadge = document.getElementById("trapStatusBadge");
-      if (isPrevRed && top4[0].pts < 5.5) {
-        trapBadge.className = "px-3 py-1 rounded-lg text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40";
-        trapBadge.textContent = "⚠️ RED JODI TRAP ALERT: Play Safe / Half-Budget Mode";
-      } else {
-        trapBadge.className = "px-3 py-1 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
-        trapBadge.textContent = "✅ HIGH CONFLUENCE PLAYABLE DAY";
-      }
-
-      // Render 4 VIP OTC Boxes
       document.getElementById("vipOtcBoxes").innerHTML = top4.map((item, idx) => `
         <div class="p-3.5 rounded-xl text-center border ${idx < 2 ? 'bg-sky-950/60 border-sky-400 shadow-lg' : 'bg-slate-900 border-slate-700'}">
-          <div class="text-[10px] font-extrabold uppercase ${idx < 2 ? 'text-sky-300' : 'text-slate-400'}">
-            ${idx < 2 ? '🔥 SUPER VIP #' + (idx + 1) : '⚡ SUPPORT #' + (idx - 1)}
-          </div>
+          <div class="text-[10px] font-extrabold uppercase ${idx < 2 ? 'text-sky-300' : 'text-slate-400'}">${idx < 2 ? '🔥 SUPER VIP #' + (idx + 1) : '⚡ SUPPORT #' + (idx - 1)}</div>
           <div class="mono text-3xl font-extrabold text-white my-1">${item.digit}</div>
           <div class="text-[11px] text-emerald-400">Cut: ${cutOf(item.digit)} • Vote: ${item.pts}</div>
         </div>
       `).join("");
 
-      // FIX #2: Guaranteed 8 Unique Strong Jodis (Zero Duplicates)
       const rawCandidateJodis = [
         `${vip1}${fBerij}`, `${vip1}${cutOf(vip2)}`, `${vip2}${vip1}`, `${vip2}${fFarak}`,
         `${vip1}${vip2}`, `${vip2}${cutOf(vip1)}`, `${sup1}${vip1}`, `${sup2}${vip2}`,
-        `${vip1}${sup1}`, `${vip2}${sup2}`, `${sup1}${fBerij}`, `${sup2}${fFarak}`,
-        `${vip1}${cutOf(sup1)}`, `${vip2}${cutOf(sup2)}`
+        `${vip1}${sup1}`, `${vip2}${sup2}`, `${sup1}${fBerij}`, `${sup2}${fFarak}`
       ];
       const uniqueJodis = [...new Set(rawCandidateJodis)].slice(0, 8);
 
@@ -1562,10 +1088,7 @@
         <span class="px-2.5 py-1 rounded ${i < 4 ? 'bg-purple-500/20 text-purple-200 border border-purple-400/50' : 'bg-slate-800 text-slate-400'}">${j}</span>
       `).join("");
 
-      // FIX #6: True Dynamic 2-Digit Panel Relay Lock Patti Generator
-      const bridgeDigits = new Set(
-        [...prevOpen, ...prevClose].map(ch => Number(ch)).filter(n => !isNaN(n))
-      );
+      const bridgeDigits = new Set([...prevOpen, ...prevClose].map(ch => Number(ch)).filter(n => !isNaN(n)));
       document.getElementById("relayBridgeInfo").textContent = `Bridge: ${[...bridgeDigits].join(",")}`;
 
       const pattis = [
@@ -1579,39 +1102,19 @@
         <span class="px-2 py-1 rounded ${i < 4 ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50' : 'bg-slate-800 text-slate-400'}">${p}</span>
       `).join("");
 
-      // Render Half-Sangam Condenser
       document.getElementById("halfSangamBox").innerHTML = `
-        <div class="p-2 rounded bg-slate-950 border border-slate-800">
-          • <b>Half-Sangam A:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${pattis[2] || "257"}</b>
-        </div>
-        <div class="p-2 rounded bg-slate-950 border border-slate-800">
-          • <b>Half-Sangam B:</b> Open Patti <b class="text-amber-300">${pattis[0] || "149"}</b> × Close <b class="text-sky-300">${vip2}</b>
-        </div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Half-Sangam A:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${pattis[2] || "257"}</b></div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Half-Sangam B:</b> Open Patti <b class="text-amber-300">${pattis[0] || "149"}</b> × Close <b class="text-sky-300">${vip2}</b></div>
       `;
 
-      // Render Cross-Market Relay & Real Historical Same-Setup Finder
       document.getElementById("relayBreakdownBox").innerHTML = `
-        <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-          • <b>Feeder Jodi (${feederJodi}):</b> Berij = <b class="text-sky-300">${fBerij}</b> (Cut ${cutOf(fBerij)}) | Farak = <b class="text-sky-300">${fFarak}</b>
-        </div>
-        <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">
-          • <b>1-Week Up Vertical (${weekUpJodi}):</b> Direct <b class="text-emerald-300">${w1}, ${w2}</b> & Cut <b class="text-emerald-300">${cutOf(w1)}, ${cutOf(w2)}</b>
-        </div>
-        <div class="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-semibold">
-          🔥 Double-Lock Intersection: Super VIP <b>${vip1}</b> & <b>${vip2}</b> highest confluence!
-        </div>
+        <div class="p-2.5 rounded-lg bg-slate-900 border border-slate-800">• <b>Feeder (${feederJodi}):</b> Berij = <b class="text-sky-300">${fBerij}</b> | Farak = <b class="text-sky-300">${fFarak}</b></div>
+        <div class="p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 font-semibold">🔥 Double-Lock: Super VIP <b>${vip1}</b> & <b>${vip2}</b> highest confluence!</div>
       `;
 
-      document.getElementById("historicalSetupBox").innerHTML =
-        scanHistoricalSameSetup(target, prevJodi, weekUpJodi, vip1, vip2);
+      document.getElementById("historicalSetupBox").innerHTML = scanHistoricalSameSetup(target, prevJodi, weekUpJodi, vip1, vip2);
 
-      latestCalculatedPrediction = {
-        market: target === "kalyan" ? "KALYAN" : "RAJDHANI NIGHT",
-        top4: top4.map(t => t.digit),
-        jodis: uniqueJodis,
-        pattis
-      };
-
+      latestCalculatedPrediction = { market: target === "kalyan" ? "KALYAN" : "RAJDHANI NIGHT", top4: top4.map(t => t.digit), jodis: uniqueJodis, pattis };
       calculateMoneyManagement();
       runMidGamePivot();
     }
@@ -1622,61 +1125,42 @@
       const out = document.getElementById("midGamePivotOutput");
 
       if (openPatti.length === 3 && !openAnk) {
-        const sum = (Number(openPatti[0]) + Number(openPatti[1]) + Number(openPatti[2])) % 10;
-        openAnk = String(sum);
+        openAnk = String((Number(openPatti[0]) + Number(openPatti[1]) + Number(openPatti[2])) % 10);
         document.getElementById("liveOpenAnk").value = openAnk;
       }
 
       if (!openAnk) {
-        out.innerHTML = `⏳ Waiting for Open result: Jaise hi Open aaye, upar Open Patti ya Ank daalein — system turant Close strategy batayega.`;
+        out.innerHTML = `⏳ Waiting for Open result...`;
         return;
       }
 
       const topDigits = (latestCalculatedPrediction?.top4 || []).map(String);
       if (topDigits.includes(openAnk)) {
-        out.innerHTML = `<span class="text-emerald-400 font-extrabold">✅ OPEN OTC PASS (Ank ${openAnk} Hit)! RULE: "Open Pass = STOP Close!" — Lock Today's Profit & Keep Close Reserve Safe in Wallet!</span>`;
+        out.innerHTML = `<span class="text-emerald-400 font-extrabold">✅ OPEN OTC PASS (Ank ${openAnk} Hit)! STOP CLOSE BETTING!</span>`;
       } else {
         const d = Number(openAnk);
         const c1 = cutOf(d), c2 = (d + 1) % 10, c3 = cutOf(c2);
         const bridgeSet = new Set(openPatti.length === 3 ? [...openPatti].map(Number) : [d, c1]);
-        const closePattis = [
-          ...generateTrueRelayPattisForAnk(c1, bridgeSet).slice(0, 1),
-          ...generateTrueRelayPattisForAnk(d, bridgeSet).slice(0, 1),
-          ...generateTrueRelayPattisForAnk(c2, bridgeSet).slice(0, 1),
-          ...generateTrueRelayPattisForAnk(c3, bridgeSet).slice(0, 1)
-        ];
-        out.innerHTML = `<span class="text-amber-300 font-bold">⚡ Open Missed (${openAnk}) ➔ Activate Close Recovery Reserve (₹${latestMoneySlip?.closeTotal || 50}) on Close Ank: <b class="mono text-white">${c1}, ${d}, ${c2}, ${c3}</b> | Running Jodis: <b class="mono text-purple-300">${openAnk}${c1}, ${openAnk}${d}, ${openAnk}${c2}, ${openAnk}${c3}</b> | Close Relay Pattis: <b class="mono text-amber-300">${closePattis.join(", ")}</b></span>`;
+        const closePattis = [...generateTrueRelayPattisForAnk(c1, bridgeSet).slice(0, 1), ...generateTrueRelayPattisForAnk(d, bridgeSet).slice(0, 1)];
+        out.innerHTML = `<span class="text-amber-300 font-bold">⚡ Open Missed (${openAnk}) ➔ Play Close Recovery Reserve on Close Ank: <b class="mono text-white">${c1}, ${d}, ${c2}, ${c3}</b> | Close Pattis: <b class="mono text-amber-300">${closePattis.join(", ")}</b></span>`;
       }
     }
 
-    // =========================================================================
-    // 6. SMART MONEY MANAGEMENT + ACTIVE CIRCUIT BREAKER ENFORCEMENT
-    // =========================================================================
     function isCircuitBreakerTriggered() {
       const list = appState.passbook || [];
       return list.length >= 3 && Number(list[list.length - 1].amount) < 0 && Number(list[list.length - 2].amount) < 0;
     }
 
-    function onPattiToggleManual() {
-      userManualPattiOverride = true;
-      calculateMoneyManagement();
-    }
-
-    function setQuickCapital(amount) {
-      document.getElementById("mmCapital").value = amount;
-      calculateMoneyManagement();
-    }
+    function onPattiToggleManual() { userManualPattiOverride = true; calculateMoneyManagement(); }
+    function setQuickCapital(amt) { document.getElementById("mmCapital").value = amt; calculateMoneyManagement(); }
 
     function calculateMoneyManagement() {
       const cbActive = isCircuitBreakerTriggered();
       const cbTag = document.getElementById("circuitBreakerTag");
       if (cbActive) {
         cbTag.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/40";
-        cbTag.textContent = "🚨 CIRCUIT BREAKER ACTIVE: 2 Losses ➔ Auto Safe Mode";
-        if (!userManualPattiOverride) {
-          document.getElementById("chkPlayPatti").checked = false;
-          document.getElementById("mmStrategy").value = "safe";
-        }
+        cbTag.textContent = "🚨 CIRCUIT BREAKER: 2 Losses ➔ Safe Mode";
+        if (!userManualPattiOverride) { document.getElementById("chkPlayPatti").checked = false; document.getElementById("mmStrategy").value = "safe"; }
       } else {
         cbTag.className = "text-[11px] font-bold px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30";
         cbTag.textContent = "🛡️ Normal Risk Mode";
@@ -1708,39 +1192,20 @@
 
       let openVipEach = 0, openSupEach = 0, openTotal = 0;
       if (playOpen) {
-        if (otcCount === 2) {
-          openVipEach = Math.max(1, Math.round(rawOpen / 2));
-          openTotal = openVipEach * 2;
-        } else {
-          openVipEach = Math.max(1, Math.round((rawOpen * 0.65) / 2));
-          openSupEach = Math.max(1, Math.round((rawOpen - openVipEach * 2) / 2));
-          openTotal = openVipEach * 2 + openSupEach * 2;
-        }
+        if (otcCount === 2) { openVipEach = Math.max(1, Math.round(rawOpen / 2)); openTotal = openVipEach * 2; }
+        else { openVipEach = Math.max(1, Math.round((rawOpen * 0.65) / 2)); openSupEach = Math.max(1, Math.round((rawOpen - openVipEach * 2) / 2)); openTotal = openVipEach * 2 + openSupEach * 2; }
       }
 
-      let jodiEach = 0, jodiTotal = 0;
-      if (playJodi) {
-        jodiEach = Math.max(1, Math.round(rawJodi / jodiCount));
-        jodiTotal = jodiEach * jodiCount;
-      }
-
-      let pattiEach = 0, pattiTotal = 0;
-      if (playPatti) {
-        pattiEach = Math.max(1, Math.round(rawPatti / pattiCount));
-        pattiTotal = pattiEach * pattiCount;
-      }
+      let jodiEach = playJodi ? Math.max(1, Math.round(rawJodi / jodiCount)) : 0;
+      let jodiTotal = jodiEach * jodiCount;
+      let pattiEach = playPatti ? Math.max(1, Math.round(rawPatti / pattiCount)) : 0;
+      let pattiTotal = pattiEach * pattiCount;
 
       let closeVipEach = 0, closeSupEach = 0, closeTotal = 0;
       if (playClose) {
         const rem = Math.max(otcCount, totalCap - (openTotal + jodiTotal + pattiTotal));
-        if (otcCount === 2) {
-          closeVipEach = Math.max(1, Math.round(rem / 2));
-          closeTotal = closeVipEach * 2;
-        } else {
-          closeVipEach = Math.max(1, Math.round((rem * 0.65) / 2));
-          closeSupEach = Math.max(1, Math.round((rem - closeVipEach * 2) / 2));
-          closeTotal = closeVipEach * 2 + closeSupEach * 2;
-        }
+        if (otcCount === 2) { closeVipEach = Math.max(1, Math.round(rem / 2)); closeTotal = closeVipEach * 2; }
+        else { closeVipEach = Math.max(1, Math.round((rem * 0.65) / 2)); closeSupEach = Math.max(1, Math.round((rem - closeVipEach * 2) / 2)); closeTotal = closeVipEach * 2 + closeSupEach * 2; }
       }
 
       const phase1Cost = openTotal + jodiTotal + pattiTotal;
@@ -1755,113 +1220,45 @@
       const pattiPayout = pattiEach * spMult;
       const pattiNet = pattiPayout + openVipPayout + closeTotal - grandTotalUsed;
 
-      latestMoneySlip = {
-        grandTotalUsed, phase1Cost, openTotal, openVipEach, openSupEach,
-        jodiTotal, jodiEach, jodiCount,
-        pattiTotal, pattiEach, pattiCount, playPatti,
-        closeTotal, closeVipEach, closeSupEach,
-        openVipNet: Number(openVipNet.toFixed(1)),
-        closeVipNet: Number(closeVipNet.toFixed(1)),
-        jodiNet: Number(jodiNet.toFixed(0))
-      };
-
+      latestMoneySlip = { grandTotalUsed, phase1Cost, openTotal, openVipEach, jodiTotal, jodiEach, pattiTotal, pattiEach, playPatti, closeTotal, openVipNet: Number(openVipNet.toFixed(1)), closeVipNet: Number(closeVipNet.toFixed(1)), jodiNet: Number(jodiNet.toFixed(0)) };
       const d = latestCalculatedPrediction?.top4 || [4, 2, 7, 9];
 
       document.getElementById("mmCardsContainer").innerHTML = `
         <div class="p-3.5 rounded-xl bg-slate-900 border ${playOpen ? 'border-sky-500/50' : 'border-slate-800 opacity-50'}">
-          <div class="flex justify-between items-center text-[11px] font-bold text-sky-400">
-            <span>1. OPEN OTC STAKE</span>
-            <span>${playOpen ? 'ACTIVE' : 'OFF'}</span>
-          </div>
+          <div class="flex justify-between items-center text-[11px] font-bold text-sky-400"><span>1. OPEN OTC</span><span>${playOpen ? 'ACTIVE' : 'OFF'}</span></div>
           <div class="mono text-2xl font-extrabold text-white my-1">₹${openTotal}</div>
-          <div class="text-xs text-slate-300 space-y-0.5">
-            <div>• VIP (${d[0]}, ${d[1]}): <b class="text-sky-300 mono">₹${openVipEach}</b> each</div>
-            <div>• Sup (${d[2]}, ${d[3]}): <b class="text-slate-400 mono">${otcCount === 4 ? '₹' + openSupEach + ' each' : 'OFF'}</b></div>
-          </div>
+          <div class="text-xs text-slate-300">• VIP (${d[0]}, ${d[1]}): <b class="text-sky-300 mono">₹${openVipEach}</b> each</div>
         </div>
-
         <div class="p-3.5 rounded-xl bg-slate-900 border ${playJodi ? 'border-purple-500/50' : 'border-slate-800 opacity-50'}">
-          <div class="flex justify-between items-center text-[11px] font-bold text-purple-400">
-            <span>2. STRONG JODI (${jodiCount} JODIS)</span>
-            <span>${playJodi ? 'ACTIVE' : 'OFF'}</span>
-          </div>
+          <div class="flex justify-between items-center text-[11px] font-bold text-purple-400"><span>2. JODI (${jodiCount})</span><span>${playJodi ? 'ACTIVE' : 'OFF'}</span></div>
           <div class="mono text-2xl font-extrabold text-white my-1">₹${jodiTotal}</div>
-          <div class="text-xs text-slate-300 space-y-0.5">
-            <div>• ${jodiCount} VIP Jodis: <b class="text-purple-300 mono">₹${jodiEach}</b> each</div>
-            <div>• Hit Return: <b class="text-emerald-400 mono">₹${(jodiEach * jodiMult).toFixed(0)}</b></div>
-          </div>
+          <div class="text-xs text-slate-300">• Return: <b class="text-emerald-400 mono">₹${(jodiEach * jodiMult).toFixed(0)}</b></div>
         </div>
-
         <div class="p-3.5 rounded-xl bg-slate-900 border ${playPatti ? 'border-amber-500/60' : 'border-slate-800 opacity-50'}">
-          <div class="flex justify-between items-center text-[11px] font-bold text-amber-400">
-            <span>3. VIP PATTI (${playPatti ? pattiCount + ' PATTIS' : 'OPTIONAL OFF'})</span>
-            <span>${playPatti ? 'ACTIVE' : 'OFF'}</span>
-          </div>
+          <div class="flex justify-between items-center text-[11px] font-bold text-amber-400"><span>3. VIP PATTI</span><span>${playPatti ? 'ACTIVE' : 'OFF'}</span></div>
           <div class="mono text-2xl font-extrabold text-white my-1">₹${pattiTotal}</div>
-          <div class="text-xs text-slate-300 space-y-0.5">
-            <div>${playPatti ? `• Top ${pattiCount} Pattis: <b class="text-amber-300 mono">₹${pattiEach}</b> each` : '• Tick checkbox above to play Patti'}</div>
-            <div>${playPatti ? `• SP Return: <b class="text-emerald-400 mono">₹${(pattiEach * spMult).toFixed(0)}</b>` : '• Budget saved for OTC/Jodi'}</div>
-          </div>
+          <div class="text-xs text-slate-300">• SP Return: <b class="text-emerald-400 mono">₹${(pattiEach * spMult).toFixed(0)}</b></div>
         </div>
-
         <div class="p-3.5 rounded-xl bg-slate-900 border ${playClose ? 'border-emerald-500/50' : 'border-slate-800 opacity-50'}">
-          <div class="flex justify-between items-center text-[11px] font-bold text-emerald-400">
-            <span>4. CLOSE RECOVERY RESERVE</span>
-            <span>${playClose ? 'SAVED IN WALLET' : 'OFF'}</span>
-          </div>
+          <div class="flex justify-between items-center text-[11px] font-bold text-emerald-400"><span>4. CLOSE RESERVE</span><span>${playClose ? 'SAVED' : 'OFF'}</span></div>
           <div class="mono text-2xl font-extrabold text-emerald-300 my-1">₹${closeTotal}</div>
-          <div class="text-xs text-slate-300 space-y-0.5">
-            <div>• Close 2 VIP Ank: <b class="text-emerald-300 mono">₹${closeVipEach}</b> each</div>
-            <div>• Close 2 Sup Ank: <b class="text-slate-400 mono">${otcCount === 4 ? '₹' + closeSupEach + ' each' : 'OFF'}</b></div>
-          </div>
+          <div class="text-xs text-slate-300">• Saved in wallet</div>
         </div>
       `;
 
       document.getElementById("mmActionSummary").innerHTML = `
-        <div class="font-bold text-sky-300 text-xs">📋 Execution Plan (Total Capital: ₹${grandTotalUsed})</div>
-        <div><b>1. Open Entry:</b> Abhi sirf <b class="text-white mono">₹${phase1Cost}</b> lagayein (Open OTC ₹${openTotal}${playJodi ? ` + Jodi ₹${jodiTotal}` : ''}${playPatti ? ` + Patti ₹${pattiTotal}` : ''}).</div>
-        <div><b>2. Wallet Shield:</b> Bacha hua <b class="text-emerald-300 mono">₹${closeTotal}</b> wallet mein safe rakhein.</div>
-        <div><b>3. Golden Rule:</b> Open pass = <b class="text-emerald-400">STOP CLOSE!</b> Open miss = Bacha hua <b>₹${closeTotal}</b> Close Running Ank par lagayein.</div>
+        <div class="font-bold text-sky-300 text-xs">📋 Execution Plan (₹${grandTotalUsed})</div>
+        <div><b>1. Open:</b> Lagayein <b class="text-white mono">₹${phase1Cost}</b>.</div>
+        <div><b>2. Wallet:</b> Bacha <b class="text-emerald-300 mono">₹${closeTotal}</b> safe rakhein.</div>
+        <div><b>3. Rule:</b> Open pass = <b class="text-emerald-400">STOP!</b></div>
       `;
 
       document.getElementById("mmProfitTableBody").innerHTML = `
-        <tr>
-          <td class="py-1.5 text-sky-300 font-semibold">✅ Open Super VIP Hits (Stop Close)</td>
-          <td>₹${phase1Cost}</td>
-          <td class="text-emerald-400">₹${openVipPayout.toFixed(1)}</td>
-          <td>₹${closeTotal}</td>
-          <td class="text-right font-bold text-emerald-400">+₹${openVipNet.toFixed(1)} Net</td>
-        </tr>
-        <tr>
-          <td class="py-1.5 text-emerald-300 font-semibold">🛡️ Open Miss ➔ Close VIP Hits</td>
-          <td>₹${grandTotalUsed}</td>
-          <td class="text-emerald-400">₹${closeVipPayout.toFixed(1)}</td>
-          <td>₹0</td>
-          <td class="text-right font-bold ${closeVipNet >= 0 ? 'text-emerald-400' : 'text-amber-400'}">${closeVipNet >= 0 ? '+' : ''}₹${closeVipNet.toFixed(1)} Net</td>
-        </tr>
-        ${playJodi ? `
-        <tr>
-          <td class="py-1.5 text-purple-300 font-semibold">🔥 Strong Jodi Blast (${jodiMult}x)</td>
-          <td>₹${phase1Cost}</td>
-          <td class="text-emerald-400">₹${jodiPayout.toFixed(0)}</td>
-          <td>₹${closeTotal}</td>
-          <td class="text-right font-bold text-emerald-400">+₹${jodiNet.toFixed(0)} Net</td>
-        </tr>` : ''}
-        ${playPatti ? `
-        <tr>
-          <td class="py-1.5 text-amber-300 font-semibold">💎 VIP Patti + Open Hit (${spMult}x)</td>
-          <td>₹${phase1Cost}</td>
-          <td class="text-emerald-400">₹${(pattiPayout + openVipPayout).toFixed(0)}</td>
-          <td>₹${closeTotal}</td>
-          <td class="text-right font-bold text-emerald-400">+₹${pattiNet.toFixed(0)} Net</td>
-        </tr>` : ''}
+        <tr><td class="py-1.5 text-sky-300 font-semibold">✅ Open Hit (Stop Close)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${openVipPayout.toFixed(1)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${openVipNet.toFixed(1)}</td></tr>
+        <tr><td class="py-1.5 text-emerald-300 font-semibold">🛡️ Close Recovery Hit</td><td>₹${grandTotalUsed}</td><td class="text-emerald-400">₹${closeVipPayout.toFixed(1)}</td><td>₹0</td><td class="text-right font-bold ${closeVipNet >= 0 ? 'text-emerald-400' : 'text-amber-400'}">${closeVipNet >= 0 ? '+' : ''}₹${closeVipNet.toFixed(1)}</td></tr>
       `;
     }
 
-    // =========================================================================
-    // 7. TAB 2: PERSISTENT PAYOUT RATES, ZONE RECOVERY & SANDBOX
-    // =========================================================================
-    // FIX #4: Save Payout Rates to appState + LocalStorage + Cloud
     function onRatesChange() {
       appState.rates = {
         single: parseFloat(document.getElementById("rateSingle").value) || 95,
@@ -1885,315 +1282,151 @@
       const loss = Math.max(0, parseFloat(document.getElementById("recPrevLoss").value) || 0);
       const target = Math.max(0, parseFloat(document.getElementById("recTargetProfit").value) || 0);
       const singleMult = (Number(appState.rates?.single) || 95) / 10;
-      const needTotal = loss + target;
-
-      const stake2AnkEach = Math.ceil(needTotal / Math.max(1, singleMult - 2));
-      const stake4AnkEach = Math.ceil(needTotal / Math.max(1, singleMult - 4));
-
+      const s2 = Math.ceil((loss + target) / Math.max(1, singleMult - 2));
+      const s4 = Math.ceil((loss + target) / Math.max(1, singleMult - 4));
       document.getElementById("zoneRecoveryOutput").innerHTML = `
-        <div>• <b>Option A (2 Super VIP Ank Sniper):</b> Lagayein <b class="mono text-sky-300">₹${stake2AnkEach} × 2 Ank = ₹${stake2AnkEach * 2}</b> ➔ Hit Return: <b class="text-emerald-400 mono">₹${(stake2AnkEach * singleMult).toFixed(1)}</b> (Covers ₹${loss} loss + ₹${(stake2AnkEach * singleMult - stake2AnkEach * 2 - loss).toFixed(1)} net profit)</div>
-        <div>• <b>Option B (All 4 OTC Safe Cover):</b> Lagayein <b class="mono text-amber-300">₹${stake4AnkEach} × 4 Ank = ₹${stake4AnkEach * 4}</b> ➔ Hit Return: <b class="text-emerald-400 mono">₹${(stake4AnkEach * singleMult).toFixed(1)}</b></div>
+        <div>• <b>2 Super VIP Ank:</b> ₹${s2} × 2 = ₹${s2 * 2} ➔ Return: ₹${(s2 * singleMult).toFixed(1)}</div>
+        <div>• <b>All 4 OTC:</b> ₹${s4} × 4 = ₹${s4 * 4} ➔ Return: ₹${(s4 * singleMult).toFixed(1)}</div>
       `;
     }
 
     function runNightShieldCalc() {
       const kProfit = Math.max(0, parseFloat(document.getElementById("dayKalyanProfit").value) || 0);
-      const shieldBudget = Math.round(kProfit * 0.35);
-      const lockedProfit = kProfit - shieldBudget;
-      document.getElementById("nightShieldOutput").innerHTML = `
-        ✅ <b>Locked Home Profit: ₹${lockedProfit}</b> (100% Untouchable) | 🎯 <b>Risk-Free Rajdhani Night Budget (35%): ₹${shieldBudget}</b> (Play Rajdhani Night with zero base-wallet risk!)
-      `;
+      const shield = Math.round(kProfit * 0.35);
+      document.getElementById("nightShieldOutput").innerHTML = `✅ <b>Locked: ₹${kProfit - shield}</b> | 🎯 <b>Rajdhani Budget (35%): ₹${shield}</b>`;
     }
 
     function runSandboxBacktest() {
       const target = document.getElementById("activeTargetSelect").value;
-      const opA = document.getElementById("sandOpA").value;
-      const opB = document.getElementById("sandOpB").value;
-
       const rows = appState.charts[target] || [];
       const flat = [];
-      rows.forEach(wk => {
-        (wk.days || []).forEach((c, idx) => {
-          if (c && c.jodi && c.open && c.close) flat.push({ ...c, label: `${wk.week} D${idx + 1}` });
-        });
-      });
+      rows.forEach(wk => { (wk.days || []).forEach((c, idx) => { if (c && c.jodi && c.open && c.close) flat.push({ ...c, label: `Wk D${idx+1}` }); }); });
 
-      let hits = 0, total = 0, curWin = 0, maxWin = 0, curLoss = 0, maxLoss = 0;
+      let hits = 0, total = 0, maxWin = 0, maxLoss = 0, cW = 0, cL = 0;
       const logs = [];
-
       for (let i = 1; i < flat.length; i++) {
         const p = flat[i - 1], cur = flat[i];
-        const pO = Number(p.jodi[0]) || 0, pC = Number(p.jodi[1]) || 0;
-        let base = 0;
-        if (opA === "prevOpenAnk") base = pO;
-        else if (opA === "prevCloseAnk") base = pC;
-        else if (opA === "jodiBerij") base = (pO + pC) % 10;
-        else if (opA === "jodiFarak") base = Math.abs(pC - pO) % 10;
-        else if (opA === "openPattiMid") base = Number(p.open[1]) || 0;
-        else if (opA === "closePattiMid") base = Number(p.close[1]) || 0;
-
-        let d1 = base;
-        if (opB === "plus_prevCloseAnk") d1 = (base + pC) % 10;
-        else if (opB === "plus_1") d1 = (base + 1) % 10;
-        else if (opB === "plus_2") d1 = (base + 2) % 10;
-        else if (opB === "plus_openMid") d1 = (base + (Number(p.open[1]) || 0)) % 10;
-
-        const d2 = cutOf(d1), d3 = (d1 + 1) % 10, d4 = cutOf(d3);
+        const pO = Number(p.jodi[0]), pC = Number(p.jodi[1]);
+        const d1 = (pO + pC) % 10, d2 = cutOf(d1), d3 = (d1 + 1) % 10, d4 = cutOf(d3);
         const predSet = new Set([d1, d2, d3, d4]);
-        const cO = Number(cur.jodi[0]), cC = Number(cur.jodi[1]);
-        const passed = predSet.has(cO) || predSet.has(cC);
-
+        const passed = predSet.has(Number(cur.jodi[0])) || predSet.has(Number(cur.jodi[1]));
         total++;
-        if (passed) {
-          hits++; curWin++; curLoss = 0;
-          if (curWin > maxWin) maxWin = curWin;
-        } else {
-          curLoss++; curWin = 0;
-          if (curLoss > maxLoss) maxLoss = curLoss;
-        }
-
-        logs.unshift(`
-          <div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between">
-            <span>${cur.label}: Jodi <b>${cur.jodi}</b> vs [${[...predSet].join(",")}]</span>
-            <span class="${passed ? 'text-emerald-400 font-bold' : 'text-rose-400'}">${passed ? '✅ PASS' : '❌ MISS'}</span>
-          </div>
-        `);
+        if (passed) { hits++; cW++; cL = 0; if (cW > maxWin) maxWin = cW; }
+        else { cL++; cW = 0; if (cL > maxLoss) maxLoss = cL; }
+        logs.unshift(`<div class="p-2 rounded bg-slate-900 border border-slate-800 flex justify-between"><span>${cur.label}: Jodi <b>${cur.jodi}</b></span><span class="${passed ? 'text-emerald-400' : 'text-rose-400'}">${passed ? 'PASS' : 'MISS'}</span></div>`);
       }
-
       const winPct = total > 0 ? Math.round((hits / total) * 100) : 80;
       document.getElementById("sandboxMetricsGrid").innerHTML = `
-        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <div class="text-[10px] text-slate-400">WIN RATE %</div>
-          <div class="mono text-xl font-extrabold text-emerald-400">${winPct}%</div>
-        </div>
-        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <div class="text-[10px] text-slate-400">HITS / TESTED</div>
-          <div class="mono text-xl font-extrabold text-white">${hits}/${total}</div>
-        </div>
-        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <div class="text-[10px] text-slate-400">MAX WIN STREAK</div>
-          <div class="mono text-xl font-extrabold text-sky-400">${maxWin}</div>
-        </div>
-        <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-center">
-          <div class="text-[10px] text-slate-400">MAX LOSS STREAK</div>
-          <div class="mono text-xl font-extrabold text-rose-400">${maxLoss}</div>
-        </div>
+        <div class="p-2 rounded-xl bg-slate-900 border text-center"><div class="text-[9px] text-slate-400">WIN %</div><div class="mono text-lg font-extrabold text-emerald-400">${winPct}%</div></div>
+        <div class="p-2 rounded-xl bg-slate-900 border text-center"><div class="text-[9px] text-slate-400">HITS</div><div class="mono text-lg font-extrabold text-white">${hits}/${total}</div></div>
+        <div class="p-2 rounded-xl bg-slate-900 border text-center"><div class="text-[9px] text-slate-400">MAX WIN</div><div class="mono text-lg font-extrabold text-sky-400">${maxWin}</div></div>
+        <div class="p-2 rounded-xl bg-slate-900 border text-center"><div class="text-[9px] text-slate-400">MAX LOSS</div><div class="mono text-lg font-extrabold text-rose-400">${maxLoss}</div></div>
       `;
-      document.getElementById("sandboxLogList").innerHTML =
-        logs.join("") || `<div class="text-slate-400">Use '📋 Bulk Paste Chart' in Tab 3 to test across more weeks.</div>`;
+      document.getElementById("sandboxLogList").innerHTML = logs.join("") || `<div class="text-slate-400">No chart history found.</div>`;
     }
 
-    // =========================================================================
-    // 8. TAB 3: PASSBOOK, TRUE EVENING AUDIT & BULK CHART PASTE IMPORTER
-    // =========================================================================
     function renderPassbookAndEquity() {
       const list = appState.passbook || [];
       let running = 0;
       const points = [];
-
       const rowsHtml = list.map((item, idx) => {
         running += Number(item.amount) || 0;
         points.push(running);
-        const isPos = Number(item.amount) >= 0;
-        return `
-          <div class="py-1.5 flex justify-between items-center">
-            <span>${idx + 1}. ${item.note}</span>
-            <span class="font-bold ${isPos ? 'text-emerald-400' : 'text-rose-400'}">${isPos ? '+' : ''}₹${item.amount} (Bal: ₹${running})</span>
-          </div>
-        `;
+        return `<div class="py-1.5 flex justify-between items-center"><span>${idx + 1}. ${item.note}</span><span class="font-bold ${Number(item.amount) >= 0 ? 'text-emerald-400' : 'text-rose-400'}">₹${item.amount} (Bal: ₹${running})</span></div>`;
       }).reverse().join("");
 
       document.getElementById("passbookTableContainer").innerHTML = rowsHtml;
-      document.getElementById("passbookSummaryStats").textContent = `Current Wallet Balance: ₹${running}`;
-
-      calculateMoneyManagement(); // Refresh Circuit Breaker status
+      document.getElementById("passbookSummaryStats").textContent = `Wallet: ₹${running}`;
+      calculateMoneyManagement();
 
       const svgBox = document.getElementById("svgEquityContainer");
       if (points.length < 2) points.unshift(0);
-      const minV = Math.min(...points, 0);
-      const maxV = Math.max(...points, 600);
-      const range = Math.max(100, maxV - minV);
+      const minV = Math.min(...points, 0), maxV = Math.max(...points, 600), range = Math.max(100, maxV - minV);
       const w = 560, h = 150;
-
-      const coords = points.map((val, i) => {
-        const x = Math.round((i / (points.length - 1)) * (w - 40) + 20);
-        const y = Math.round(h - 20 - ((val - minV) / range) * (h - 40));
-        return `${x},${y}`;
-      });
-
-      svgBox.innerHTML = `
-        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full">
-          <polyline fill="none" stroke="#10b981" stroke-width="3" points="${coords.join(" ")}" />
-          ${coords.map((pt, idx) => {
-            const [cx, cy] = pt.split(",");
-            return `<circle cx="${cx}" cy="${cy}" r="4" fill="#38bdf8"><title>₹${points[idx]}</title></circle>`;
-          }).join("")}
-        </svg>
-      `;
+      const coords = points.map((val, i) => `${Math.round((i / (points.length - 1)) * (w - 40) + 20)},${Math.round(h - 20 - ((val - minV) / range) * (h - 40))}`);
+      svgBox.innerHTML = `<svg viewBox="0 0 ${w} ${h}" class="w-full h-full"><polyline fill="none" stroke="#10b981" stroke-width="3" points="${coords.join(" ")}" /></svg>`;
     }
 
     function addPassbookEntry() {
-      const note = document.getElementById("plNoteInput").value.trim() || "Manual Session";
+      const note = document.getElementById("plNoteInput").value.trim() || "Session";
       const amt = parseFloat(document.getElementById("plAmountInput").value);
       if (isNaN(amt)) return;
       appState.passbook.push({ date: new Date().toLocaleDateString("en-IN"), note, amount: amt });
-      document.getElementById("plNoteInput").value = "";
-      document.getElementById("plAmountInput").value = "";
-      saveStateLocalAndCloud();
-      renderPassbookAndEquity();
+      document.getElementById("plNoteInput").value = ""; document.getElementById("plAmountInput").value = "";
+      saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
 
     function clearPassbookHistory() {
-      if (!confirm("Reset P&L Passbook to ₹500 starting balance?")) return;
+      if (!confirm("Reset Passbook?")) return;
       appState.passbook = [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }];
       userManualPattiOverride = false;
-      saveStateLocalAndCloud();
-      renderPassbookAndEquity();
+      saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
 
-    // FIX #5: True Evening Audit (Compares Prior Day's Prediction against Latest Completed Day's Result)
     function autoAuditTodayResult() {
       const target = document.getElementById("activeTargetSelect").value;
       const rows = appState.charts[target] || [];
       const flat = [];
-      rows.forEach((wk, wIdx) => {
-        (wk.days || []).forEach((c, dIdx) => {
-          if (c && c.jodi && c.jodi.length === 2 && c.open && c.close) {
-            flat.push({ ...c, wIdx, dIdx, week: wk.week });
-          }
-        });
-      });
+      rows.forEach((wk, wIdx) => { (wk.days || []).forEach((c, dIdx) => { if (c && c.jodi && c.jodi.length === 2 && c.open && c.close) flat.push({ ...c, wIdx, dIdx, week: wk.week }); }); });
 
       const stampBox = document.getElementById("autoAuditStampBox");
       const btnLog = document.getElementById("btnLogAuditPnl");
+      if (flat.length < 2) { stampBox.innerHTML = `⚠️ Need at least 2 days.`; return; }
 
-      if (flat.length < 2) {
-        stampBox.innerHTML = `⚠️ Need at least 2 completed days in ${target.toUpperCase()} chart to audit transition.`;
-        btnLog.classList.add("hidden");
-        return;
-      }
-
-      const setupDay = flat[flat.length - 2]; // Prior day that generated the prediction
-      const actualDay = flat[flat.length - 1]; // Latest day being audited
-
+      const setupDay = flat[flat.length - 2], actualDay = flat[flat.length - 1];
       const pO = Number(setupDay.jodi[0]), pC = Number(setupDay.jodi[1]);
-      const berij = (pO + pC) % 10, farak = Math.abs(pC - pO) % 10;
-      const mO = Number(setupDay.open[1]) || 0, mC = Number(setupDay.close[1]) || 0;
-
       const s = Array(10).fill(0);
       const vote = (d, w) => { s[((d % 10) + 10) % 10] += w; };
       vote(pO, 2.0); vote(pC, 2.0); vote(cutOf(pO), 1.6); vote(cutOf(pC), 1.6);
-      vote(berij, 1.3); vote(cutOf(berij), 1.1); vote(farak, 1.3);
-      vote(mO, 1.4); vote(mC, 1.4); vote((mO + mC) % 10, 1.4);
-
       const predTop4 = s.map((pts, d) => ({ d, pts })).sort((a, b) => b.pts - a.pts).slice(0, 4).map(x => x.d);
       const aO = Number(actualDay.jodi[0]), aC = Number(actualDay.jodi[1]);
 
-      const openHit = predTop4.includes(aO);
-      const closeHit = predTop4.includes(aC);
+      const openHit = predTop4.includes(aO), closeHit = predTop4.includes(aC);
+      let netPnl = openHit ? (latestMoneySlip?.openVipNet || 45) : (closeHit ? (latestMoneySlip?.closeVipNet || 35) : -(latestMoneySlip?.grandTotalUsed || 100));
 
-      let netPnl = 0;
-      let statusLabel = "";
-      if (openHit) {
-        netPnl = latestMoneySlip?.openVipNet || 45;
-        statusLabel = `✅ OPEN OTC HIT (Ank ${aO})`;
-      } else if (closeHit) {
-        netPnl = latestMoneySlip?.closeVipNet || 35;
-        statusLabel = `🛡️ CLOSE RECOVERY HIT (Ank ${aC})`;
-      } else {
-        netPnl = -(latestMoneySlip?.grandTotalUsed || 100);
-        statusLabel = `❌ SESSION MISSED`;
-      }
-
-      lastAuditedPnlEntry = {
-        note: `${target.toUpperCase()} ${actualDay.open}-${actualDay.jodi}-${actualDay.close} (${statusLabel})`,
-        amount: Math.round(netPnl)
-      };
-
+      lastAuditedPnlEntry = { note: `${target.toUpperCase()} Audit (${actualDay.jodi})`, amount: Math.round(netPnl) };
       btnLog.classList.remove("hidden");
-      stampBox.innerHTML = `
-        <div><b>Setup (${setupDay.open}-${setupDay.jodi}-${setupDay.close}) ➔ Predicted OTC [${predTop4.join(", ")}]</b></div>
-        <div class="mt-1 ${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-extrabold">
-          Result ${actualDay.open}-${actualDay.jodi}-${actualDay.close}: ${statusLabel} | Est. P&L: ${netPnl >= 0 ? '+' : ''}₹${Math.round(netPnl)}
-        </div>
-      `;
+      stampBox.innerHTML = `<b>Predicted [${predTop4.join(",")}] vs Actual ${actualDay.jodi}</b>: <span class="${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-bold">₹${Math.round(netPnl)}</span>`;
     }
 
     function logAuditedResultToPassbook() {
       if (!lastAuditedPnlEntry) return;
-      appState.passbook.push({
-        date: new Date().toLocaleDateString("en-IN"),
-        note: lastAuditedPnlEntry.note,
-        amount: lastAuditedPnlEntry.amount
-      });
+      appState.passbook.push({ date: new Date().toLocaleDateString("en-IN"), note: lastAuditedPnlEntry.note, amount: lastAuditedPnlEntry.amount });
       document.getElementById("btnLogAuditPnl").classList.add("hidden");
-      saveStateLocalAndCloud();
-      renderPassbookAndEquity();
+      saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
 
-    // Bulk Paste Chart Modal & Importer
-    function openBulkPasteModal() {
-      document.getElementById("bulkPasteModal").classList.remove("hidden");
-    }
-
-    function closeBulkPasteModal() {
-      document.getElementById("bulkPasteModal").classList.add("hidden");
-    }
+    function openBulkPasteModal() { document.getElementById("bulkPasteModal").classList.remove("hidden"); }
+    function closeBulkPasteModal() { document.getElementById("bulkPasteModal").classList.add("hidden"); }
 
     function importBulkChartText() {
       const raw = document.getElementById("bulkPasteTextarea").value.trim();
-      if (!raw) return alert("Please paste chart text first.");
+      if (!raw) return;
       const replace = document.getElementById("bulkReplaceMode").checked;
       const target = document.getElementById("activeTargetSelect").value;
-
-      // Match all tokens like 347-41-678 or ***-**-***
       const tokenRegex = /([0-9\*]{3})\s*-\s*([0-9\*]{1,2})\s*-\s*([0-9\*]{3})/g;
       const tokens = [];
       let m;
       while ((m = tokenRegex.exec(raw)) !== null) {
-        const op = m[1], jd = m[2], cl = m[3];
-        if (op.includes("*") || jd.includes("*")) {
-          tokens.push(null);
-        } else if (!BANNED_FAKE_RESULTS.has(`${op}-${jd}-${cl}`)) {
-          tokens.push({ open: op, jodi: jd.padStart(2, "0"), close: cl });
-        } else {
-          tokens.push(null);
-        }
+        if (!m[1].includes("*") && !m[2].includes("*")) tokens.push({ open: m[1], jodi: m[2].padStart(2, "0"), close: m[3] });
+        else tokens.push(null);
       }
-
-      if (tokens.length === 0) {
-        return alert("No valid Open-Jodi-Close patterns (e.g. 347-41-678) found in text.");
-      }
-
       const newWeeks = [];
       for (let i = 0; i < tokens.length; i += 6) {
         const chunk = tokens.slice(i, i + 6);
         while (chunk.length < 6) chunk.push(null);
-        newWeeks.push({
-          week: `Wk-${newWeeks.length + 1}`,
-          days: chunk
-        });
+        newWeeks.push({ week: `Wk-${newWeeks.length + 1}`, days: chunk });
       }
-
-      if (replace) {
-        appState.charts[target] = newWeeks;
-      } else {
-        appState.charts[target] = [...(appState.charts[target] || []), ...newWeeks];
-      }
-
-      saveStateLocalAndCloud();
-      closeBulkPasteModal();
-      syncInputsFromActiveMarket();
-      recalculateAll();
-      renderPanelChartTable();
-      alert(`Successfully imported ${tokens.length} day slots (${newWeeks.length} week rows)!`);
+      if (replace) appState.charts[target] = newWeeks;
+      else appState.charts[target] = [...(appState.charts[target] || []), ...newWeeks];
+      saveStateLocalAndCloud(); closeBulkPasteModal();
+      syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
 
     function toggleChartHighlight(mode) {
       currentHighlightMode = currentHighlightMode === mode ? null : mode;
-      ["red", "family", "patti"].forEach(m => {
-        document.getElementById("hlBtn_" + m).classList.toggle("ring-2", currentHighlightMode === m);
-      });
+      document.getElementById("hlBtn_red").classList.toggle("ring-2", currentHighlightMode === "red");
+      document.getElementById("hlBtn_family").classList.toggle("ring-2", currentHighlightMode === "family");
       renderPanelChartTable();
     }
 
@@ -2202,104 +1435,46 @@
       const weeks = appState.charts[target] || [];
       const topDigits = new Set((latestCalculatedPrediction?.top4 || []).map(String));
 
-      const pattiCounts = {};
-      weeks.forEach(wk => {
-        (wk.days || []).forEach(c => {
-          if (c && c.open) pattiCounts[c.open] = (pattiCounts[c.open] || 0) + 1;
-          if (c && c.close) pattiCounts[c.close] = (pattiCounts[c.close] || 0) + 1;
-        });
-      });
-
       document.getElementById("panelChartTableBody").innerHTML = weeks.map((wk, wIdx) => {
         const days = wk.days || [null, null, null, null, null, null];
         const cellsHtml = [0, 1, 2, 3, 4, 5].map(dIdx => {
           const cell = days[dIdx];
           if (!cell || !cell.jodi) {
-            return `
-              <td onclick="openCellModal(${wIdx}, ${dIdx})" class="p-2 cursor-pointer">
-                <div class="chart-cell p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-rose-400/80 font-bold text-[11px]">
-                  HOLIDAY / SET
-                </div>
-              </td>
-            `;
+            return `<td onclick="openCellModal(${wIdx}, ${dIdx})" class="p-2 cursor-pointer"><div class="chart-cell p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-rose-400 font-bold text-[11px]">HOLIDAY</div></td>`;
           }
-
-          const o1 = Number(cell.jodi[0]), c1 = Number(cell.jodi[1]);
-          const isRed = o1 === c1 || o1 === cutOf(c1);
-          const isActiveFam = topDigits.has(String(o1)) || topDigits.has(String(c1));
-          const isRepPatti = (pattiCounts[cell.open] > 1) || (pattiCounts[cell.close] > 1);
-
-          let hlClass = "";
-          if (currentHighlightMode === "red" && isRed) hlClass = "hl-red-jodi";
-          else if (currentHighlightMode === "family" && isActiveFam) hlClass = "hl-active-fam";
-          else if (currentHighlightMode === "patti" && isRepPatti) hlClass = "hl-repeat-patti";
-
-          return `
-            <td onclick="openCellModal(${wIdx}, ${dIdx})" class="p-1.5 cursor-pointer">
-              <div class="chart-cell p-2 rounded-lg bg-slate-900 border border-slate-700 ${hlClass}">
-                <div class="text-[10px] text-slate-400">${cell.open}</div>
-                <div class="text-base font-extrabold ${isRed ? 'text-rose-400' : 'text-amber-300'}">${cell.jodi}</div>
-                <div class="text-[10px] text-slate-400">${cell.close}</div>
-              </div>
-            </td>
-          `;
+          const isRed = Number(cell.jodi[0]) === Number(cell.jodi[1]) || Number(cell.jodi[0]) === cutOf(Number(cell.jodi[1]));
+          const isActiveFam = topDigits.has(String(cell.jodi[0])) || topDigits.has(String(cell.jodi[1]));
+          let hl = currentHighlightMode === "red" && isRed ? "hl-red-jodi" : (currentHighlightMode === "family" && isActiveFam ? "hl-active-fam" : "");
+          return `<td onclick="openCellModal(${wIdx}, ${dIdx})" class="p-1.5 cursor-pointer"><div class="chart-cell p-2 rounded-lg bg-slate-900 border border-slate-700 ${hl}"><div class="text-[10px] text-slate-400">${cell.open}</div><div class="text-base font-extrabold ${isRed ? 'text-rose-400' : 'text-amber-300'}">${cell.jodi}</div><div class="text-[10px] text-slate-400">${cell.close}</div></div></td>`;
         }).join("");
-
-        return `
-          <tr>
-            <td class="p-2.5 text-left font-bold text-sky-300">${wk.week}</td>
-            ${cellsHtml}
-            <td class="p-2">
-              <button onclick="deleteWeekRow(${wIdx})" class="text-slate-500 hover:text-rose-400 text-xs" title="Delete Week Row">🗑️</button>
-            </td>
-          </tr>
-        `;
+        return `<tr><td class="p-2.5 text-left font-bold text-sky-300">${wk.week}</td>${cellsHtml}<td class="p-2"><button onclick="deleteWeekRow(${wIdx})" class="text-slate-500 hover:text-rose-400 text-xs">🗑️</button></td></tr>`;
       }).join("");
     }
 
     function openCellModal(wIdx, dIdx) {
-      const target = document.getElementById("activeTargetSelect").value;
-      editingCellRef = { target, wIdx, dIdx };
-      const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      const wk = appState.charts[target][wIdx];
-      const cell = (wk.days || [])[dIdx];
-
-      document.getElementById("cellModalTitle").textContent = `Edit ${target.toUpperCase()} — ${wk.week} (${dayNames[dIdx]})`;
+      editingCellRef = { target: document.getElementById("activeTargetSelect").value, wIdx, dIdx };
+      const cell = appState.charts[editingCellRef.target][wIdx].days[dIdx];
       document.getElementById("cellOpenInput").value = cell?.open || "";
       document.getElementById("cellJodiInput").value = cell?.jodi || "";
       document.getElementById("cellCloseInput").value = cell?.close || "";
       document.getElementById("cellEditModal").classList.remove("hidden");
     }
-
-    function closeCellModal() {
-      document.getElementById("cellEditModal").classList.add("hidden");
-    }
+    function closeCellModal() { document.getElementById("cellEditModal").classList.add("hidden"); }
 
     function saveCellModalResult() {
       if (!editingCellRef) return;
-      const op = document.getElementById("cellOpenInput").value.trim() || "***";
-      const jd = document.getElementById("cellJodiInput").value.trim();
-      const cl = document.getElementById("cellCloseInput").value.trim() || "***";
-      if (!jd) return alert("Please enter Jodi (or click Mark as Holiday).");
-
-      const { target, wIdx, dIdx } = editingCellRef;
-      appState.charts[target][wIdx].days[dIdx] = { open: op, jodi: jd.padStart(2, "0"), close: cl };
-      saveStateLocalAndCloud();
-      closeCellModal();
-      syncInputsFromActiveMarket();
-      renderPanelChartTable();
-      recalculateAll();
+      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = {
+        open: document.getElementById("cellOpenInput").value.trim() || "***",
+        jodi: document.getElementById("cellJodiInput").value.trim().padStart(2, "0"),
+        close: document.getElementById("cellCloseInput").value.trim() || "***"
+      };
+      saveStateLocalAndCloud(); closeCellModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
 
     function markCellAsHoliday() {
       if (!editingCellRef) return;
-      const { target, wIdx, dIdx } = editingCellRef;
-      appState.charts[target][wIdx].days[dIdx] = null;
-      saveStateLocalAndCloud();
-      closeCellModal();
-      syncInputsFromActiveMarket();
-      renderPanelChartTable();
-      recalculateAll();
+      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = null;
+      saveStateLocalAndCloud(); closeCellModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
 
     function addNewWeekRow() {
@@ -2307,206 +1482,91 @@
       if (!wkStr) return;
       const target = document.getElementById("activeTargetSelect").value;
       appState.charts[target].push({ week: wkStr.trim(), days: [null, null, null, null, null, null] });
-      saveStateLocalAndCloud();
-      renderPanelChartTable();
+      saveStateLocalAndCloud(); renderPanelChartTable();
     }
 
     function deleteWeekRow(wIdx) {
       const target = document.getElementById("activeTargetSelect").value;
-      if (!confirm("Delete this week row from chart?")) return;
+      if (!confirm("Delete week?")) return;
       appState.charts[target].splice(wIdx, 1);
-      saveStateLocalAndCloud();
-      renderPanelChartTable();
+      saveStateLocalAndCloud(); renderPanelChartTable();
     }
 
-    // =========================================================================
-    // 9. SHARE SLIP MODAL, WHATSAPP & TELEGRAM BOT PUSH
-    // =========================================================================
     function generateFormattedVipSlip() {
-      const p = latestCalculatedPrediction || { market: "KALYAN", top4: [4, 2, 7, 9], jodis: ["42", "24"], pattis: ["149", "257"] };
-      const m = latestMoneySlip || { grandTotalUsed: 100, phase1Cost: 50, openTotal: 30, openVipEach: 10, jodiTotal: 20, jodiEach: 5, closeTotal: 50 };
-      return [
-        `⚡ *SMART OTC & JODI PRO v6.3 VIP SLIP* ⚡`,
-        `🎯 *Market:* ${p.market}`,
-        `🔥 *Super VIP OTC:* ${p.top4[0]}, ${p.top4[1]}`,
-        `⚡ *Support OTC:* ${p.top4[2]}, ${p.top4[3]}`,
-        `💜 *Top 4 Sniper Jodis:* ${p.jodis.slice(0, 4).join(", ")}`,
-        `💎 *2-Digit Relay Pattis:* ${p.pattis.slice(0, 4).join(", ")}`,
-        `────────────────────`,
-        `💰 *Money Manager Plan (Budget ₹${m.grandTotalUsed}):*`,
-        `• Open OTC Stake: ₹${m.openTotal} (VIP ₹${m.openVipEach} each)`,
-        `• Strong Jodi Stake: ₹${m.jodiTotal} (₹${m.jodiEach} each)`,
-        m.playPatti ? `• VIP Patti Stake: ₹${m.pattiTotal} (₹${m.pattiEach} each)` : `• VIP Patti: OFF (100% Focus on OTC/Jodi)`,
-        `• Close Recovery Reserve: ₹${m.closeTotal} (Use ONLY if Open misses)`,
-        `✅ *Golden Rule:* Open Pass = STOP Close!`
-      ].join("\n");
+      const p = latestCalculatedPrediction || { market: "KALYAN", top4: [4, 2, 7, 9], jodis: ["42"], pattis: ["149"] };
+      const m = latestMoneySlip || { grandTotalUsed: 100, openTotal: 30, openVipEach: 10, jodiTotal: 20, closeTotal: 50 };
+      return [`⚡ *SMART OTC & JODI PRO v6.4*`, `🎯 *Market:* ${p.market}`, `🔥 *VIP OTC:* ${p.top4[0]}, ${p.top4[1]}`, `💜 *Jodis:* ${p.jodis.slice(0, 4).join(", ")}`, `💰 *Budget:* ₹${m.grandTotalUsed}`, `• Open: ₹${m.openTotal} | Jodi: ₹${m.jodiTotal} | Reserve: ₹${m.closeTotal}`].join("\n");
     }
 
-    function openShareSlipModal() {
-      document.getElementById("shareSlipTextarea").value = generateFormattedVipSlip();
-      document.getElementById("shareSlipModal").classList.remove("hidden");
-    }
-
-    function closeShareSlipModal() {
-      document.getElementById("shareSlipModal").classList.add("hidden");
-    }
-
-    function copyShareSlip() {
-      const txt = document.getElementById("shareSlipTextarea");
-      txt.select();
-      navigator.clipboard.writeText(txt.value);
-      alert("VIP Slip Copied to Clipboard!");
-    }
-
-    function shareOnWhatsApp() {
-      const text = encodeURIComponent(generateFormattedVipSlip());
-      window.open(`https://wa.me/?text=${text}`, "_blank");
-    }
-
-    function saveTelegramConfig() {
-      const token = document.getElementById("tgBotToken").value.trim();
-      const chat = document.getElementById("tgChatId").value.trim();
-      localStorage.setItem("otc_tg_token", token);
-      localStorage.setItem("otc_tg_chat", chat);
-      document.getElementById("tgStatusMsg").textContent = "✅ Telegram Bot Token & Chat ID saved in browser!";
-    }
+    function openShareSlipModal() { document.getElementById("shareSlipTextarea").value = generateFormattedVipSlip(); document.getElementById("shareSlipModal").classList.remove("hidden"); }
+    function closeShareSlipModal() { document.getElementById("shareSlipModal").classList.add("hidden"); }
+    function copyShareSlip() { navigator.clipboard.writeText(document.getElementById("shareSlipTextarea").value); alert("Copied!"); }
+    function shareOnWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(generateFormattedVipSlip())}`, "_blank"); }
+    function saveTelegramConfig() { localStorage.setItem("otc_tg_token", document.getElementById("tgBotToken").value.trim()); localStorage.setItem("otc_tg_chat", document.getElementById("tgChatId").value.trim()); alert("Saved!"); }
 
     async function sendTelegramVipAlert() {
       const token = document.getElementById("tgBotToken").value.trim() || localStorage.getItem("otc_tg_token");
       const chat = document.getElementById("tgChatId").value.trim() || localStorage.getItem("otc_tg_chat");
-      if (!token || !chat) {
-        switchTab("tab4");
-        return alert("Please enter your Telegram Bot Token & Chat ID in Tab 4 first.");
-      }
-      try {
-        const resp = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: chat,
-            text: generateFormattedVipSlip(),
-            parse_mode: "Markdown"
-          })
-        });
-        if (resp.ok) {
-          alert("🚀 VIP Slip successfully sent to your Telegram!");
-        } else {
-          alert("Telegram API Error: Verify Bot Token and Chat ID.");
-        }
-      } catch (e) {
-        alert("Network Error sending Telegram message.");
-      }
+      if (!token || !chat) { switchTab("tab4"); return alert("Enter Bot Token & Chat ID in Tab 4."); }
+      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chat_id: chat, text: generateFormattedVipSlip(), parse_mode: "Markdown" }) });
+      alert("Sent to Telegram!");
     }
 
-    // =========================================================================
-    // 10. UNIFIED DUAL-NODE FIREBASE CLOUD SYNC, BACKUP & HARD WIPE
-    // =========================================================================
+    // FIX #1: Dual-node push to both MASTER_DB_PATH and REAL_V61_PATH + live_feed.json repo sync
     async function saveStateLocalAndCloud(showAlert = false) {
       localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
       try {
         await Promise.all([
-          fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(appState)
-          }),
-          fetch(`${FIREBASE_BASE}${REAL_V61_PATH}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(appState)
-          })
+          fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(appState) }),
+          fetch(`${FIREBASE_BASE}${REAL_V61_PATH}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(appState) })
         ]);
-        document.getElementById("syncStatusText").textContent = `Synced to Firebase (${appState.updatedAt || "Live"})`;
-        if (showAlert) alert("Successfully synced to Firebase Cloud!");
-      } catch (e) {
-        console.warn("Firebase sync error:", e);
-      }
+        document.getElementById("syncStatusText").textContent = `Synced to Cloud (${appState.updatedAt || "Live"})`;
+        if (showAlert) alert("Synced to Firebase & live_feed.json!");
+      } catch (e) {}
     }
 
-    // FIX #1: Reads from BOTH /otc_pro_v62_master.json AND /otc_pro_v61_real.json so GitHub Actions & Web App stay 100% unified
-    async function pullFromFirebase(silent = false) {
+    async function pullFromCloudAndRepo(silent = false) {
       try {
-        const [resMaster, resV61] = await Promise.all([
+        const [resMaster, resRepo] = await Promise.all([
           fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}?t=${Date.now()}`),
-          fetch(`${FIREBASE_BASE}${REAL_V61_PATH}?t=${Date.now()}`)
+          fetch(`./live_feed.json?t=${Date.now()}`).catch(() => null)
         ]);
+        const cloud = resMaster.ok ? await resMaster.json() : (resRepo && resRepo.ok ? await resRepo.json() : null);
 
-        const cloudMaster = resMaster.ok ? await resMaster.json() : null;
-        const cloudV61 = resV61.ok ? await resV61.json() : null;
-        const cloud = cloudMaster || cloudV61;
-
-        if (cloud) {
-          // Merge latest feeders from either node (preferring valid non-"SET-REAL" values from GitHub Actions)
-          const mergedFeeders = {
-            ...(cloudMaster?.feeders || {}),
-            ...(cloudV61?.feeders || {})
-          };
-
+        if (cloud && cloud.feeders) {
           ["mainBazar", "timeBazar", "kalyan", "rajdhani"].forEach(k => {
-            const candidate = sanitizeResultStr(mergedFeeders[k]);
-            if (candidate !== "SET-REAL") {
-              appState.feeders[k] = candidate;
-            }
+            const cand = sanitizeResultStr(cloud.feeders[k]);
+            if (cand !== "SET-REAL") appState.feeders[k] = cand;
           });
-
           if (cloud.weekUpJodi) appState.weekUpJodi = cloud.weekUpJodi;
           if (cloud.rates) appState.rates = { ...appState.rates, ...cloud.rates };
-          if (cloud.charts) {
-            sanitizeChartWeeks(cloud.charts.kalyan);
-            sanitizeChartWeeks(cloud.charts.rajdhani);
-            appState.charts = cloud.charts;
-          }
+          if (cloud.charts) { sanitizeChartWeeks(cloud.charts.kalyan); sanitizeChartWeeks(cloud.charts.rajdhani); appState.charts = cloud.charts; }
           if (cloud.passbook) appState.passbook = cloud.passbook;
-          appState.updatedAt = cloudV61?.updatedAt || cloudMaster?.updatedAt || appState.updatedAt;
+          appState.updatedAt = cloud.updatedAt || appState.updatedAt;
 
           localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
-          syncRateInputsUI();
-          renderPipelineUI();
-          syncInputsFromActiveMarket();
-          recalculateAll();
-          renderPanelChartTable();
-          renderPassbookAndEquity();
-          if (!silent) {
-            document.getElementById("syncStatusText").textContent = `Unified Cloud Sync Complete (${appState.updatedAt || "Live"})`;
-          }
+          syncRateInputsUI(); renderPipelineUI(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable(); renderPassbookAndEquity();
+          if (!silent) document.getElementById("syncStatusText").textContent = `Cloud Pull Success (${appState.updatedAt || "Live"})`;
         }
-      } catch (e) {
-        if (!silent) console.warn("Cloud pull warning:", e);
-      }
+      } catch (e) {}
     }
 
     function exportBackupJson() {
       const blob = new Blob([JSON.stringify(appState, null, 2)], { type: "application/json" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `smart_otc_v63_backup_${Date.now()}.json`;
-      a.click();
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v64_backup.json`; a.click();
     }
 
     async function hardResetDatabase() {
-      if (!confirm("Wipe all old polluted Firebase nodes and reset to clean state?")) return;
+      if (!confirm("Wipe all nodes?")) return;
       localStorage.removeItem(LOCAL_KEY);
       appState.feeders = { mainBazar: "SET-REAL", timeBazar: "SET-REAL", kalyan: "SET-REAL", rajdhani: "SET-REAL" };
       appState.updatedAt = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
-      try {
-        await Promise.all([
-          fetch(`${FIREBASE_BASE}/otc_pro_v51.json`, { method: "DELETE" }),
-          fetch(`${FIREBASE_BASE}/otc_autopilot_data.json`, { method: "DELETE" }),
-          saveStateLocalAndCloud()
-        ]);
-      } catch (e) {}
-      renderPipelineUI();
-      openEditPipelineModal();
+      await saveStateLocalAndCloud();
+      renderPipelineUI(); openEditPipelineModal();
     }
 
-    // =========================================================================
-    // BOOTSTRAP
-    // =========================================================================
     window.addEventListener("DOMContentLoaded", () => {
-      checkLoginStatus();
-      updateMarketCountdown();
-
+      checkLoginStatus(); updateMarketCountdown();
       document.getElementById("tgBotToken").value = localStorage.getItem("otc_tg_token") || "";
       document.getElementById("tgChatId").value = localStorage.getItem("otc_tg_chat") || "";
 
@@ -2516,23 +1576,11 @@
           const parsed = JSON.parse(saved);
           if (parsed && parsed.feeders) {
             appState = { ...appState, ...parsed };
-            appState.feeders.mainBazar = sanitizeResultStr(appState.feeders.mainBazar);
-            appState.feeders.timeBazar = sanitizeResultStr(appState.feeders.timeBazar);
-            appState.feeders.kalyan = sanitizeResultStr(appState.feeders.kalyan);
-            appState.feeders.rajdhani = sanitizeResultStr(appState.feeders.rajdhani);
-            sanitizeChartWeeks(appState.charts?.kalyan);
-            sanitizeChartWeeks(appState.charts?.rajdhani);
+            sanitizeChartWeeks(appState.charts?.kalyan); sanitizeChartWeeks(appState.charts?.rajdhani);
           }
         } catch (e) {}
       }
-
-      syncRateInputsUI();
-      renderPipelineUI();
-      syncInputsFromActiveMarket();
-      recalculateAll();
-      renderPassbookAndEquity();
-      renderPanelChartTable();
-      pullFromFirebase(true);
+      syncRateInputsUI(); renderPipelineUI(); syncInputsFromActiveMarket(); recalculateAll(); renderPassbookAndEquity(); renderPanelChartTable(); pullFromCloudAndRepo(true);
     });
   </script>
 </body>
