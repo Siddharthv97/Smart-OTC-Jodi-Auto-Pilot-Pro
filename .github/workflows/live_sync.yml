@@ -1,4 +1,4 @@
-name: Live 4-Market Strict Scraper & Firebase v6.1 Sync
+name: Live 4-Market Unified Scraper & Dual-Node Sync (v6.3)
 
 on:
   schedule:
@@ -9,7 +9,7 @@ jobs:
   sync-and-notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Strict Scrape 4 Markets & Update Clean Firebase Node
+      - name: Strict Scrape 4 Markets & Update Unified Firebase Nodes
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -39,8 +39,7 @@ jobs:
 
           def parse_strict_market(text, market_name):
               escaped = re.escape(market_name).replace(r'\ ', r'\s+')
-              # Negative lookahead prevents matching KALYAN MORNING / KALYAN NIGHT / RAJDHANI DAY
-              pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|PRO|JACKPOT))[^0-9\*]{{1,90}}?([0-9\*]{{3}})\s*-\s*([0-9\*]{{1,2}})(?:\s*-\s*([0-9\*]{{3}}))?"
+              pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|PRO|JACKPOT))[^0-9\*]{{1,90}}?([0-9\*]{{3}})\s*-\s*([0-9\*]{{1,2}})(?:\s*-?\s*([0-9\*]{{3}}))?"
               m = re.search(pattern, text, re.IGNORECASE)
               if not m:
                   return None
@@ -71,9 +70,9 @@ jobs:
               if len(scraped) == 4:
                   break
 
-          # Load existing clean node
+          # Load existing master state
           try:
-              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v61_real.json", context=ctx)
+              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v62_master.json", context=ctx)
               state = json.loads(req.read().decode('utf-8')) or {}
           except Exception:
               state = {}
@@ -86,16 +85,57 @@ jobs:
                   feeders[k] = "SET-REAL"
 
           ist_now = datetime.datetime.utcnow() + datetime.timedelta(hours=5, minutes=30)
+          weekday = ist_now.weekday() # 0=Mon .. 5=Sat
+          monday_date = ist_now - datetime.timedelta(days=weekday)
+          current_week_str = monday_date.strftime("%d/%m/%Y")
+
+          # Auto-update Panel Chart for Kalyan and Rajdhani if complete result available
+          charts = state.get("charts", {"kalyan": [], "rajdhani": []})
+          if weekday < 6:
+              for m_key in ["kalyan", "rajdhani"]:
+                  if m_key in scraped:
+                      parts = scraped[m_key].split("-")
+                      if len(parts) == 3 and "*" not in parts[0] and "*" not in parts[1] and len(parts[1]) == 2:
+                          m_rows = charts.get(m_key, [])
+                          target_row = next((r for r in m_rows if r.get("week") == current_week_str), None)
+                          if not target_row:
+                              target_row = {"week": current_week_str, "days": [None]*6}
+                              m_rows.append(target_row)
+                          target_row["days"][weekday] = {"open": parts[0], "jodi": parts[1], "close": parts[2]}
+                          charts[m_key] = m_rows
+
           state["feeders"] = feeders
+          state["charts"] = charts
           state["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
 
           payload = json.dumps(state).encode('utf-8')
-          put_req = urllib.request.Request(
-              f"{FIREBASE_URL}/otc_pro_v61_real.json",
-              data=payload,
-              headers={'Content-Type': 'application/json'},
-              method='PUT'
-          )
-          urllib.request.urlopen(put_req, context=ctx)
-          print("Successfully synced clean v6.1 node:", state)
+          for node in ["otc_pro_v62_master.json", "otc_pro_v61_real.json"]:
+              put_req = urllib.request.Request(
+                  f"{FIREBASE_URL}/{node}",
+                  data=payload,
+                  headers={'Content-Type': 'application/json'},
+                  method='PUT'
+              )
+              urllib.request.urlopen(put_req, context=ctx)
+
+          # Send Telegram Notification if configured in GitHub Secrets
+          bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+          chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+          if bot_token and chat_id:
+              msg = (
+                  f"⚡ *Smart OTC Pro v6.3 Cloud Sync*\n"
+                  f"🕒 Time: {state['updatedAt']}\n"
+                  f"👑 Kalyan: `{feeders.get('kalyan', 'N/A')}`\n"
+                  f"🌙 Rajdhani: `{feeders.get('rajdhani', 'N/A')}`\n"
+                  f"⏱️ Time Bazar: `{feeders.get('timeBazar', 'N/A')}`\n"
+                  f"🏛️ Main Bazar: `{feeders.get('mainBazar', 'N/A')}`"
+              )
+              tg_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+              tg_data = json.dumps({"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}).encode('utf-8')
+              try:
+                  urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_data, headers={'Content-Type': 'application/json'}))
+              except Exception as te:
+                  print(f"[Warn] Telegram push skipped: {te}")
+
+          print("Successfully synced unified v6.3 nodes at:", state["updatedAt"])
           EOF
