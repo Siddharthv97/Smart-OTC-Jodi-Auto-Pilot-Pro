@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.9 (Zero-Bug Master)</title>
+  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v7.1 (Uncut Final Master)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -39,7 +39,7 @@
       <div class="flex items-center gap-3 border-b border-slate-700 pb-4">
         <div class="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-400 flex items-center justify-center text-2xl">🔒</div>
         <div>
-          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.9</span>
+          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v7.1</span>
           <h2 class="text-lg font-extrabold text-white mt-0.5">Smart OTC & Jodi Pro Master</h2>
           <p class="text-xs text-slate-400">Checksum-Verified Quantitative Engine</p>
         </div>
@@ -107,7 +107,7 @@
           <button onclick="switchTab('tab1')" id="btn_tab1" class="tab-btn active">1. 🎯 Morning Prediction & Money Manager</button>
           <button onclick="switchTab('tab2')" id="btn_tab2" class="tab-btn">2. 🧪 Wallet Simulator & Sandbox</button>
           <button onclick="switchTab('tab3')" id="btn_tab3" class="tab-btn">3. 📊 Passbook, Equity & Panel Chart</button>
-          <button onclick="switchTab('tab4')" id="btn_tab4" class="tab-btn">4. ☁️ Cloud Sync & Telegram Bot</button>
+          <button onclick="switchTab('tab4')" id="btn_tab4" class="tab-btn">4. ☁️ Cloud Sync, Restore & Telegram Bot</button>
         </div>
         <div class="flex items-center gap-2">
           <span class="text-xs text-slate-400 font-semibold">Target Market:</span>
@@ -353,8 +353,9 @@
               </div>
             </div>
 
+            <!-- RESTORED #7: ALL 4 SNIPER HALF-SANGAM COMBINATIONS -->
             <div class="p-3 rounded-xl bg-slate-900/90 border border-indigo-500/30 mb-4">
-              <div class="text-xs font-bold text-indigo-300 mb-1">🎯 Sniper Half-Sangam Condenser</div>
+              <div class="text-xs font-bold text-indigo-300 mb-1.5">🎯 Sniper Half-Sangam Condenser (4 High-Precision Pairs)</div>
               <div id="halfSangamBox" class="mono text-xs text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
             </div>
 
@@ -362,7 +363,7 @@
               <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                 <div>
                   <span class="text-xs font-extrabold text-emerald-300">⚡ Live Open-to-Close Pivot Engine</span>
-                  <p class="text-[11px] text-slate-400">Half-time Open (`149-4*`) aate hi auto-fill hoga ya khud daalein</p>
+                  <p class="text-[11px] text-slate-400">Half-time Open (`149-4*`) aate hi auto-fill hoga — Close Ank, Jodi & Relay Pattis turant dikhengi</p>
                 </div>
                 <div class="flex items-center gap-2">
                   <input id="liveOpenPatti" type="text" maxlength="3" placeholder="Open Patti" oninput="runMidGamePivot()" class="input-dark mono text-xs w-36 text-center" />
@@ -391,7 +392,7 @@
           </div>
 
           <div class="card-panel p-5 border border-amber-500/40">
-            <h3 class="text-base font-extrabold text-amber-300 mb-3">🛡️ Zone-Recovery Calculator</h3>
+            <h3 class="text-base font-extrabold text-amber-300 mb-3">🛡️ Zone-Recovery Loss Cover Calculator (With Open-to-Close Split)</h3>
             <div class="grid grid-cols-2 gap-3 mb-3">
               <div><label class="text-xs text-slate-300 block mb-1">Loss to Recover (₹)</label><input id="recPrevLoss" type="number" value="50" oninput="runZoneRecoveryCalc()" class="input-dark mono font-bold w-full text-rose-400" /></div>
               <div><label class="text-xs text-slate-300 block mb-1">Target Profit (₹)</label><input id="recTargetProfit" type="number" value="50" oninput="runZoneRecoveryCalc()" class="input-dark mono font-bold w-full text-emerald-400" /></div>
@@ -400,12 +401,12 @@
           </div>
 
           <div class="card-panel p-5 border border-indigo-500/40">
-            <h3 class="text-base font-extrabold text-indigo-300 mb-2">🌙 Kalyan Profit ➔ Rajdhani Night Shield</h3>
+            <h3 class="text-base font-extrabold text-indigo-300 mb-2">🌙 Kalyan Profit ➔ Rajdhani Night Shield Allocator</h3>
             <div class="flex items-center gap-3 mb-3">
-              <label class="text-xs text-slate-300">Kalyan Profit (₹):</label>
+              <label class="text-xs text-slate-300">Today's Kalyan Net Profit (₹):</label>
               <input id="dayKalyanProfit" type="number" value="95" oninput="runNightShieldCalc()" class="input-dark mono font-bold w-28 text-emerald-400" />
             </div>
-            <div id="nightShieldOutput" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300"></div>
+            <div id="nightShieldOutput" class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-300 space-y-1.5"></div>
           </div>
         </div>
 
@@ -459,16 +460,16 @@
               <button onclick="logAuditedResultToPassbook()" id="btnLogAuditPnl" class="hidden px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 text-xs font-extrabold">+ Log P&L</button>
             </div>
           </div>
-          <div id="autoAuditStampBox" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">Click <b>"⚡ Audit Latest"</b> to verify chart transition using full 5-Formula Engine.</div>
+          <div id="autoAuditStampBox" class="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300">Click <b>"⚡ Audit Latest"</b> to verify OTC, Strong Jodi & VIP Patti hits on the latest transition.</div>
           <div class="grid grid-cols-3 gap-2 pt-2 border-t border-slate-800 text-xs">
-            <input id="plNoteInput" type="text" placeholder="Note" class="col-span-2 input-dark text-xs" />
+            <input id="plNoteInput" type="text" placeholder="Note (e.g. Kalyan Pass)" class="col-span-2 input-dark text-xs" />
             <input id="plAmountInput" type="number" placeholder="±₹" class="input-dark mono font-bold text-xs" />
           </div>
           <div class="flex justify-between gap-2">
             <button onclick="addPassbookEntry()" class="flex-1 py-1.5 rounded-lg bg-sky-600 text-white font-bold text-xs">+ Add Entry</button>
-            <button onclick="clearPassbookHistory()" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-400 text-xs">Reset</button>
+            <button onclick="clearPassbookHistory()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-rose-600/80 text-slate-400 hover:text-white text-xs">Reset Log</button>
           </div>
-          <div id="passbookTableContainer" class="max-h-36 overflow-y-auto divide-y divide-slate-800 text-xs mono"></div>
+          <div id="passbookTableContainer" class="max-h-36 overflow-y-auto divide-y divide-slate-800 text-xs mono pr-1"></div>
         </div>
       </div>
 
@@ -503,7 +504,7 @@
       </div>
     </div>
 
-    <!-- TAB 4: CLOUD SYNC & TELEGRAM -->
+    <!-- TAB 4: CLOUD SYNC, JSON RESTORE & TELEGRAM -->
     <div id="tab4" class="hidden space-y-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="card-panel p-5 border border-sky-500/40 space-y-4">
@@ -512,20 +513,25 @@
             <div><label class="block text-slate-300 font-bold mb-1">Bot Token</label><input id="tgBotToken" type="password" class="input-dark w-full mono" /></div>
             <div><label class="block text-slate-300 font-bold mb-1">Chat ID</label><input id="tgChatId" type="text" class="input-dark w-full mono" /></div>
             <div class="flex flex-wrap gap-2 pt-1">
-              <button onclick="saveTelegramConfig()" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-bold">💾 Save Settings</button>
-              <button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-sky-500 text-slate-950 font-extrabold">🚀 Push VIP Slip</button>
+              <button onclick="saveTelegramConfig()" class="px-4 py-2 rounded-lg bg-slate-800 text-white font-bold border border-slate-700">💾 Save Settings</button>
+              <button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-sky-500 text-slate-950 font-extrabold shadow">🚀 Push VIP Slip</button>
             </div>
             <div id="tgStatusMsg" class="text-xs text-emerald-400"></div>
           </div>
         </div>
 
+        <!-- RESTORED #1: EXPORT + IMPORT / RESTORE JSON BACKUP -->
         <div class="card-panel p-5 border border-emerald-500/40 space-y-4">
-          <h3 class="text-base font-extrabold text-white">☁️ Dual-Engine Cloud Sync</h3>
+          <h3 class="text-base font-extrabold text-white">☁️ Dual-Engine Cloud Sync & JSON Backup Restore</h3>
+          <p class="text-xs text-slate-400">Push/pull live state across devices or export/restore full JSON backup (Charts, Passbook, Rates & Feeders).</p>
           <div class="flex flex-wrap gap-2 text-xs">
-            <button onclick="saveStateLocalAndCloud(true)" class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold">☁️ Push State</button>
-            <button onclick="pullFromFirebase(false)" class="px-4 py-2 rounded-lg bg-sky-600 text-white font-bold">🔄 Pull Feed Now</button>
-            <button onclick="exportBackupJson()" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-200 font-bold border border-slate-700">📥 Export JSON</button>
+            <button onclick="saveStateLocalAndCloud(true)" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold">☁️ Push State to Cloud</button>
+            <button onclick="pullFromFirebase(false)" class="px-4 py-2 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-bold">🔄 Pull Verified Feed</button>
+            <button onclick="exportBackupJson()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold border border-slate-700">📥 Export JSON Backup</button>
+            <button onclick="document.getElementById('importJsonFileInput').click()" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold">📤 Import / Restore JSON</button>
+            <input id="importJsonFileInput" type="file" accept=".json,application/json" onchange="importBackupJson(event)" class="hidden" />
           </div>
+          <div id="backupStatusMsg" class="text-xs text-emerald-400"></div>
         </div>
       </div>
     </div>
@@ -589,7 +595,7 @@
   <div id="shareSlipModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="card-panel max-w-lg w-full p-5 space-y-4 border border-purple-500/50">
       <div class="flex justify-between items-center border-b border-slate-700 pb-3"><h3 class="font-extrabold text-base text-white">📤 Share VIP Prediction & Bet Slip</h3><button onclick="closeShareSlipModal()" class="text-slate-400">&times;</button></div>
-      <textarea id="shareSlipTextarea" rows="12" readonly class="input-dark mono text-xs w-full p-3"></textarea>
+      <textarea id="shareSlipTextarea" rows="13" readonly class="input-dark mono text-xs w-full p-3"></textarea>
       <div class="flex justify-end gap-2"><button onclick="copyShareSlip()" class="px-4 py-2 rounded-lg bg-sky-600 text-white text-xs font-bold">Copy</button><button onclick="shareOnWhatsApp()" class="px-4 py-2 rounded-lg bg-emerald-600 text-white text-xs font-bold">WhatsApp</button><button onclick="sendTelegramVipAlert()" class="px-4 py-2 rounded-lg bg-purple-600 text-white text-xs font-bold">Telegram</button></div>
     </div>
   </div>
@@ -610,7 +616,7 @@
     const FIREBASE_BASE = "https://smart-otc-cloud-default-rtdb.firebaseio.com";
     const MASTER_DB_PATH = "/otc_pro_v62_master.json";
     const REAL_V61_PATH = "/otc_pro_v61_real.json";
-    const LOCAL_KEY = "otc_pro_verified_v69_master_state";
+    const LOCAL_KEY = "otc_pro_verified_v71_master_state";
 
     const BANNED_FAKE_RESULTS = new Set([
       "246-22-570", "137-19-450", "358-64-266", "147-29-450", "278-24-257", "158-46-367", "346-38-459"
@@ -689,7 +695,6 @@
       return `${dd}/${mm}/${yyyy} (${days[dt.getDay()]})`;
     }
 
-    // Shared Target Play Date Resolver (used by both Banner AND 1-Week-Up Column Lookup)
     function getTargetPlayDateInfo(targetKey) {
       const istNow = getIstNowDate();
       const fullDayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
@@ -892,7 +897,6 @@
       if (appState.updatedAt) document.getElementById("lastSyncStamp").textContent = appState.updatedAt;
     }
 
-    // Bug #2 & #3 Fix: Uses Target Play Day column for 1-Week-Up lookup, skips self-match, and respects manual override
     function getLatestChartSetupAndWeekUp(marketKey) {
       const rows = appState.charts[marketKey] || [];
       const playInfo = getTargetPlayDateInfo(marketKey);
@@ -928,7 +932,6 @@
       let weekUpSource = `1-Week Up (${weekUpJodi})`;
 
       for (let r = rows.length - 1; r >= 0; r--) {
-        // Never pick the exact same cell that is currently acting as Previous Day Result
         if (r === latestW && targetCol === latestD) continue;
         const cand = (rows[r].days || [])[targetCol];
         if (cand && cand.jodi && cand.jodi.length === 2) {
@@ -945,7 +948,6 @@
       };
     }
 
-    // Bug #4 Fix: Properly separates Half-Time Open date from Base Setup Result Date
     function syncInputsFromActiveMarket() {
       const target = document.getElementById("activeTargetSelect").value;
       const pipeStr = target === "kalyan" ? appState.feeders.kalyan : appState.feeders.rajdhani;
@@ -1000,6 +1002,7 @@
       return candidates.slice(0, 2).map(c => c.patti);
     }
 
+    // CRITICAL BUG #1 FIX: Formula 5 (F5) is now 100% identical in both Backtest & Live Voting
     function computeDynamicFormulaWeights(marketKey) {
       const rows = appState.charts[marketKey] || [];
       const flat = [];
@@ -1012,7 +1015,7 @@
         { id: "F2", name: "1-Week Vertical Line (F2)", hits: 0, total: 0 },
         { id: "F3", name: "Jodi Berij & Farak (F3)", hits: 0, total: 0 },
         { id: "F4", name: "Patti Middle Bridge (F4)", hits: 0, total: 0 },
-        { id: "F5", name: "Cross-Market / Cut-Bridge (F5)", hits: 0, total: 0 }
+        { id: "F5", name: "Patti End & Feeder Bridge (F5)", hits: 0, total: 0 }
       ];
 
       for (let i = 1; i < flat.length; i++) {
@@ -1054,7 +1057,7 @@
       });
     }
 
-    // Bug #6 Fix: Unified 5-Formula Ranked Voter shared by Tab 1 VIP Card & Tab 3 Evening Audit
+    // Unified 5-Formula Voter (F5 now votes on Patti End-Digit Bridge + Feeder Berij/Cut, matching F5 backtest)
     function computeFiveFormulaRanked(prevOpen, prevJodi, prevClose, weekUpJodi, feederJodi, lineStats) {
       const o1 = Number(prevJodi[0]) || 0, c1 = Number(prevJodi[1]) || 0;
       const w1 = Number(weekUpJodi[0]) || 0, w2 = Number(weekUpJodi[1]) || 0;
@@ -1078,8 +1081,11 @@
       addVote(midO, wF4); addVote(midC, wF4); addVote((midO + midC) % 10, wF4);
 
       const wF5 = lineStats[4].weight;
-      const fBerij = (f1 + f2) % 10, fFarak = Math.abs(f2 - f1) % 10;
-      addVote(f1, wF5 * 0.9); addVote(f2, wF5 * 0.9); addVote(fBerij, wF5 * 1.1); addVote(cutOf(fBerij), wF5 * 0.9);
+      const endO = Number(prevOpen[2]) || 0, endC = Number(prevClose[2]) || 0;
+      const endSum = (endO + endC) % 10;
+      const fBerij = (f1 + f2) % 10;
+      addVote(endO, wF5); addVote(endC, wF5); addVote(endSum, wF5); addVote(cutOf(endSum), wF5 * 0.8);
+      addVote(fBerij, wF5 * 0.8); addVote(cutOf(fBerij), wF5 * 0.6);
 
       return scores.map((pts, digit) => ({ digit, pts: Number(pts.toFixed(1)) })).sort((a, b) => b.pts - a.pts);
     }
@@ -1197,9 +1203,12 @@
         <span class="px-2 py-1 rounded ${i < 4 ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50' : 'bg-slate-800 text-slate-400'}">${p}</span>
       `).join("");
 
+      // RESTORED #7: All 4 Sniper Half-Sangam Combinations (A1, A2, B1, B2)
       document.getElementById("halfSangamBox").innerHTML = `
-        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam A:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${pattis[2] || "257"}</b></div>
-        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam B:</b> Open Patti <b class="text-amber-300">${pattis[0] || "237"}</b> × Close <b class="text-sky-300">${vip2}</b></div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam A1:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${pattis[2] || "239"}</b></div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam A2:</b> Open Patti <b class="text-amber-300">${pattis[0] || "237"}</b> × Close <b class="text-sky-300">${vip2}</b></div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam B1:</b> Open <b class="text-sky-300">${vip2}</b> × Close Patti <b class="text-amber-300">${pattis[0] || "237"}</b></div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam B2:</b> Open Patti <b class="text-amber-300">${pattis[2] || "239"}</b> × Close <b class="text-sky-300">${vip1}</b></div>
       `;
 
       document.getElementById("relayBreakdownBox").innerHTML = `
@@ -1238,7 +1247,14 @@
         out.innerHTML = `<span class="text-emerald-400 font-extrabold">✅ OPEN PASS (Ank ${openAnk} Hit)! RULE: STOP CLOSE! Lock Today's Profit & Save Close Reserve.</span>`;
       } else {
         const d = Number(openAnk), c1 = cutOf(d), c2 = (d + 1) % 10, c3 = cutOf(c2);
-        out.innerHTML = `<span class="text-amber-300 font-bold">⚡ Open Miss (${openAnk}) ➔ Activate Close Reserve (₹${latestMoneySlip?.closeTotal || 50}) on Close Ank: <b class="mono text-white">${c1}, ${d}, ${c2}, ${c3}</b> | Running Jodis: <b class="mono text-purple-300">${openAnk}${c1}, ${openAnk}${d}, ${openAnk}${c2}, ${openAnk}${c3}</b></span>`;
+        const bridgeSet = new Set(openPatti.length === 3 ? [...openPatti].map(Number) : [d, c1]);
+        const closePattis = [
+          ...generateTrueRelayPattisForAnk(c1, bridgeSet).slice(0, 1),
+          ...generateTrueRelayPattisForAnk(d, bridgeSet).slice(0, 1),
+          ...generateTrueRelayPattisForAnk(c2, bridgeSet).slice(0, 1),
+          ...generateTrueRelayPattisForAnk(c3, bridgeSet).slice(0, 1)
+        ];
+        out.innerHTML = `<span class="text-amber-300 font-bold">⚡ Open Miss (${openAnk}) ➔ Activate Close Reserve (₹${latestMoneySlip?.closeTotal || 50}) on Close Ank: <b class="mono text-white">${c1}, ${d}, ${c2}, ${c3}</b> | Running Jodis: <b class="mono text-purple-300">${openAnk}${c1}, ${openAnk}${d}, ${openAnk}${c2}, ${openAnk}${c3}</b> | Close Relay Pattis: <b class="mono text-amber-300">${closePattis.join(", ")}</b></span>`;
       }
     }
 
@@ -1313,9 +1329,20 @@
       const closeVipPayout = closeVipEach * singleMult;
       const closeVipNet = closeVipPayout - grandTotalUsed;
       const jodiPayout = jodiEach * jodiMult;
-      const jodiNet = jodiPayout + openVipPayout - grandTotalUsed;
+      const jodiNet = jodiPayout + openVipPayout + closeTotal - grandTotalUsed;
+      const pattiPayout = pattiEach * spMult;
+      const pattiNet = pattiPayout + openVipPayout + closeTotal - grandTotalUsed;
 
-      latestMoneySlip = { grandTotalUsed, phase1Cost, openTotal, openVipEach, jodiTotal, jodiEach, pattiTotal, pattiEach, playPatti, closeTotal, closeVipEach, openVipNet: Number(openVipNet.toFixed(1)), closeVipNet: Number(closeVipNet.toFixed(1)) };
+      latestMoneySlip = {
+        grandTotalUsed, phase1Cost, openTotal, openVipEach, openSupEach,
+        jodiTotal, jodiEach, jodiCount,
+        pattiTotal, pattiEach, pattiCount, playPatti,
+        closeTotal, closeVipEach, closeSupEach,
+        openVipNet: Number(openVipNet.toFixed(1)),
+        closeVipNet: Number(closeVipNet.toFixed(1)),
+        jodiNet: Number(jodiNet.toFixed(0)),
+        pattiNet: Number(pattiNet.toFixed(0))
+      };
       const d = latestCalculatedPrediction?.top4 || [2, 4, 7, 9];
 
       document.getElementById("mmCardsContainer").innerHTML = `
@@ -1330,9 +1357,9 @@
           <div class="text-xs text-slate-300">Each: <b class="text-purple-300 mono">₹${jodiEach}</b> | Hit: <b class="text-emerald-400 mono">₹${(jodiEach * jodiMult).toFixed(0)}</b></div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900 border ${playPatti ? 'border-amber-500/60' : 'border-slate-800 opacity-50'}">
-          <div class="flex justify-between text-[11px] font-bold text-amber-400"><span>3. VIP PATTI</span><span>${playPatti ? 'ACTIVE' : 'OFF'}</span></div>
+          <div class="flex justify-between text-[11px] font-bold text-amber-400"><span>3. VIP PATTI (${playPatti ? pattiCount : 'OFF'})</span><span>${playPatti ? 'ACTIVE' : 'OFF'}</span></div>
           <div class="mono text-2xl font-extrabold text-white my-1">₹${pattiTotal}</div>
-          <div class="text-xs text-slate-300">${playPatti ? `Each: <b class="text-amber-300 mono">₹${pattiEach}</b> | Return: <b class="text-emerald-400 mono">₹${(pattiEach * spMult).toFixed(0)}</b>` : 'Optional OFF'}</div>
+          <div class="text-xs text-slate-300">${playPatti ? `Each: <b class="text-amber-300 mono">₹${pattiEach}</b> | Return: <b class="text-emerald-400 mono">₹${(pattiEach * spMult).toFixed(0)}</b>` : 'Optional OFF (100% OTC/Jodi)'}</div>
         </div>
         <div class="p-3.5 rounded-xl bg-slate-900 border ${playClose ? 'border-emerald-500/50' : 'border-slate-800 opacity-50'}">
           <div class="flex justify-between text-[11px] font-bold text-emerald-400"><span>4. CLOSE RESERVE</span><span>SAVED</span></div>
@@ -1343,21 +1370,22 @@
 
       document.getElementById("mmActionSummary").innerHTML = `
         <div class="font-bold text-sky-300 text-xs">📋 Bet Plan (Total: ₹${grandTotalUsed})</div>
-        <div><b>1. Open Entry:</b> Lagayein <b class="text-white mono">₹${phase1Cost}</b>.</div>
+        <div><b>1. Open Entry:</b> Lagayein <b class="text-white mono">₹${phase1Cost}</b> (Open ₹${openTotal}${playJodi ? ` + Jodi ₹${jodiTotal}` : ''}${playPatti ? ` + Patti ₹${pattiTotal}` : ''}).</div>
         <div><b>2. Wallet Shield:</b> Bacha hua <b class="text-emerald-300 mono">₹${closeTotal}</b> safe rakhein.</div>
         <div><b>3. Rule:</b> Open pass = <b class="text-emerald-400">STOP CLOSE!</b></div>
       `;
 
       document.getElementById("mmProfitTableBody").innerHTML = `
-        <tr><td class="py-1 text-sky-300 font-semibold">✅ Open VIP Hits (Stop Close)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${openVipPayout.toFixed(1)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${openVipNet.toFixed(1)}</td></tr>
-        <tr><td class="py-1 text-emerald-300 font-semibold">🛡️ Open Miss ➔ Close VIP Hits</td><td>₹${grandTotalUsed}</td><td class="text-emerald-400">₹${closeVipPayout.toFixed(1)}</td><td>₹0</td><td class="text-right font-bold ${closeVipNet >= 0 ? 'text-emerald-400' : 'text-amber-400'}">${closeVipNet >= 0 ? '+' : ''}₹${closeVipNet.toFixed(1)}</td></tr>
-        ${playJodi ? `<tr><td class="py-1 text-purple-300 font-semibold">🔥 Jodi Blast (${jodiMult}x)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${jodiPayout.toFixed(0)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${jodiNet.toFixed(0)}</td></tr>` : ''}
+        <tr><td class="py-1 text-sky-300 font-semibold">✅ Open VIP Hits (Stop Close)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${openVipPayout.toFixed(1)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${openVipNet.toFixed(1)} Net</td></tr>
+        <tr><td class="py-1 text-emerald-300 font-semibold">🛡️ Open Miss ➔ Close VIP Hits</td><td>₹${grandTotalUsed}</td><td class="text-emerald-400">₹${closeVipPayout.toFixed(1)}</td><td>₹0</td><td class="text-right font-bold ${closeVipNet >= 0 ? 'text-emerald-400' : 'text-amber-400'}">${closeVipNet >= 0 ? '+' : ''}₹${closeVipNet.toFixed(1)} Net</td></tr>
+        ${playJodi ? `<tr><td class="py-1 text-purple-300 font-semibold">🔥 Jodi Blast (${jodiMult}x)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${(jodiPayout + openVipPayout).toFixed(0)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${jodiNet.toFixed(0)} Net</td></tr>` : ''}
+        ${playPatti ? `<tr><td class="py-1 text-amber-300 font-semibold">💎 VIP Patti + Open Hit (${spMult}x)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${(pattiPayout + openVipPayout).toFixed(0)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${pattiNet.toFixed(0)} Net</td></tr>` : ''}
       `;
     }
 
     function onRatesChange() {
       appState.rates = { single: parseFloat(document.getElementById("rateSingle").value) || 95, jodi: parseFloat(document.getElementById("rateJodi").value) || 950, sp: parseFloat(document.getElementById("rateSP").value) || 1400, dp: parseFloat(document.getElementById("rateDP").value) || 2800 };
-      saveStateLocalAndCloud(); calculateMoneyManagement();
+      saveStateLocalAndCloud(); calculateMoneyManagement(); runZoneRecoveryCalc(); runNightShieldCalc();
     }
     function syncRateInputsUI() {
       document.getElementById("rateSingle").value = appState.rates?.single || 95;
@@ -1366,20 +1394,64 @@
       document.getElementById("rateDP").value = appState.rates?.dp || 2800;
     }
 
+    // RESTORED #5: Full 3-Plan Zone-Recovery Calculator with Open-to-Close Split & Net Profit Proof
     function runZoneRecoveryCalc() {
-      const loss = parseFloat(document.getElementById("recPrevLoss").value) || 0;
-      const target = parseFloat(document.getElementById("recTargetProfit").value) || 0;
+      const loss = Math.max(0, parseFloat(document.getElementById("recPrevLoss").value) || 0);
+      const target = Math.max(0, parseFloat(document.getElementById("recTargetProfit").value) || 0);
       const singleMult = (Number(appState.rates?.single) || 95) / 10;
-      const s2 = Math.ceil((loss + target) / Math.max(1, singleMult - 2));
-      const s4 = Math.ceil((loss + target) / Math.max(1, singleMult - 4));
+      const needTotal = loss + target;
+
+      const s2 = Math.ceil(needTotal / Math.max(1, singleMult - 2));
+      const s2Cost = s2 * 2;
+      const s2Ret = Number((s2 * singleMult).toFixed(1));
+      const s2Net = Number((s2Ret - s2Cost - loss).toFixed(1));
+
+      const s4 = Math.ceil(needTotal / Math.max(1, singleMult - 4));
+      const s4Cost = s4 * 4;
+      const s4Ret = Number((s4 * singleMult).toFixed(1));
+      const s4Net = Number((s4Ret - s4Cost - loss).toFixed(1));
+
+      const closeCoverEach = Math.ceil((needTotal + s2Cost) / Math.max(1, singleMult - 2));
+      const closeCoverCost = closeCoverEach * 2;
+      const closeCoverRet = Number((closeCoverEach * singleMult).toFixed(1));
+      const closeCoverNet = Number((closeCoverRet - s2Cost - closeCoverCost - loss).toFixed(1));
+
       document.getElementById("zoneRecoveryOutput").innerHTML = `
-        <div>• <b>2 VIP Ank Sniper:</b> ₹${s2} × 2 = ₹${s2 * 2} (Return: ₹${(s2 * singleMult).toFixed(1)})</div>
-        <div>• <b>All 4 OTC Cover:</b> ₹${s4} × 4 = ₹${s4 * 4} (Return: ₹${(s4 * singleMult).toFixed(1)})</div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">
+          • <b>Plan A (2 Super VIP Ank Sniper):</b> <b class="mono text-sky-300">₹${s2} × 2 = ₹${s2Cost}</b> ➔ Return: <b class="text-emerald-400 mono">₹${s2Ret}</b> (Loss ₹${loss} Cover + <b class="text-emerald-300">Net +₹${s2Net}</b>)
+        </div>
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">
+          • <b>Plan B (All 4 OTC Safe Cover):</b> <b class="mono text-amber-300">₹${s4} × 4 = ₹${s4Cost}</b> ➔ Return: <b class="text-emerald-400 mono">₹${s4Ret}</b> (Loss ₹${loss} Cover + <b class="text-emerald-300">Net +₹${s4Net}</b>)
+        </div>
+        <div class="p-2 rounded bg-slate-950 border border-emerald-500/30">
+          • <b>Plan C (If Plan A Open Misses ➔ Close Escalation):</b> Play Close 2 VIP Ank @ <b class="mono text-emerald-300">₹${closeCoverEach} × 2 = ₹${closeCoverCost}</b> ➔ Return: <b class="text-emerald-400 mono">₹${closeCoverRet}</b> (Covers Prev ₹${loss} + Open ₹${s2Cost} + <b class="text-emerald-300">Net +₹${closeCoverNet}</b>)
+        </div>
       `;
     }
+
+    // RESTORED #4: Complete Rajdhani Night Shield Allocator with Open OTC + 4 VIP Jodi Breakdown
     function runNightShieldCalc() {
-      const k = parseFloat(document.getElementById("dayKalyanProfit").value) || 0;
-      document.getElementById("nightShieldOutput").innerHTML = `<div><b>Locked Home Profit: ₹${Math.round(k * 0.65)}</b> | <b>Rajdhani Risk-Free Budget (35%): ₹${Math.round(k * 0.35)}</b></div>`;
+      const k = Math.max(0, parseFloat(document.getElementById("dayKalyanProfit").value) || 0);
+      const lockedHome = Math.round(k * 0.65);
+      const nightBudget = Math.max(0, k - lockedHome);
+      const singleMult = (Number(appState.rates?.single) || 95) / 10;
+      const jodiMult = (Number(appState.rates?.jodi) || 950) / 10;
+
+      const openVipEach = Math.max(5, Math.floor((nightBudget * 0.6) / 2));
+      const openCost = openVipEach * 2;
+      const jodiEach = Math.max(2, Math.floor(Math.max(8, nightBudget - openCost) / 4));
+      const jodiCost = jodiEach * 4;
+      const totalNightUsed = openCost + jodiCost;
+
+      document.getElementById("nightShieldOutput").innerHTML = `
+        <div class="flex justify-between items-center pb-1.5 border-b border-slate-800">
+          <span>🔒 <b>65% Locked Home Profit:</b> <b class="text-emerald-400 mono">₹${lockedHome}</b></span>
+          <span>🌙 <b>35% Night Shield Budget:</b> <b class="text-indigo-300 mono">₹${nightBudget}</b></span>
+        </div>
+        <div>• <b>1. Rajdhani Open 2 Super VIP Ank:</b> <b class="mono text-sky-300">₹${openVipEach} × 2 = ₹${openCost}</b> (Hit Return: <b class="text-emerald-400 mono">₹${(openVipEach * singleMult).toFixed(1)}</b>)</div>
+        <div>• <b>2. Rajdhani Top 4 Sniper Jodis:</b> <b class="mono text-purple-300">₹${jodiEach} × 4 = ₹${jodiCost}</b> (Hit Return: <b class="text-emerald-400 mono">₹${(jodiEach * jodiMult).toFixed(0)}</b>)</div>
+        <div class="text-[11px] text-emerald-300 pt-1">✅ Even if Rajdhani misses completely, you still walk away with <b>+₹${Math.max(0, k - totalNightUsed)} Net Day Profit!</b></div>
+      `;
     }
 
     function runSandboxBacktest() {
@@ -1425,25 +1497,79 @@
       document.getElementById("sandboxLogList").innerHTML = logs.join("");
     }
 
+    // RESTORED #2 & #3: Rich SVG Equity Graph (Gradient Area, Baseline, Dots, ₹ Labels) + Passbook Date & Single-Entry Delete
     function renderPassbookAndEquity() {
       const list = appState.passbook || [];
       let running = 0;
       const points = [];
       const rows = list.map((item, idx) => {
         running += Number(item.amount) || 0;
-        points.push(running);
-        return `<div class="py-1.5 flex justify-between"><span>${idx + 1}. ${item.note}</span><span class="font-bold ${item.amount >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${item.amount >= 0 ? '+' : ''}₹${item.amount} (₹${running})</span></div>`;
+        points.push({ val: running, label: item.date || `#${idx + 1}` });
+        const isPos = Number(item.amount) >= 0;
+        return `
+          <div class="py-1.5 flex items-center justify-between gap-2">
+            <div class="truncate">
+              <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-900 text-slate-400 border border-slate-800 mr-1">${item.date || 'Log'}</span>
+              <span class="text-slate-200">${item.note}</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="font-bold ${isPos ? 'text-emerald-400' : 'text-rose-400'}">${isPos ? '+' : ''}₹${item.amount} (₹${running})</span>
+              ${idx > 0 ? `<button onclick="deletePassbookEntry(${idx})" class="text-slate-500 hover:text-rose-400 text-xs px-1" title="Delete Entry">&times;</button>` : ''}
+            </div>
+          </div>
+        `;
       }).reverse().join("");
+
       document.getElementById("passbookTableContainer").innerHTML = rows;
-      document.getElementById("passbookSummaryStats").textContent = `Balance: ₹${running}`;
+      const startBal = Number(list[0]?.amount) || 500;
+      const netGain = running - startBal;
+      document.getElementById("passbookSummaryStats").innerHTML =
+        `Balance: <span class="text-emerald-400">₹${running}</span> <span class="text-[11px] ${netGain >= 0 ? 'text-sky-300' : 'text-rose-400'}">(${netGain >= 0 ? '+' : ''}₹${netGain} Net)</span>`;
       calculateMoneyManagement();
 
       const svgBox = document.getElementById("svgEquityContainer");
-      if (points.length < 2) points.unshift(0);
-      const minV = Math.min(...points, 0), maxV = Math.max(...points, 600), range = Math.max(100, maxV - minV);
-      const w = 560, h = 150;
-      const coords = points.map((val, i) => `${Math.round((i / (points.length - 1)) * (w - 40) + 20)},${Math.round(h - 20 - ((val - minV) / range) * (h - 40))}`);
-      svgBox.innerHTML = `<svg viewBox="0 0 ${w} ${h}" class="w-full h-full"><polyline fill="none" stroke="#10b981" stroke-width="3" points="${coords.join(" ")}" /></svg>`;
+      const vals = points.map(p => p.val);
+      if (vals.length < 2) vals.unshift(startBal);
+      const minV = Math.min(...vals, startBal - 100);
+      const maxV = Math.max(...vals, startBal + 100);
+      const range = Math.max(100, maxV - minV);
+      const w = 560, h = 155, padX = 30, padY = 24;
+
+      const xyCoords = vals.map((v, i) => {
+        const x = Math.round(padX + (i / (vals.length - 1)) * (w - padX * 2));
+        const y = Math.round(h - padY - ((v - minV) / range) * (h - padY * 2));
+        return { x, y, v };
+      });
+
+      const polyPoints = xyCoords.map(pt => `${pt.x},${pt.y}`).join(" ");
+      const areaPoints = `${xyCoords[0].x},${h - padY} ${polyPoints} ${xyCoords[xyCoords.length - 1].x},${h - padY}`;
+      const baseLineY = Math.round(h - padY - ((startBal - minV) / range) * (h - padY * 2));
+      const circlesHtml = xyCoords.map(pt => `
+        <circle cx="${pt.x}" cy="${pt.y}" r="4" fill="#10b981" stroke="#0f172a" stroke-width="2" />
+        <text x="${pt.x}" y="${Math.max(12, pt.y - 8)}" text-anchor="middle" fill="#cbd5e1" font-size="10" font-family="JetBrains Mono">₹${pt.v}</text>
+      `).join("");
+
+      svgBox.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full">
+          <defs>
+            <linearGradient id="eqGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
+              <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
+            </linearGradient>
+          </defs>
+          <line x1="${padX}" y1="${baseLineY}" x2="${w - padX}" y2="${baseLineY}" stroke="#475569" stroke-dasharray="4 4" stroke-width="1" />
+          <polygon points="${areaPoints}" fill="url(#eqGrad)" />
+          <polyline fill="none" stroke="#10b981" stroke-width="3" points="${polyPoints}" />
+          ${circlesHtml}
+        </svg>
+      `;
+    }
+
+    function deletePassbookEntry(index) {
+      if (index <= 0 || index >= appState.passbook.length) return;
+      appState.passbook.splice(index, 1);
+      saveStateLocalAndCloud();
+      renderPassbookAndEquity();
     }
 
     function addPassbookEntry() {
@@ -1456,12 +1582,12 @@
       saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
     function clearPassbookHistory() {
-      appState.passbook = [{ date: "Initial", note: "Starting Balance", amount: 500 }];
+      appState.passbook = [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }];
       userManualPattiOverride = false;
       saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
 
-    // Bug #6 Fix: Uses the exact same 5-Formula Weighted Voter (`computeFiveFormulaRanked`) as Tab 1
+    // RESTORED #6: Evening Audit checks Strong Jodi Hit, VIP Relay Patti Hit, Open OTC Hit & Close Recovery Hit
     function autoAuditTodayResult() {
       const target = document.getElementById("activeTargetSelect").value;
       const rows = appState.charts[target] || [];
@@ -1484,17 +1610,52 @@
         setupDay.open, setupDay.jodi, setupDay.close, wkUpCell.jodi, feederJodi, lineStats
       );
       const predTop4 = ranked.slice(0, 4).map(x => x.digit);
+      const [vip1, vip2, sup1, sup2] = predTop4;
+
+      const f1 = Number(feederJodi[0]) || 0, f2 = Number(feederJodi[1]) || 0;
+      const fBerij = (f1 + f2) % 10, fFarak = Math.abs(f2 - f1) % 10;
+      const auditJodis = [...new Set([
+        `${vip1}${fBerij}`, `${vip1}${cutOf(vip2)}`, `${vip2}${vip1}`, `${vip2}${fFarak}`,
+        `${vip1}${vip2}`, `${vip2}${cutOf(vip1)}`, `${sup1}${vip1}`, `${sup2}${vip2}`,
+        `${vip1}${sup1}`, `${vip2}${sup2}`, `${sup1}${fBerij}`, `${sup2}${fFarak}`
+      ])].slice(0, 8);
+
+      const bridgeSet = new Set([...setupDay.open, ...setupDay.close].map(Number).filter(n => !isNaN(n)));
+      const auditPattis = [
+        ...generateTrueRelayPattisForAnk(vip1, bridgeSet),
+        ...generateTrueRelayPattisForAnk(vip2, bridgeSet),
+        ...generateTrueRelayPattisForAnk(sup1, bridgeSet),
+        ...generateTrueRelayPattisForAnk(sup2, bridgeSet)
+      ];
 
       const aO = Number(actualDay.jodi[0]), aC = Number(actualDay.jodi[1]);
       const openHit = predTop4.includes(aO);
       const closeHit = predTop4.includes(aC);
+      const jodiHit = auditJodis.includes(actualDay.jodi);
+      const pattiHit = auditPattis.includes(actualDay.open) || auditPattis.includes(actualDay.close);
 
-      const netPnl = openHit ? (latestMoneySlip?.openVipNet || 45) : closeHit ? (latestMoneySlip?.closeVipNet || 35) : -(latestMoneySlip?.grandTotalUsed || 100);
-      const hitLabel = openHit ? `✅ OPEN PASS (${aO})` : closeHit ? `🛡️ CLOSE PASS (${aC})` : `❌ MISS`;
+      let netPnl = -(latestMoneySlip?.grandTotalUsed || 100);
+      const hitTags = [];
+      if (jodiHit) {
+        netPnl = latestMoneySlip?.jodiNet || 420;
+        hitTags.push(`🔥 JODI BLAST (${actualDay.jodi})`);
+      }
+      if (pattiHit) {
+        netPnl = Math.max(netPnl, latestMoneySlip?.pattiNet || 350);
+        hitTags.push(`💎 PATTI BLAST`);
+      }
+      if (openHit) {
+        if (!jodiHit && !pattiHit) netPnl = latestMoneySlip?.openVipNet || 45;
+        hitTags.push(`✅ OPEN PASS (${aO})`);
+      } else if (closeHit) {
+        if (!jodiHit && !pattiHit) netPnl = latestMoneySlip?.closeVipNet || 35;
+        hitTags.push(`🛡️ CLOSE PASS (${aC})`);
+      }
 
+      const hitLabel = hitTags.length ? hitTags.join(" + ") : `❌ MISS`;
       lastAuditedPnlEntry = { note: `${target.toUpperCase()} ${actualDay.open}-${actualDay.jodi}-${actualDay.close} (${hitLabel})`, amount: Math.round(netPnl) };
       document.getElementById("btnLogAuditPnl").classList.remove("hidden");
-      document.getElementById("autoAuditStampBox").innerHTML = `Setup <b>${setupDay.open}-${setupDay.jodi}-${setupDay.close}</b> ➔ 5-Formula Predicted [${predTop4.join(",")}] vs Result <b>${actualDay.open}-${actualDay.jodi}-${actualDay.close}</b>: <b class="${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${hitLabel} (${netPnl >= 0 ? '+' : ''}₹${Math.round(netPnl)})</b>`;
+      document.getElementById("autoAuditStampBox").innerHTML = `Setup <b>${setupDay.open}-${setupDay.jodi}-${setupDay.close}</b> ➔ Predicted OTC [${predTop4.join(",")}] vs Result <b>${actualDay.open}-${actualDay.jodi}-${actualDay.close}</b>: <b class="${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${hitLabel} (${netPnl >= 0 ? '+' : ''}₹${Math.round(netPnl)})</b>`;
     }
 
     function logAuditedResultToPassbook() {
@@ -1544,19 +1705,37 @@
       }).join("");
     }
 
-    function toggleChartHighlight(mode) { currentHighlightMode = currentHighlightMode === mode ? null : mode; renderPanelChartTable(); }
+    function toggleChartHighlight(mode) {
+      currentHighlightMode = currentHighlightMode === mode ? null : mode;
+      ["red", "family", "patti"].forEach(m => {
+        document.getElementById("hlBtn_" + m).classList.toggle("ring-2", currentHighlightMode === m);
+      });
+      renderPanelChartTable();
+    }
+
     function openCellModal(wIdx, dIdx) {
-      editingCellRef = { target: document.getElementById("activeTargetSelect").value, wIdx, dIdx };
-      const cell = (appState.charts[editingCellRef.target][wIdx].days || [])[dIdx];
+      const target = document.getElementById("activeTargetSelect").value;
+      editingCellRef = { target, wIdx, dIdx };
+      const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const wk = appState.charts[target][wIdx];
+      const cell = (wk.days || [])[dIdx];
+      document.getElementById("cellModalTitle").textContent = `Edit ${target.toUpperCase()} — ${wk.week} (${dayNames[dIdx]})`;
       document.getElementById("cellOpenInput").value = cell?.open || "";
       document.getElementById("cellJodiInput").value = cell?.jodi || "";
       document.getElementById("cellCloseInput").value = cell?.close || "";
       document.getElementById("cellEditModal").classList.remove("hidden");
     }
+
     function closeCellModal() { document.getElementById("cellEditModal").classList.add("hidden"); }
     function saveCellModalResult() {
       if (!editingCellRef) return;
-      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = { open: document.getElementById("cellOpenInput").value.trim(), jodi: document.getElementById("cellJodiInput").value.trim().padStart(2, "0"), close: document.getElementById("cellCloseInput").value.trim() };
+      const existing = appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx];
+      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = {
+        open: document.getElementById("cellOpenInput").value.trim() || "***",
+        jodi: document.getElementById("cellJodiInput").value.trim().padStart(2, "0"),
+        close: document.getElementById("cellCloseInput").value.trim() || "***",
+        date: existing?.date
+      };
       saveStateLocalAndCloud(); closeCellModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
     function markCellAsHoliday() {
@@ -1600,9 +1779,9 @@
 
     function generateFormattedVipSlip() {
       const p = latestCalculatedPrediction || { market: "KALYAN", playDate: "PLAY FOR: TUESDAY, 10/11/2026", basedOn: "390-24-257 (05/11/2026)", top4: [2, 4, 7, 9], jodis: ["21", "27", "44", "49"], pattis: ["237", "390", "239", "257"] };
-      const m = latestMoneySlip || { grandTotalUsed: 100, openTotal: 30, jodiTotal: 20, closeTotal: 50 };
+      const m = latestMoneySlip || { grandTotalUsed: 100, openTotal: 30, openVipEach: 10, jodiTotal: 20, jodiEach: 5, pattiTotal: 0, pattiEach: 0, playPatti: false, closeTotal: 50 };
       return [
-        `⚡ *SMART OTC & JODI PRO v6.9 VIP SLIP* ⚡`,
+        `⚡ *SMART OTC & JODI PRO v7.1 VIP SLIP* ⚡`,
         `🎯 *Market:* ${p.market}`,
         `🗓️ *${p.playDate}*`,
         `📌 *Based On Last Result:* ${p.basedOn}`,
@@ -1611,7 +1790,12 @@
         `⚡ *Support OTC:* ${p.top4[2]}, ${p.top4[3]}`,
         `💜 *Top 4 Sniper Jodis:* ${p.jodis.slice(0, 4).join(", ")}`,
         `💎 *2-Digit Relay Pattis:* ${p.pattis.slice(0, 4).join(", ")}`,
-        `💰 *Money Plan (₹${m.grandTotalUsed}):* Open ₹${m.openTotal} | Jodi ₹${m.jodiTotal} | Close Shield ₹${m.closeTotal}`
+        `────────────────────`,
+        `💰 *Money Plan (Budget ₹${m.grandTotalUsed}):*`,
+        `• Open OTC Stake: ₹${m.openTotal} (VIP ₹${m.openVipEach} each)`,
+        `• Strong Jodi Stake: ₹${m.jodiTotal} (₹${m.jodiEach} each)`,
+        m.playPatti ? `• VIP Patti Stake: ₹${m.pattiTotal} (₹${m.pattiEach} each)` : `• VIP Patti: OFF (100% Focus on OTC/Jodi)`,
+        `• Close Recovery Shield: ₹${m.closeTotal} (Use ONLY if Open misses)`
       ].join("\n");
     }
 
@@ -1619,7 +1803,11 @@
     function closeShareSlipModal() { document.getElementById("shareSlipModal").classList.add("hidden"); }
     function copyShareSlip() { navigator.clipboard.writeText(document.getElementById("shareSlipTextarea").value); alert("Copied!"); }
     function shareOnWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(generateFormattedVipSlip())}`, "_blank"); }
-    function saveTelegramConfig() { localStorage.setItem("otc_tg_token", document.getElementById("tgBotToken").value.trim()); localStorage.setItem("otc_tg_chat", document.getElementById("tgChatId").value.trim()); alert("Saved!"); }
+    function saveTelegramConfig() {
+      localStorage.setItem("otc_tg_token", document.getElementById("tgBotToken").value.trim());
+      localStorage.setItem("otc_tg_chat", document.getElementById("tgChatId").value.trim());
+      document.getElementById("tgStatusMsg").textContent = "✅ Telegram settings saved!";
+    }
     async function sendTelegramVipAlert() {
       const t = document.getElementById("tgBotToken").value.trim() || localStorage.getItem("otc_tg_token");
       const c = document.getElementById("tgChatId").value.trim() || localStorage.getItem("otc_tg_chat");
@@ -1639,7 +1827,6 @@
       } catch (e) {}
     }
 
-    // Bug #3 Fix: Silent background polls ONLY re-sync inputs if the server's market results actually changed
     async function pullFromFirebase(silent = false) {
       try {
         const prevSignature = JSON.stringify(appState.feeders);
@@ -1670,7 +1857,6 @@
         const newSignature = JSON.stringify(appState.feeders);
         renderPipelineUI();
 
-        // Only overwrite form inputs on manual sync, initial load, or when a live result actually changed!
         if (!silent || prevSignature !== newSignature) {
           syncRateInputsUI();
           syncInputsFromActiveMarket();
@@ -1688,7 +1874,32 @@
 
     function exportBackupJson() {
       const blob = new Blob([JSON.stringify(appState, null, 2)], { type: "application/json" });
-      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v69_backup.json`; a.click();
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v71_backup.json`; a.click();
+    }
+
+    // RESTORED #1: Full JSON Backup Import / Restore Handler
+    function importBackupJson(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (!parsed || !parsed.feeders) throw new Error("Invalid backup structure");
+          appState = { ...appState, ...parsed };
+          await saveStateLocalAndCloud();
+          syncRateInputsUI();
+          renderPipelineUI();
+          syncInputsFromActiveMarket();
+          recalculateAll();
+          renderPassbookAndEquity();
+          renderPanelChartTable();
+          document.getElementById("backupStatusMsg").textContent = `✅ Backup restored successfully (${file.name})!`;
+        } catch (err) {
+          alert("Invalid JSON Backup file!");
+        }
+      };
+      reader.readAsText(file);
     }
 
     window.addEventListener("DOMContentLoaded", () => {
