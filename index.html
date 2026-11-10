@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.8 (Perfect Lock Master)</title>
+  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v6.9 (Zero-Bug Master)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -39,7 +39,7 @@
       <div class="flex items-center gap-3 border-b border-slate-700 pb-4">
         <div class="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-400 flex items-center justify-center text-2xl">🔒</div>
         <div>
-          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.8</span>
+          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v6.9</span>
           <h2 class="text-lg font-extrabold text-white mt-0.5">Smart OTC & Jodi Pro Master</h2>
           <p class="text-xs text-slate-400">Checksum-Verified Quantitative Engine</p>
         </div>
@@ -81,7 +81,7 @@
               </a>
               <span id="liveMarketTimerBadge" class="mono text-[11px] font-bold px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40">⏱️ Loading...</span>
             </div>
-            <p id="syncStatusText" class="text-xs text-slate-400">Checksum-Verified Feed • 60s Auto-Stream Active</p>
+            <p id="syncStatusText" class="text-xs text-slate-400">Checksum-Verified Feed • Smart 60s Auto-Stream Active</p>
           </div>
         </div>
 
@@ -274,7 +274,7 @@
           <div class="card-panel p-4">
             <div class="flex items-center justify-between mb-3">
               <div><h3 class="font-bold text-sm text-sky-400">⚡ Step 1: Previous Result & 1-Week Up</h3><span id="weekUpAutoLabel" class="text-[10px] text-emerald-400">Auto-synced from Verified Chart</span></div>
-              <button onclick="syncInputsFromActiveMarket(); recalculateAll();" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 text-sky-300 border border-slate-700">🔄 Reload</button>
+              <button onclick="appState.manualWeekUpOverride = false; syncInputsFromActiveMarket(); recalculateAll();" class="text-[11px] px-2.5 py-1 rounded bg-slate-800 text-sky-300 border border-slate-700">🔄 Reload</button>
             </div>
             <div class="grid grid-cols-3 gap-2 mb-3">
               <div><label class="text-[11px] text-slate-400 block mb-1">Prev Open Patti</label><input id="inpPrevOpen" type="text" maxlength="3" oninput="recalculateAll()" class="input-dark mono font-bold w-full text-center" /></div>
@@ -610,7 +610,7 @@
     const FIREBASE_BASE = "https://smart-otc-cloud-default-rtdb.firebaseio.com";
     const MASTER_DB_PATH = "/otc_pro_v62_master.json";
     const REAL_V61_PATH = "/otc_pro_v61_real.json";
-    const LOCAL_KEY = "otc_pro_verified_v67_master_state";
+    const LOCAL_KEY = "otc_pro_verified_v69_master_state";
 
     const BANNED_FAKE_RESULTS = new Set([
       "246-22-570", "137-19-450", "358-64-266", "147-29-450", "278-24-257", "158-46-367", "346-38-459"
@@ -630,16 +630,17 @@
         rajdhani: "06/11/2026 (Fri)"
       },
       weekUpJodi: "17",
+      manualWeekUpOverride: false,
       rates: { single: 95, jodi: 950, sp: 1400, dp: 2800 },
       charts: {
         kalyan: [
           {
             week: "02/11/2026",
             days: [
-              { open: "789", jodi: "46", close: "150" },
-              { open: "678", jodi: "17", close: "124" },
-              { open: "278", jodi: "74", close: "789" },
-              { open: "390", jodi: "24", close: "257" },
+              { open: "789", jodi: "46", close: "150", date: "02/11/2026 (Mon)" },
+              { open: "678", jodi: "17", close: "124", date: "03/11/2026 (Tue)" },
+              { open: "278", jodi: "74", close: "789", date: "04/11/2026 (Wed)" },
+              { open: "390", jodi: "24", close: "257", date: "05/11/2026 (Thu)" },
               null, null
             ]
           },
@@ -649,11 +650,11 @@
           {
             week: "02/11/2026",
             days: [
-              { open: "347", jodi: "40", close: "668" },
-              { open: "124", jodi: "72", close: "156" },
-              { open: "348", jodi: "54", close: "158" },
-              { open: "248", jodi: "48", close: "260" },
-              { open: "780", jodi: "58", close: "134" },
+              { open: "347", jodi: "40", close: "668", date: "02/11/2026 (Mon)" },
+              { open: "124", jodi: "72", close: "156", date: "03/11/2026 (Tue)" },
+              { open: "348", jodi: "54", close: "158", date: "04/11/2026 (Wed)" },
+              { open: "248", jodi: "48", close: "260", date: "05/11/2026 (Thu)" },
+              { open: "780", jodi: "58", close: "134", date: "06/11/2026 (Fri)" },
               null
             ]
           },
@@ -670,6 +671,7 @@
     let latestMoneySlip = null;
     let lastAuditedPnlEntry = null;
     let userManualPattiOverride = false;
+    let activeBaseResultDate = null;
 
     const cutOf = d => (Number(d) + 5) % 10;
 
@@ -687,7 +689,8 @@
       return `${dd}/${mm}/${yyyy} (${days[dt.getDay()]})`;
     }
 
-    function computePlayTargetDateBanner(targetKey) {
+    // Shared Target Play Date Resolver (used by both Banner AND 1-Week-Up Column Lookup)
+    function getTargetPlayDateInfo(targetKey) {
       const istNow = getIstNowDate();
       const fullDayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
       const todayShort = formatIstDateWithDay(istNow).split(" ")[0];
@@ -697,8 +700,12 @@
       let playDt = new Date(istNow.getTime());
       let sessionTag = "TODAY'S LIVE SESSION";
 
+      const isHalfOpen = lastResVal.includes("*") && !lastResVal.startsWith("***");
       const isTodayAlreadyComplete = lastResDateStr.includes(todayShort) && !lastResVal.includes("*");
-      if (playDt.getDay() === 0 || isTodayAlreadyComplete) {
+
+      if (isHalfOpen && lastResDateStr.includes(todayShort)) {
+        sessionTag = "TODAY'S CLOSE SESSION";
+      } else if (playDt.getDay() === 0 || isTodayAlreadyComplete) {
         playDt.setDate(playDt.getDate() + 1);
         if (playDt.getDay() === 0) playDt.setDate(playDt.getDate() + 1);
         sessionTag = "NEXT TRADING SESSION";
@@ -708,7 +715,13 @@
       const mm = String(playDt.getMonth() + 1).padStart(2, "0");
       const yyyy = playDt.getFullYear();
       const dayName = fullDayNames[playDt.getDay()];
-      return `PLAY FOR: ${dayName}, ${dd}/${mm}/${yyyy} (${sessionTag})`;
+      const targetCol = playDt.getDay() === 0 ? 0 : Math.min(5, playDt.getDay() - 1);
+
+      return {
+        bannerText: `PLAY FOR: ${dayName}, ${dd}/${mm}/${yyyy} (${sessionTag})`,
+        targetCol,
+        shortDay: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][targetCol]
+      };
     }
 
     function sanitizeResultStr(val, fb) {
@@ -793,7 +806,7 @@
       document.getElementById("modDateKalyan").value = appState.feederDates?.kalyan || "05/11/2026 (Thu)";
       document.getElementById("modDateRajdhani").value = appState.feederDates?.rajdhani || "06/11/2026 (Fri)";
 
-      document.getElementById("modWeekUpJodi").value = appState.weekUpJodi || "17";
+      document.getElementById("modWeekUpJodi").value = document.getElementById("inpWeekUpJodi").value || appState.weekUpJodi || "17";
       document.getElementById("editModal").classList.remove("hidden");
     }
     function closeEditPipelineModal() { document.getElementById("editModal").classList.add("hidden"); }
@@ -839,7 +852,10 @@
         }
         appState.feeders.rajdhani = rj;
       }
-      if (wu) appState.weekUpJodi = wu;
+      if (wu) {
+        appState.weekUpJodi = wu.padStart(2, "0");
+        appState.manualWeekUpOverride = true;
+      }
 
       appState.updatedAt = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
       await saveStateLocalAndCloud();
@@ -876,43 +892,60 @@
       if (appState.updatedAt) document.getElementById("lastSyncStamp").textContent = appState.updatedAt;
     }
 
+    // Bug #2 & #3 Fix: Uses Target Play Day column for 1-Week-Up lookup, skips self-match, and respects manual override
     function getLatestChartSetupAndWeekUp(marketKey) {
       const rows = appState.charts[marketKey] || [];
-      const istNow = getIstNowDate();
-      const todayCol = istNow.getDay() === 0 ? 0 : Math.min(5, istNow.getDay() - 1);
-      const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const playInfo = getTargetPlayDateInfo(marketKey);
+      const targetCol = playInfo.targetCol;
 
       let latestCell = null;
+      let latestW = -1;
+      let latestD = -1;
+
       for (let r = rows.length - 1; r >= 0; r--) {
         const days = rows[r].days || [];
         for (let d = 5; d >= 0; d--) {
           const c = days[d];
           if (c && c.open && c.jodi && c.jodi.length === 2 && !BANNED_FAKE_RESULTS.has(`${c.open}-${c.jodi}-${c.close}`)) {
             latestCell = c;
+            latestW = r;
+            latestD = d;
             break;
           }
         }
         if (latestCell) break;
       }
 
+      if (appState.manualWeekUpOverride && appState.weekUpJodi) {
+        return {
+          prev: latestCell || { open: "390", jodi: "24", close: "257", date: "05/11/2026 (Thu)" },
+          weekUpJodi: appState.weekUpJodi,
+          targetDayLabel: `Manual Override (${appState.weekUpJodi})`
+        };
+      }
+
       let weekUpJodi = appState.weekUpJodi || "17";
       let weekUpSource = `1-Week Up (${weekUpJodi})`;
+
       for (let r = rows.length - 1; r >= 0; r--) {
-        const cand = (rows[r].days || [])[todayCol];
+        // Never pick the exact same cell that is currently acting as Previous Day Result
+        if (r === latestW && targetCol === latestD) continue;
+        const cand = (rows[r].days || [])[targetCol];
         if (cand && cand.jodi && cand.jodi.length === 2) {
           weekUpJodi = cand.jodi;
-          weekUpSource = `Auto-loaded ${dayNames[todayCol]} (${rows[r].week})`;
+          weekUpSource = `Auto-loaded ${playInfo.shortDay} (${rows[r].week})`;
           break;
         }
       }
 
       return {
-        prev: latestCell || { open: "390", jodi: "24", close: "257" },
+        prev: latestCell || { open: "390", jodi: "24", close: "257", date: "05/11/2026 (Thu)" },
         weekUpJodi,
         targetDayLabel: weekUpSource
       };
     }
 
+    // Bug #4 Fix: Properly separates Half-Time Open date from Base Setup Result Date
     function syncInputsFromActiveMarket() {
       const target = document.getElementById("activeTargetSelect").value;
       const pipeStr = target === "kalyan" ? appState.feeders.kalyan : appState.feeders.rajdhani;
@@ -925,8 +958,12 @@
         document.getElementById("liveOpenPatti").value = pParts.open;
         document.getElementById("liveOpenAnk").value = pParts.openAnk !== "*" ? pParts.openAnk : "";
         pParts = chartInfo.prev;
+        activeBaseResultDate = chartInfo.prev.date || (target === "kalyan" ? "05/11/2026 (Thu)" : "06/11/2026 (Fri)");
       } else if (!pParts.valid) {
         pParts = chartInfo.prev;
+        activeBaseResultDate = chartInfo.prev.date || (appState.feederDates && appState.feederDates[target]) || "Prev Session";
+      } else {
+        activeBaseResultDate = (appState.feederDates && appState.feederDates[target]) || chartInfo.prev.date || "Latest Session";
       }
 
       const fParts = parseResultParts(feederStr);
@@ -1017,6 +1054,36 @@
       });
     }
 
+    // Bug #6 Fix: Unified 5-Formula Ranked Voter shared by Tab 1 VIP Card & Tab 3 Evening Audit
+    function computeFiveFormulaRanked(prevOpen, prevJodi, prevClose, weekUpJodi, feederJodi, lineStats) {
+      const o1 = Number(prevJodi[0]) || 0, c1 = Number(prevJodi[1]) || 0;
+      const w1 = Number(weekUpJodi[0]) || 0, w2 = Number(weekUpJodi[1]) || 0;
+      const f1 = Number(feederJodi[0]) || 0, f2 = Number(feederJodi[1]) || 0;
+
+      const scores = Array(10).fill(0);
+      const addVote = (d, w) => { scores[((d % 10) + 10) % 10] += w; };
+
+      const wF1 = lineStats[0].weight;
+      addVote(o1, wF1); addVote(c1, wF1); addVote(cutOf(o1), wF1 * 0.8); addVote(cutOf(c1), wF1 * 0.8);
+
+      const wF2 = lineStats[1].weight;
+      addVote(w1, wF2); addVote(w2, wF2); addVote(cutOf(w1), wF2 * 0.7); addVote(cutOf(w2), wF2 * 0.7);
+
+      const wF3 = lineStats[2].weight;
+      const berij = (o1 + c1) % 10, farak = Math.abs(c1 - o1) % 10;
+      addVote(berij, wF3); addVote(cutOf(berij), wF3 * 0.8); addVote(farak, wF3);
+
+      const wF4 = lineStats[3].weight;
+      const midO = Number(prevOpen[1]) || 0, midC = Number(prevClose[1]) || 0;
+      addVote(midO, wF4); addVote(midC, wF4); addVote((midO + midC) % 10, wF4);
+
+      const wF5 = lineStats[4].weight;
+      const fBerij = (f1 + f2) % 10, fFarak = Math.abs(f2 - f1) % 10;
+      addVote(f1, wF5 * 0.9); addVote(f2, wF5 * 0.9); addVote(fBerij, wF5 * 1.1); addVote(cutOf(fBerij), wF5 * 0.9);
+
+      return scores.map((pts, digit) => ({ digit, pts: Number(pts.toFixed(1)) })).sort((a, b) => b.pts - a.pts);
+    }
+
     function scanHistoricalSameSetup(marketKey, prevOpenStr, prevJodiStr, prevCloseStr, lastResDate, topVip1, topVip2) {
       const rows = appState.charts[marketKey] || [];
       const flat = [];
@@ -1060,8 +1127,8 @@
       const weekUpJodi = (document.getElementById("inpWeekUpJodi").value || "17").padStart(2, "0");
       const feederJodi = (document.getElementById("inpFeederJodi").value || "31").padStart(2, "0");
 
-      const playDateBannerText = computePlayTargetDateBanner(target);
-      const lastResDate = (appState.feederDates && appState.feederDates[target]) || "05/11/2026 (Thu)";
+      const playDateBannerText = getTargetPlayDateInfo(target).bannerText;
+      const lastResDate = activeBaseResultDate || (appState.feederDates && appState.feederDates[target]) || "05/11/2026 (Thu)";
       document.getElementById("vipPlayForDateBanner").textContent = playDateBannerText;
       document.getElementById("vipBasedOnResultBanner").textContent = `${prevOpen}-${prevJodi}-${prevClose} (${lastResDate})`;
 
@@ -1079,33 +1146,12 @@
       const o1 = Number(prevJodi[0]) || 0, c1 = Number(prevJodi[1]) || 0;
       const w1 = Number(weekUpJodi[0]) || 0, w2 = Number(weekUpJodi[1]) || 0;
       const f1 = Number(feederJodi[0]) || 0, f2 = Number(feederJodi[1]) || 0;
-
-      const scores = Array(10).fill(0);
-      const addVote = (d, w) => { scores[((d % 10) + 10) % 10] += w; };
-
-      const wF1 = lineStats[0].weight;
-      addVote(o1, wF1); addVote(c1, wF1); addVote(cutOf(o1), wF1 * 0.8); addVote(cutOf(c1), wF1 * 0.8);
-
-      const wF2 = lineStats[1].weight;
-      addVote(w1, wF2); addVote(w2, wF2); addVote(cutOf(w1), wF2 * 0.7); addVote(cutOf(w2), wF2 * 0.7);
-
-      const wF3 = lineStats[2].weight;
-      const berij = (o1 + c1) % 10, farak = Math.abs(c1 - o1) % 10;
-      addVote(berij, wF3); addVote(cutOf(berij), wF3 * 0.8); addVote(farak, wF3);
-
-      const wF4 = lineStats[3].weight;
-      const midO = Number(prevOpen[1]) || 0, midC = Number(prevClose[1]) || 0;
-      addVote(midO, wF4); addVote(midC, wF4); addVote((midO + midC) % 10, wF4);
-
-      const wF5 = lineStats[4].weight;
       const fBerij = (f1 + f2) % 10, fFarak = Math.abs(f2 - f1) % 10;
-      addVote(f1, wF5 * 0.9); addVote(f2, wF5 * 0.9); addVote(fBerij, wF5 * 1.1); addVote(cutOf(fBerij), wF5 * 0.9);
 
-      const ranked = scores.map((pts, digit) => ({ digit, pts: Number(pts.toFixed(1)) })).sort((a, b) => b.pts - a.pts);
+      const ranked = computeFiveFormulaRanked(prevOpen, prevJodi, prevClose, weekUpJodi, feederJodi, lineStats);
       const top4 = ranked.slice(0, 4);
       const vip1 = top4[0].digit, vip2 = top4[1].digit, sup1 = top4[2].digit, sup2 = top4[3].digit;
 
-      // FIX A PATCHED: Red Jodi / Cut Jodi Trap Detector
       const isPrevRed = (o1 === c1) || (o1 === cutOf(c1));
       const trapBadge = document.getElementById("trapStatusBadge");
       if (isPrevRed) {
@@ -1415,24 +1461,30 @@
       saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
 
+    // Bug #6 Fix: Uses the exact same 5-Formula Weighted Voter (`computeFiveFormulaRanked`) as Tab 1
     function autoAuditTodayResult() {
       const target = document.getElementById("activeTargetSelect").value;
       const rows = appState.charts[target] || [];
       const flat = [];
-      rows.forEach(wk => (wk.days || []).forEach(c => { if (c && c.jodi && c.open && c.close) flat.push(c); }));
+      rows.forEach((wk, wIdx) => (wk.days || []).forEach((c, dIdx) => {
+        if (c && c.jodi && c.open && c.close) flat.push({ ...c, wIdx, dIdx });
+      }));
       if (flat.length < 2) return;
       const setupDay = flat[flat.length - 2], actualDay = flat[flat.length - 1];
-      const pO = Number(setupDay.jodi[0]), pC = Number(setupDay.jodi[1]);
-      const berij = (pO + pC) % 10, farak = Math.abs(pC - pO) % 10;
-      const mO = Number(setupDay.open[1]) || 0, mC = Number(setupDay.close[1]) || 0;
 
-      const s = Array(10).fill(0);
-      const vote = (d, w) => { s[((d % 10) + 10) % 10] += w; };
-      vote(pO, 2.0); vote(pC, 2.0); vote(cutOf(pO), 1.6); vote(cutOf(pC), 1.6);
-      vote(berij, 1.3); vote(cutOf(berij), 1.1); vote(farak, 1.3);
-      vote(mO, 1.4); vote(mC, 1.4); vote((mO + mC) % 10, 1.4);
+      let wkUpCell = (actualDay.wIdx > 0 && rows[actualDay.wIdx - 1]?.days?.[actualDay.dIdx]?.jodi)
+        ? rows[actualDay.wIdx - 1].days[actualDay.dIdx]
+        : setupDay;
+      const feederStr = target === "kalyan" ? appState.feeders.timeBazar : appState.feeders.kalyan;
+      const fParts = parseResultParts(feederStr);
+      const feederJodi = fParts.valid ? fParts.jodi : "31";
 
-      const predTop4 = s.map((pts, d) => ({ d, pts })).sort((a, b) => b.pts - a.pts).slice(0, 4).map(x => x.d);
+      const lineStats = computeDynamicFormulaWeights(target);
+      const ranked = computeFiveFormulaRanked(
+        setupDay.open, setupDay.jodi, setupDay.close, wkUpCell.jodi, feederJodi, lineStats
+      );
+      const predTop4 = ranked.slice(0, 4).map(x => x.digit);
+
       const aO = Number(actualDay.jodi[0]), aC = Number(actualDay.jodi[1]);
       const openHit = predTop4.includes(aO);
       const closeHit = predTop4.includes(aC);
@@ -1442,7 +1494,7 @@
 
       lastAuditedPnlEntry = { note: `${target.toUpperCase()} ${actualDay.open}-${actualDay.jodi}-${actualDay.close} (${hitLabel})`, amount: Math.round(netPnl) };
       document.getElementById("btnLogAuditPnl").classList.remove("hidden");
-      document.getElementById("autoAuditStampBox").innerHTML = `Setup <b>${setupDay.open}-${setupDay.jodi}-${setupDay.close}</b> ➔ Predicted [${predTop4.join(",")}] vs Result <b>${actualDay.open}-${actualDay.jodi}-${actualDay.close}</b>: <b class="${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${hitLabel} (${netPnl >= 0 ? '+' : ''}₹${Math.round(netPnl)})</b>`;
+      document.getElementById("autoAuditStampBox").innerHTML = `Setup <b>${setupDay.open}-${setupDay.jodi}-${setupDay.close}</b> ➔ 5-Formula Predicted [${predTop4.join(",")}] vs Result <b>${actualDay.open}-${actualDay.jodi}-${actualDay.close}</b>: <b class="${netPnl >= 0 ? 'text-emerald-400' : 'text-rose-400'}">${hitLabel} (${netPnl >= 0 ? '+' : ''}₹${Math.round(netPnl)})</b>`;
     }
 
     function logAuditedResultToPassbook() {
@@ -1504,7 +1556,7 @@
     function closeCellModal() { document.getElementById("cellEditModal").classList.add("hidden"); }
     function saveCellModalResult() {
       if (!editingCellRef) return;
-      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = { open: document.getElementById("cellOpenInput").value.trim(), jodi: document.getElementById("cellJodiInput").value.trim(), close: document.getElementById("cellCloseInput").value.trim() };
+      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = { open: document.getElementById("cellOpenInput").value.trim(), jodi: document.getElementById("cellJodiInput").value.trim().padStart(2, "0"), close: document.getElementById("cellCloseInput").value.trim() };
       saveStateLocalAndCloud(); closeCellModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
     function markCellAsHoliday() {
@@ -1531,19 +1583,26 @@
       const tokens = [];
       const mRegex = /([0-9\*]{3})\s*-\s*([0-9\*]{1,2})\s*-\s*([0-9\*]{3})/g;
       let m;
-      while ((m = mRegex.exec(raw)) !== null) tokens.push({ open: m[1], jodi: m[2], close: m[3] });
+      while ((m = mRegex.exec(raw)) !== null) {
+        if (m[1].includes("*") || m[2].includes("*")) tokens.push(null);
+        else tokens.push({ open: m[1], jodi: m[2].padStart(2, "0"), close: m[3] });
+      }
       if (!tokens.length) return alert("No valid tokens found.");
       const newWeeks = [];
-      for (let i = 0; i < tokens.length; i += 6) newWeeks.push({ week: `Wk-${newWeeks.length+1}`, days: tokens.slice(i, i+6) });
+      for (let i = 0; i < tokens.length; i += 6) {
+        const chunk = tokens.slice(i, i + 6);
+        while (chunk.length < 6) chunk.push(null);
+        newWeeks.push({ week: `Wk-${newWeeks.length+1}`, days: chunk });
+      }
       appState.charts[document.getElementById("activeTargetSelect").value] = document.getElementById("bulkReplaceMode").checked ? newWeeks : [...appState.charts[document.getElementById("activeTargetSelect").value], ...newWeeks];
-      saveStateLocalAndCloud(); closeBulkPasteModal(); recalculateAll(); renderPanelChartTable();
+      saveStateLocalAndCloud(); closeBulkPasteModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
 
     function generateFormattedVipSlip() {
       const p = latestCalculatedPrediction || { market: "KALYAN", playDate: "PLAY FOR: TUESDAY, 10/11/2026", basedOn: "390-24-257 (05/11/2026)", top4: [2, 4, 7, 9], jodis: ["21", "27", "44", "49"], pattis: ["237", "390", "239", "257"] };
       const m = latestMoneySlip || { grandTotalUsed: 100, openTotal: 30, jodiTotal: 20, closeTotal: 50 };
       return [
-        `⚡ *SMART OTC & JODI PRO v6.8 VIP SLIP* ⚡`,
+        `⚡ *SMART OTC & JODI PRO v6.9 VIP SLIP* ⚡`,
         `🎯 *Market:* ${p.market}`,
         `🗓️ *${p.playDate}*`,
         `📌 *Based On Last Result:* ${p.basedOn}`,
@@ -1580,8 +1639,10 @@
       } catch (e) {}
     }
 
+    // Bug #3 Fix: Silent background polls ONLY re-sync inputs if the server's market results actually changed
     async function pullFromFirebase(silent = false) {
       try {
+        const prevSignature = JSON.stringify(appState.feeders);
         const [resLocal, resFb] = await Promise.allSettled([fetch(`./live_feed.json?t=${Date.now()}`), fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}?t=${Date.now()}`)]);
         let data = null;
         if (resLocal.status === "fulfilled" && resLocal.value.ok) data = await resLocal.value.json();
@@ -1605,8 +1666,21 @@
           if (data.rates) appState.rates = { ...appState.rates, ...data.rates };
           localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
         }
-        syncRateInputsUI(); renderPipelineUI(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable(); renderPassbookAndEquity();
-        if (!silent) document.getElementById("syncStatusText").textContent = `Verified Sync Complete (${appState.updatedAt})`;
+
+        const newSignature = JSON.stringify(appState.feeders);
+        renderPipelineUI();
+
+        // Only overwrite form inputs on manual sync, initial load, or when a live result actually changed!
+        if (!silent || prevSignature !== newSignature) {
+          syncRateInputsUI();
+          syncInputsFromActiveMarket();
+          recalculateAll();
+          renderPanelChartTable();
+          renderPassbookAndEquity();
+        }
+        if (!silent) {
+          document.getElementById("syncStatusText").textContent = `Verified Sync Complete (${appState.updatedAt})`;
+        }
       } catch (e) {}
     }
 
@@ -1614,7 +1688,7 @@
 
     function exportBackupJson() {
       const blob = new Blob([JSON.stringify(appState, null, 2)], { type: "application/json" });
-      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v68_backup.json`; a.click();
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v69_backup.json`; a.click();
     }
 
     window.addEventListener("DOMContentLoaded", () => {
@@ -1624,7 +1698,7 @@
 
       const saved = localStorage.getItem(LOCAL_KEY);
       if (saved) { try { const p = JSON.parse(saved); if (p && p.feeders) appState = { ...appState, ...p }; } catch (e) {} }
-      syncRateInputsUI(); renderPipelineUI(); syncInputsFromActiveMarket(); recalculateAll(); renderPassbookAndEquity(); renderPanelChartTable(); pullFromFirebase(true);
+      syncRateInputsUI(); renderPipelineUI(); syncInputsFromActiveMarket(); recalculateAll(); renderPassbookAndEquity(); renderPanelChartTable(); pullFromFirebase(false);
     });
   </script>
 </body>
