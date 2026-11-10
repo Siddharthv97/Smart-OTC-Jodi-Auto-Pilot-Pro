@@ -7,32 +7,38 @@
           {
             "open": "678",
             "jodi": "16",
-            "close": "457"
+            "close": "457",
+            "date": "05/10/2026 (Mon)"
           },
           {
             "open": "167",
             "jodi": "47",
-            "close": "115"
+            "close": "115",
+            "date": "06/10/2026 (Tue)"
           },
           {
             "open": "456",
             "jodi": "54",
-            "close": "130"
+            "close": "130",
+            "date": "07/10/2026 (Wed)"
           },
           {
             "open": "258",
             "jodi": "56",
-            "close": "150"
+            "close": "150",
+            "date": "08/10/2026 (Thu)"
           },
           {
             "open": "490",
             "jodi": "39",
-            "close": "270"
+            "close": "270",
+            "date": "09/10/2026 (Fri)"
           },
           {
             "open": "359",
             "jodi": "78",
-            "close": "567"
+            "close": "567",
+            "date": "10/10/2026 (Sat)"
           }
         ]
       },
@@ -42,32 +48,38 @@
           {
             "open": "159",
             "jodi": "55",
-            "close": "690"
+            "close": "690",
+            "date": "12/10/2026 (Mon)"
           },
           {
             "open": "148",
             "jodi": "34",
-            "close": "220"
+            "close": "220",
+            "date": "13/10/2026 (Tue)"
           },
           {
             "open": "234",
             "jodi": "91",
-            "close": "335"
+            "close": "335",
+            "date": "14/10/2026 (Wed)"
           },
           {
             "open": "390",
             "jodi": "26",
-            "close": "466"
+            "close": "466",
+            "date": "15/10/2026 (Thu)"
           },
           {
             "open": "227",
             "jodi": "18",
-            "close": "468"
+            "close": "468",
+            "date": "16/10/2026 (Fri)"
           },
           {
             "open": "250",
             "jodi": "77",
-            "close": "359"
+            "close": "359",
+            "date": "17/10/2026 (Sat)"
           }
         ]
       },
@@ -77,32 +89,38 @@
           {
             "open": "159",
             "jodi": "58",
-            "close": "170"
+            "close": "170",
+            "date": "19/10/2026 (Mon)"
           },
           {
             "open": "399",
             "jodi": "16",
-            "close": "277"
+            "close": "277",
+            "date": "20/10/2026 (Tue)"
           },
           {
             "open": "135",
             "jodi": "95",
-            "close": "140"
+            "close": "140",
+            "date": "21/10/2026 (Wed)"
           },
           {
             "open": "245",
             "jodi": "12",
-            "close": "129"
+            "close": "129",
+            "date": "22/10/2026 (Thu)"
           },
           {
             "open": "359",
             "jodi": "73",
-            "close": "247"
+            "close": "247",
+            "date": "23/10/2026 (Fri)"
           },
           {
             "open": "289",
             "jodi": "91",
-            "close": "146"
+            "close": "146",
+            "date": "24/10/2026 (Sat)"
           }
         ]
       },
@@ -112,32 +130,38 @@
           {
             "open": "259",
             "jodi": "68",
-            "close": "170"
+            "close": "170",
+            "date": "26/10/2026 (Mon)"
           },
           {
             "open": "358",
             "jodi": "63",
-            "close": "238"
+            "close": "238",
+            "date": "27/10/2026 (Tue)"
           },
           {
             "open": "178",
             "jodi": "64",
-            "close": "130"
+            "close": "130",
+            "date": "28/10/2026 (Wed)"
           },
           {
             "open": "130",
             "jodi": "48",
-            "close": "558"
+            "close": "558",
+            "date": "29/10/2026 (Thu)"
           },
           {
             "open": "779",
             "jodi": "34",
-            "close": "149"
+            "close": "149",
+            "date": "30/10/2026 (Fri)"
           },
           {
             "open": "590",
             "jodi": "40",
-            "close": "127"
+            "close": "127",
+            "date": "31/10/2026 (Sat)"
           }
         ]
       },
@@ -147,22 +171,26 @@
           {
             "open": "789",
             "jodi": "46",
-            "close": "150"
+            "close": "150",
+            "date": "02/11/2026 (Mon)"
           },
           {
             "open": "678",
             "jodi": "17",
-            "close": "124"
+            "close": "124",
+            "date": "03/11/2026 (Tue)"
           },
           {
             "open": "278",
             "jodi": "74",
-            "close": "789"
+            "close": "789",
+            "date": "04/11/2026 (Wed)"
           },
           {
             "open": "390",
             "jodi": "24",
-            "close": "257"
+            "close": "257",
+            "date": "05/11/2026 (Thu)"
           },
           null,
           null
@@ -176,27 +204,32 @@
           {
             "open": "140",
             "jodi": "57",
-            "close": "250"
+            "close": "250",
+            "date": "05/10/2026 (Mon)"
           },
           {
             "open": "459",
             "jodi": "85",
-            "close": "168"
+            "close": "168",
+            "date": "06/10/2026 (Tue)"
           },
           {
             "open": "130",
             "jodi": "48",
-            "close": "567"
+            "close": "567",
+            "date": "07/10/2026 (Wed)"
           },
           {
             "open": "469",
             "jodi": "99",
-            "close": "126"
+            "close": "126",
+            "date": "08/10/2026 (Thu)"
           },
           {
             "open": "558",
             "jodi": "84",
-            "close": "590"
+            "close": "590",
+            "date": "09/10/2026 (Fri)"
           },
           null
         ]
@@ -207,27 +240,32 @@
           {
             "open": "160",
             "jodi": "79",
-            "close": "568"
+            "close": "568",
+            "date": "12/10/2026 (Mon)"
           },
           {
             "open": "290",
             "jodi": "11",
-            "close": "669"
+            "close": "669",
+            "date": "13/10/2026 (Tue)"
           },
           {
             "open": "122",
             "jodi": "58",
-            "close": "189"
+            "close": "189",
+            "date": "14/10/2026 (Wed)"
           },
           {
             "open": "130",
             "jodi": "46",
-            "close": "123"
+            "close": "123",
+            "date": "15/10/2026 (Thu)"
           },
           {
             "open": "257",
             "jodi": "42",
-            "close": "480"
+            "close": "480",
+            "date": "16/10/2026 (Fri)"
           },
           null
         ]
@@ -238,27 +276,32 @@
           {
             "open": "690",
             "jodi": "55",
-            "close": "230"
+            "close": "230",
+            "date": "19/10/2026 (Mon)"
           },
           {
             "open": "346",
             "jodi": "31",
-            "close": "137"
+            "close": "137",
+            "date": "20/10/2026 (Tue)"
           },
           {
             "open": "168",
             "jodi": "50",
-            "close": "677"
+            "close": "677",
+            "date": "21/10/2026 (Wed)"
           },
           {
             "open": "560",
             "jodi": "16",
-            "close": "169"
+            "close": "169",
+            "date": "22/10/2026 (Thu)"
           },
           {
             "open": "369",
             "jodi": "81",
-            "close": "245"
+            "close": "245",
+            "date": "23/10/2026 (Fri)"
           },
           null
         ]
@@ -269,27 +312,32 @@
           {
             "open": "458",
             "jodi": "78",
-            "close": "378"
+            "close": "378",
+            "date": "26/10/2026 (Mon)"
           },
           {
             "open": "179",
             "jodi": "75",
-            "close": "339"
+            "close": "339",
+            "date": "27/10/2026 (Tue)"
           },
           {
             "open": "199",
             "jodi": "96",
-            "close": "268"
+            "close": "268",
+            "date": "28/10/2026 (Wed)"
           },
           {
             "open": "570",
             "jodi": "21",
-            "close": "236"
+            "close": "236",
+            "date": "29/10/2026 (Thu)"
           },
           {
             "open": "347",
             "jodi": "40",
-            "close": "668"
+            "close": "668",
+            "date": "30/10/2026 (Fri)"
           },
           null
         ]
@@ -300,22 +348,26 @@
           {
             "open": "124",
             "jodi": "72",
-            "close": "156"
+            "close": "156",
+            "date": "02/11/2026 (Mon)"
           },
           {
             "open": "348",
             "jodi": "54",
-            "close": "158"
+            "close": "158",
+            "date": "03/11/2026 (Tue)"
           },
           {
             "open": "248",
             "jodi": "48",
-            "close": "260"
+            "close": "260",
+            "date": "04/11/2026 (Wed)"
           },
           {
             "open": "780",
             "jodi": "58",
-            "close": "134"
+            "close": "134",
+            "date": "05/11/2026 (Thu)"
           },
           null,
           null
@@ -339,7 +391,7 @@
     {
       "amount": 500,
       "date": "Initial",
-      "note": "Starting Wallet Balance"
+      "note": "Starting Balance"
     }
   ],
   "rates": {
@@ -348,6 +400,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-10 10:24:15 IST",
+  "updatedAt": "2026-11-10 10:51:11 IST",
   "weekUpJodi": "17"
 }
