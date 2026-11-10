@@ -116,6 +116,36 @@ jobs:
                   return parse_date_tuple(m.group(1), m.group(2), m.group(3))
               return None
 
+          # Normalizes any Firebase-truncated list or sparse dict back into a strict 6-element [Mon..Sat] list
+          def normalize_days_list(raw_days):
+              res = [None] * 6
+              if isinstance(raw_days, list):
+                  for i in range(min(6, len(raw_days))):
+                      item = raw_days[i]
+                      if isinstance(item, dict) and item.get("jodi"):
+                          res[i] = item
+              elif isinstance(raw_days, dict):
+                  for k, v in raw_days.items():
+                      try:
+                          idx = int(k)
+                          if 0 <= idx < 6 and isinstance(v, dict) and v.get("jodi"):
+                              res[idx] = v
+                      except Exception:
+                          pass
+              return res
+
+          def normalize_weeks_list(raw_weeks):
+              if not isinstance(raw_weeks, list):
+                  return []
+              cleaned = []
+              for w in raw_weeks:
+                  if isinstance(w, dict) and w.get("week"):
+                      cleaned.append({
+                          "week": str(w.get("week")),
+                          "days": normalize_days_list(w.get("days"))
+                      })
+              return cleaned
+
           def fetch_latest_and_weeks_from_panel_chart(url):
               if not url: return None, None, []
               try:
@@ -172,27 +202,32 @@ jobs:
               return None, None, []
 
           def merge_chart_weeks(existing_wks, scraped_wks):
-              if not scraped_wks:
-                  return existing_wks
-              if not existing_wks:
-                  return scraped_wks[-5:]
+              existing_clean = normalize_weeks_list(existing_wks)
+              scraped_clean = normalize_weeks_list(scraped_wks)
+              if not scraped_clean:
+                  return existing_clean[-5:]
+              if not existing_clean:
+                  return scraped_clean[-5:]
+
               merged_map = {}
               order_keys = []
-              for w in scraped_wks:
-                  wk_key = w.get("week")
-                  merged_map[wk_key] = {"week": wk_key, "days": list(w.get("days", [None]*6))}
+              for w in scraped_clean:
+                  wk_key = w["week"]
+                  merged_map[wk_key] = {"week": wk_key, "days": list(w["days"])}
                   if wk_key not in order_keys:
                       order_keys.append(wk_key)
-              # Preserve any live-injected cells from existing_wks that are not yet on the website's chart page
-              for ew in existing_wks:
-                  wk_key = ew.get("week")
+
+              for ew in existing_clean:
+                  wk_key = ew["week"]
+                  ew_days = ew["days"]
                   if wk_key not in merged_map:
-                      merged_map[wk_key] = {"week": wk_key, "days": list(ew.get("days", [None]*6))}
+                      merged_map[wk_key] = {"week": wk_key, "days": list(ew_days)}
                       order_keys.append(wk_key)
                   else:
                       for d_i in range(6):
-                          if merged_map[wk_key]["days"][d_i] is None and ew.get("days", [None]*6)[d_i] is not None:
-                              merged_map[wk_key]["days"][d_i] = ew["days"][d_i]
+                          if merged_map[wk_key]["days"][d_i] is None and ew_days[d_i] is not None:
+                              merged_map[wk_key]["days"][d_i] = ew_days[d_i]
+
               return [merged_map[k] for k in order_keys][-5:]
 
           ctx = ssl.create_default_context()
@@ -205,9 +240,9 @@ jobs:
           except Exception:
               state = {}
 
-          existing_feeders = state.get("feeders", {})
-          existing_dates = state.get("feederDates", {})
-          existing_charts = state.get("charts", {"kalyan": [], "rajdhani": []})
+          existing_feeders = state.get("feeders", {}) if isinstance(state.get("feeders"), dict) else {}
+          existing_dates = state.get("feederDates", {}) if isinstance(state.get("feederDates"), dict) else {}
+          raw_charts = state.get("charts", {}) if isinstance(state.get("charts"), dict) else {}
 
           MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
           key_map = { "MAIN BAZAR": "mainBazar", "TIME BAZAR": "timeBazar", "KALYAN": "kalyan", "RAJDHANI NIGHT": "rajdhani" }
@@ -221,8 +256,8 @@ jobs:
           final_results = {}
           final_dates = {}
           updated_charts = {
-              "kalyan": existing_charts.get("kalyan", []),
-              "rajdhani": existing_charts.get("rajdhani", [])
+              "kalyan": normalize_weeks_list(raw_charts.get("kalyan", [])),
+              "rajdhani": normalize_weeks_list(raw_charts.get("rajdhani", []))
           }
 
           for m_name in MARKETS:
@@ -248,7 +283,7 @@ jobs:
                       if "*" not in locked_val and len(jd) == 2 and weekday_now < 6 and m_name in ["KALYAN", "RAJDHANI NIGHT"]:
                           c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
                           if is_valid_matka_record(op[0], op[1], op[2], jd, cl[0], cl[1], cl[2]):
-                              w_list = list(updated_charts.get(c_key, []))
+                              w_list = normalize_weeks_list(updated_charts.get(c_key, []))
                               target_wk = next((w for w in w_list if w.get("week") == current_week_label), None)
                               if not target_wk:
                                   target_wk = {"week": current_week_label, "days": [None]*6}
@@ -258,7 +293,6 @@ jobs:
                               }
                               updated_charts[c_key] = w_list[-5:]
 
-              # Chronological Date Guard: Only fallback to chart_val if chart_date is NOT older than existing saved result date
               if not locked_val and chart_val:
                   prev_saved_val = existing_feeders.get(k_name)
                   prev_saved_dt = parse_label_date(existing_dates.get(k_name))
