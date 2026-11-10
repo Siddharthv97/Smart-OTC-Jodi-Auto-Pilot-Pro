@@ -1,4 +1,4 @@
-name: Live Scraper & Dual-Node Master Sync (v6.9 Final)
+name: Live Scraper & Dual-Node Master Sync (v7.1 Final)
 
 on:
   schedule:
@@ -44,9 +44,11 @@ jobs:
           FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
 
           ist_now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=5, minutes=30)
-          today_date_label = ist_now.strftime("%d/%m/%Y (%a)")
-          weekday_now = ist_now.weekday() # 0=Mon .. 6=Sun
-          monday_now_dt = (ist_now - datetime.timedelta(days=weekday_now)).date()
+          # Midnight Rollover Lock: Runs between 12:00 AM and 03:59 AM IST belong to the previous night's trading session
+          session_dt = ist_now - datetime.timedelta(hours=4)
+          today_date_label = session_dt.strftime("%d/%m/%Y (%a)")
+          weekday_now = session_dt.weekday() # 0=Mon .. 5=Sat
+          monday_now_dt = (session_dt - datetime.timedelta(days=weekday_now)).date()
           current_week_label = monday_now_dt.strftime("%d/%m/%Y")
 
           scraper = cloudscraper.create_scraper(
@@ -90,11 +92,9 @@ jobs:
               if not (m_val(c1) <= m_val(c2) <= m_val(c3)): return False
               return ((int(o1)+int(o2)+int(o3)) % 10 == int(jodi[0])) and ((int(c1)+int(c2)+int(c3)) % 10 == int(jodi[1]))
 
-          # Matches either a valid 3-2-3 day record OR a holiday star slot so weekday column index never shifts
           DAY_OR_HOLIDAY_RE = re.compile(
               r'(?:(?<![0-9])([0-9])\s*([0-9])\s*([0-9])\s*[\-\s]+\s*([0-9]{2})\s*[\-\s]+\s*([0-9])\s*([0-9])\s*([0-9])(?![0-9]))|(?:\*\s*\*\s*\*\s*[\-\s]*\*{1,2}\s*[\-\s]*\*\s*\*\s*\*)'
           )
-          # Supports 1 or 2 digit day/month and 2 or 4 digit year (e.g. 2/11/2026, 02-11-26, 02/11/2026)
           DATE_TOKEN_RE = re.compile(r'\b(\d{1,2})\s*[\/\-\.]\s*(\d{1,2})\s*[\/\-\.]\s*(\d{2,4})\b')
 
           def parse_date_tuple(dd_s, mm_s, yy_s):
@@ -108,7 +108,15 @@ jobs:
                   pass
               return None
 
-          def fetch_latest_and_weeks_from_panel_chart(url, default_date_str):
+          def parse_label_date(label_str):
+              if not label_str or not isinstance(label_str, str):
+                  return None
+              m = DATE_TOKEN_RE.search(label_str)
+              if m:
+                  return parse_date_tuple(m.group(1), m.group(2), m.group(3))
+              return None
+
+          def fetch_latest_and_weeks_from_panel_chart(url):
               if not url: return None, None, []
               try:
                   c_resp = scraper.get(url, timeout=15)
@@ -163,6 +171,30 @@ jobs:
                   pass
               return None, None, []
 
+          def merge_chart_weeks(existing_wks, scraped_wks):
+              if not scraped_wks:
+                  return existing_wks
+              if not existing_wks:
+                  return scraped_wks[-5:]
+              merged_map = {}
+              order_keys = []
+              for w in scraped_wks:
+                  wk_key = w.get("week")
+                  merged_map[wk_key] = {"week": wk_key, "days": list(w.get("days", [None]*6))}
+                  if wk_key not in order_keys:
+                      order_keys.append(wk_key)
+              # Preserve any live-injected cells from existing_wks that are not yet on the website's chart page
+              for ew in existing_wks:
+                  wk_key = ew.get("week")
+                  if wk_key not in merged_map:
+                      merged_map[wk_key] = {"week": wk_key, "days": list(ew.get("days", [None]*6))}
+                      order_keys.append(wk_key)
+                  else:
+                      for d_i in range(6):
+                          if merged_map[wk_key]["days"][d_i] is None and ew.get("days", [None]*6)[d_i] is not None:
+                              merged_map[wk_key]["days"][d_i] = ew["days"][d_i]
+              return [merged_map[k] for k in order_keys][-5:]
+
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
@@ -200,10 +232,10 @@ jobs:
               locked_val = None
               locked_date = fallback_dates[k_name]
 
-              chart_val, chart_date, chart_weeks = fetch_latest_and_weeks_from_panel_chart(p_url, fallback_dates[k_name])
+              chart_val, chart_date, chart_weeks = fetch_latest_and_weeks_from_panel_chart(p_url)
               if m_name in ["KALYAN", "RAJDHANI NIGHT"] and chart_weeks:
                   c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
-                  updated_charts[c_key] = chart_weeks
+                  updated_charts[c_key] = merge_chart_weeks(updated_charts.get(c_key, []), chart_weeks)
 
               if live_slot:
                   dm = DIGIT_SLOT_RE.search(live_slot)
@@ -213,36 +245,34 @@ jobs:
                       locked_val = f"{op}-{jd}-{cl}"
                       locked_date = today_date_label if ("*" not in locked_val) else f"{today_date_label} • LIVE"
 
-                      # Bug #5 Fix: If live box has a complete valid result today, immediately inject into Panel Chart
                       if "*" not in locked_val and len(jd) == 2 and weekday_now < 6 and m_name in ["KALYAN", "RAJDHANI NIGHT"]:
                           c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
                           if is_valid_matka_record(op[0], op[1], op[2], jd, cl[0], cl[1], cl[2]):
-                              w_list = updated_charts.get(c_key, [])
-                              # Check if already present at the end of chart
-                              last_logged = None
-                              for wk in reversed(w_list):
-                                  for d_cell in reversed(wk.get("days", [])):
-                                      if d_cell and d_cell.get("jodi"):
-                                          last_logged = f"{d_cell['open']}-{d_cell['jodi']}-{d_cell['close']}"
-                                          break
-                                  if last_logged:
-                                      break
-                              if last_logged != locked_val:
-                                  target_wk = next((w for w in w_list if w.get("week") == current_week_label), None)
-                                  if not target_wk:
-                                      target_wk = {"week": current_week_label, "days": [None]*6}
-                                      w_list.append(target_wk)
-                                  target_wk["days"][weekday_now] = {
-                                      "open": op, "jodi": jd, "close": cl, "date": today_date_label
-                                  }
-                                  updated_charts[c_key] = w_list[-5:]
+                              w_list = list(updated_charts.get(c_key, []))
+                              target_wk = next((w for w in w_list if w.get("week") == current_week_label), None)
+                              if not target_wk:
+                                  target_wk = {"week": current_week_label, "days": [None]*6}
+                                  w_list.append(target_wk)
+                              target_wk["days"][weekday_now] = {
+                                  "open": op, "jodi": jd, "close": cl, "date": today_date_label
+                              }
+                              updated_charts[c_key] = w_list[-5:]
 
+              # Chronological Date Guard: Only fallback to chart_val if chart_date is NOT older than existing saved result date
               if not locked_val and chart_val:
-                  locked_val = chart_val
-                  if chart_date:
-                      locked_date = chart_date
-                  elif locked_val != existing_feeders.get(k_name):
-                      locked_date = today_date_label
+                  prev_saved_val = existing_feeders.get(k_name)
+                  prev_saved_dt = parse_label_date(existing_dates.get(k_name))
+                  new_chart_dt = parse_label_date(chart_date)
+
+                  if prev_saved_val and not prev_saved_val.startswith("***") and prev_saved_dt and new_chart_dt and new_chart_dt < prev_saved_dt:
+                      locked_val = prev_saved_val
+                      locked_date = existing_dates.get(k_name)
+                  else:
+                      locked_val = chart_val
+                      if chart_date:
+                          locked_date = chart_date
+                      elif locked_val != prev_saved_val:
+                          locked_date = today_date_label
 
               final_results[k_name] = locked_val or existing_feeders.get(k_name, "WAITING-LIVE")
               final_dates[k_name] = locked_date
@@ -269,7 +299,7 @@ jobs:
           chat_id = os.environ.get("TELEGRAM_CHAT_ID")
           if bot_token and chat_id:
               msg = (
-                  f"⚡ *Smart OTC Pro v6.9 Auto-Sync*\n"
+                  f"⚡ *Smart OTC Pro v7.1 Auto-Sync*\n"
                   f"🕒 Time: {state['updatedAt']}\n"
                   f"👑 Kalyan: `{final_results.get('kalyan')}` ({final_dates.get('kalyan')})\n"
                   f"🌙 Rajdhani: `{final_results.get('rajdhani')}` ({final_dates.get('rajdhani')})\n"
