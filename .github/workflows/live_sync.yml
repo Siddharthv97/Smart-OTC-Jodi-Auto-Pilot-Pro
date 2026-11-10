@@ -1,4 +1,4 @@
-name: Live Scraper & Dual-Node Master Sync (v7.1 Final)
+name: Live Scraper & Dual-Node Master Sync (v7.2 Bulletproof)
 
 on:
   schedule:
@@ -38,7 +38,7 @@ jobs:
           python3 - << 'EOF'
           import cloudscraper
           from bs4 import BeautifulSoup
-          import re, json, datetime, urllib.request, ssl, os
+          import re, json, datetime, time, urllib.request, ssl, os
 
           TARGET_URL = "https://sattamatka.email/"
           FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
@@ -54,8 +54,19 @@ jobs:
           scraper = cloudscraper.create_scraper(
               browser={'browser': 'chrome', 'platform': 'windows', 'mobile': False}
           )
-          resp = scraper.get(TARGET_URL, timeout=20)
-          soup = BeautifulSoup(resp.text, "lxml")
+
+          html_text = ""
+          for attempt in range(3):
+              try:
+                  resp = scraper.get(TARGET_URL, timeout=20)
+                  if resp.status_code == 200 and len(resp.text) > 500:
+                      html_text = resp.text
+                      break
+              except Exception as e:
+                  print(f"[Retry {attempt+1}/3] Fetch warning: {e}")
+                  time.sleep(2)
+
+          soup = BeautifulSoup(html_text, "lxml") if html_text else BeautifulSoup("", "lxml")
 
           chart_links = {}
           for a in soup.find_all("a", href=True):
@@ -75,6 +86,8 @@ jobs:
           full_page_text = " ".join(soup.get_text(" ", strip=True).split())
 
           def parse_first_live_slot(page_text, market_name):
+              if not page_text:
+                  return None
               escaped = re.escape(market_name).replace(r"\ ", r"\s+")
               pattern = rf"(?<![A-Z0-9]){escaped}(?!\s*(?:MORNING|NIGHT|DAY|STARLINE|GOLD|BAZAR|JACKPOT))\s+Jodi\s+(.*?)\s+Panel"
               matches = list(re.finditer(pattern, page_text, re.IGNORECASE))
@@ -116,7 +129,7 @@ jobs:
                   return parse_date_tuple(m.group(1), m.group(2), m.group(3))
               return None
 
-          # Normalizes any Firebase-truncated list or sparse dict back into a strict 6-element [Mon..Sat] list
+          # Normalizes any Firebase-truncated list or sparse dict into a strict 6-element [Mon..Sat] list
           def normalize_days_list(raw_days):
               res = [None] * 6
               if isinstance(raw_days, list):
@@ -135,6 +148,8 @@ jobs:
               return res
 
           def normalize_weeks_list(raw_weeks):
+              if isinstance(raw_weeks, dict):
+                  raw_weeks = list(raw_weeks.values())
               if not isinstance(raw_weeks, list):
                   return []
               cleaned = []
@@ -197,8 +212,8 @@ jobs:
                       last = valid_records[-1]
                       latest_str = f"{last['open']}-{last['jodi']}-{last['close']}"
                       return latest_str, last.get("date"), structured_weeks[-5:]
-              except Exception:
-                  pass
+              except Exception as e:
+                  print(f"[Warn] Chart parse ({url}): {e}")
               return None, None, []
 
           def merge_chart_weeks(existing_wks, scraped_wks):
@@ -235,14 +250,17 @@ jobs:
           ctx.verify_mode = ssl.CERT_NONE
 
           try:
-              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v62_master.json", context=ctx)
+              req = urllib.request.urlopen(f"{FIREBASE_URL}/otc_pro_v62_master.json", context=ctx, timeout=15)
               state = json.loads(req.read().decode('utf-8')) or {}
           except Exception:
               state = {}
 
-          existing_feeders = state.get("feeders", {}) if isinstance(state.get("feeders"), dict) else {}
-          existing_dates = state.get("feederDates", {}) if isinstance(state.get("feederDates"), dict) else {}
-          raw_charts = state.get("charts", {}) if isinstance(state.get("charts"), dict) else {}
+          if not isinstance(state, dict):
+              state = {}
+
+          existing_feeders = state.get("feeders") if isinstance(state.get("feeders"), dict) else {}
+          existing_dates = state.get("feederDates") if isinstance(state.get("feederDates"), dict) else {}
+          raw_charts = state.get("charts") if isinstance(state.get("charts"), dict) else {}
 
           MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
           key_map = { "MAIN BAZAR": "mainBazar", "TIME BAZAR": "timeBazar", "KALYAN": "kalyan", "RAJDHANI NIGHT": "rajdhani" }
@@ -321,19 +339,22 @@ jobs:
 
           payload = json.dumps(state).encode('utf-8')
           for node in ["otc_pro_v62_master.json", "otc_pro_v61_real.json", "otc_pro_v51.json"]:
-              put_req = urllib.request.Request(
-                  f"{FIREBASE_URL}/{node}",
-                  data=payload,
-                  headers={'Content-Type': 'application/json'},
-                  method='PUT'
-              )
-              urllib.request.urlopen(put_req, context=ctx)
+              try:
+                  put_req = urllib.request.Request(
+                      f"{FIREBASE_URL}/{node}",
+                      data=payload,
+                      headers={'Content-Type': 'application/json'},
+                      method='PUT'
+                  )
+                  urllib.request.urlopen(put_req, context=ctx, timeout=15)
+              except Exception as e:
+                  print(f"[Warn] Firebase PUT ({node}): {e}")
 
           bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
           chat_id = os.environ.get("TELEGRAM_CHAT_ID")
           if bot_token and chat_id:
               msg = (
-                  f"⚡ *Smart OTC Pro v7.1 Auto-Sync*\n"
+                  f"⚡ *Smart OTC Pro v7.2 Auto-Sync*\n"
                   f"🕒 Time: {state['updatedAt']}\n"
                   f"👑 Kalyan: `{final_results.get('kalyan')}` ({final_dates.get('kalyan')})\n"
                   f"🌙 Rajdhani: `{final_results.get('rajdhani')}` ({final_dates.get('rajdhani')})\n"
@@ -343,7 +364,7 @@ jobs:
               tg_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
               tg_data = json.dumps({"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}).encode('utf-8')
               try:
-                  urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_data, headers={'Content-Type': 'application/json'}))
+                  urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_data, headers={'Content-Type': 'application/json'}), timeout=10)
               except Exception:
                   pass
 
@@ -356,5 +377,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add live_feed.json
-          git diff --staged --quiet || git commit -m "Auto-sync live_feed.json with dates & charts [skip ci]"
-          git push
+          if ! git diff --staged --quiet; then
+            git commit -m "Auto-sync live_feed.json with dates & charts [skip ci]"
+            git pull --rebase origin main
+            git push
+          fi
