@@ -323,6 +323,12 @@
       }
     ]
   },
+  "feederDates": {
+    "mainBazar": "05/11/2026 (Thu)",
+    "timeBazar": "05/11/2026 (Thu)",
+    "kalyan": "05/11/2026 (Thu)",
+    "rajdhani": "05/11/2026 (Thu)"
+  },
   "feeders": {
     "mainBazar": "557-73-788",
     "timeBazar": "139-31-579",
@@ -339,15 +345,9 @@
   "rates": {
     "dp": 2800,
     "jodi": 950,
-    "single": 93,
+    "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-10 10:04:15 IST",
-  "weekUpJodi": "46",
-  "feederDates": {
-    "mainBazar": "05/11/2026 (Thu)",
-    "timeBazar": "05/11/2026 (Thu)",
-    "kalyan": "05/11/2026 (Thu)",
-    "rajdhani": "05/11/2026 (Thu)"
-  }
+  "updatedAt": "2026-11-10 10:24:15 IST",
+  "weekUpJodi": "17"
 }
