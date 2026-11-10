@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0f172a" />
-  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v7.1 (Uncut Final Master)</title>
+  <title>Smart OTC, Jodi & Patti Auto-Pilot Pro v7.2 (Bulletproof Master)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <style>
@@ -39,7 +39,7 @@
       <div class="flex items-center gap-3 border-b border-slate-700 pb-4">
         <div class="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-400 flex items-center justify-center text-2xl">🔒</div>
         <div>
-          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v7.1</span>
+          <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Strict Owner Gate v7.2</span>
           <h2 class="text-lg font-extrabold text-white mt-0.5">Smart OTC & Jodi Pro Master</h2>
           <p class="text-xs text-slate-400">Checksum-Verified Quantitative Engine</p>
         </div>
@@ -353,7 +353,6 @@
               </div>
             </div>
 
-            <!-- RESTORED #7: ALL 4 SNIPER HALF-SANGAM COMBINATIONS -->
             <div class="p-3 rounded-xl bg-slate-900/90 border border-indigo-500/30 mb-4">
               <div class="text-xs font-bold text-indigo-300 mb-1.5">🎯 Sniper Half-Sangam Condenser (4 High-Precision Pairs)</div>
               <div id="halfSangamBox" class="mono text-xs text-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
@@ -366,8 +365,8 @@
                   <p class="text-[11px] text-slate-400">Half-time Open (`149-4*`) aate hi auto-fill hoga — Close Ank, Jodi & Relay Pattis turant dikhengi</p>
                 </div>
                 <div class="flex items-center gap-2">
-                  <input id="liveOpenPatti" type="text" maxlength="3" placeholder="Open Patti" oninput="runMidGamePivot()" class="input-dark mono text-xs w-36 text-center" />
-                  <input id="liveOpenAnk" type="text" maxlength="1" placeholder="Ank" oninput="runMidGamePivot()" class="input-dark mono text-xs w-14 text-center font-bold text-amber-400" />
+                  <input id="liveOpenPatti" type="text" maxlength="3" placeholder="Open Patti" oninput="runMidGamePivot(true)" class="input-dark mono text-xs w-36 text-center" />
+                  <input id="liveOpenAnk" type="text" maxlength="1" placeholder="Ank" oninput="runMidGamePivot(false)" class="input-dark mono text-xs w-14 text-center font-bold text-amber-400" />
                 </div>
               </div>
               <div id="midGamePivotOutput" class="text-xs text-slate-300 mt-2 p-2.5 rounded-lg bg-slate-950 border border-slate-800"></div>
@@ -520,7 +519,6 @@
           </div>
         </div>
 
-        <!-- RESTORED #1: EXPORT + IMPORT / RESTORE JSON BACKUP -->
         <div class="card-panel p-5 border border-emerald-500/40 space-y-4">
           <h3 class="text-base font-extrabold text-white">☁️ Dual-Engine Cloud Sync & JSON Backup Restore</h3>
           <p class="text-xs text-slate-400">Push/pull live state across devices or export/restore full JSON backup (Charts, Passbook, Rates & Feeders).</p>
@@ -583,9 +581,9 @@
     <div class="card-panel max-w-md w-full p-5 space-y-4 border border-amber-500/50">
       <div class="flex justify-between items-center border-b border-slate-700 pb-3"><h3 id="cellModalTitle" class="font-extrabold text-base text-white">Edit Cell</h3><button onclick="closeCellModal()" class="text-slate-400">&times;</button></div>
       <div class="grid grid-cols-3 gap-2 text-xs">
-        <div><label class="block text-slate-400 mb-1">Open</label><input id="cellOpenInput" type="text" maxlength="3" class="input-dark mono font-bold w-full text-center" /></div>
+        <div><label class="block text-slate-400 mb-1">Open Patti</label><input id="cellOpenInput" type="text" maxlength="3" oninput="autoCalcCellModalJodi()" class="input-dark mono font-bold w-full text-center" /></div>
         <div><label class="block text-slate-400 mb-1">Jodi</label><input id="cellJodiInput" type="text" maxlength="2" class="input-dark mono font-bold w-full text-center text-amber-400" /></div>
-        <div><label class="block text-slate-400 mb-1">Close</label><input id="cellCloseInput" type="text" maxlength="3" class="input-dark mono font-bold w-full text-center" /></div>
+        <div><label class="block text-slate-400 mb-1">Close Patti</label><input id="cellCloseInput" type="text" maxlength="3" oninput="autoCalcCellModalJodi()" class="input-dark mono font-bold w-full text-center" /></div>
       </div>
       <div class="flex justify-between items-center pt-3 border-t border-slate-700"><button onclick="markCellAsHoliday()" class="px-3 py-2 rounded-lg bg-rose-600 text-white text-xs">🏖️ Holiday</button><div class="flex gap-2"><button onclick="closeCellModal()" class="px-3 py-2 rounded-lg bg-slate-800 text-xs">Cancel</button><button onclick="saveCellModalResult()" class="px-4 py-2 rounded-lg bg-emerald-600 text-xs font-bold">Save</button></div></div>
     </div>
@@ -616,7 +614,7 @@
     const FIREBASE_BASE = "https://smart-otc-cloud-default-rtdb.firebaseio.com";
     const MASTER_DB_PATH = "/otc_pro_v62_master.json";
     const REAL_V61_PATH = "/otc_pro_v61_real.json";
-    const LOCAL_KEY = "otc_pro_verified_v71_master_state";
+    const LOCAL_KEY = "otc_pro_verified_v72_master_state";
 
     const BANNED_FAKE_RESULTS = new Set([
       "246-22-570", "137-19-450", "358-64-266", "147-29-450", "278-24-257", "158-46-367", "346-38-459"
@@ -681,6 +679,57 @@
 
     const cutOf = d => (Number(d) + 5) % 10;
 
+    // FIX #1: Bulletproof Normalizer against Firebase null-stripping & sparse-object conversion
+    function normalizeDaysArray(rawDays) {
+      const out = [null, null, null, null, null, null];
+      if (!rawDays) return out;
+      if (Array.isArray(rawDays)) {
+        for (let i = 0; i < Math.min(6, rawDays.length); i++) {
+          const c = rawDays[i];
+          if (c && typeof c === "object" && c.jodi && String(c.jodi).length === 2 && !String(c.jodi).includes("*")) {
+            out[i] = { open: String(c.open || "***"), jodi: String(c.jodi).padStart(2, "0"), close: String(c.close || "***"), date: c.date || null };
+          }
+        }
+      } else if (typeof rawDays === "object") {
+        Object.keys(rawDays).forEach(k => {
+          const idx = parseInt(k, 10);
+          const c = rawDays[k];
+          if (!isNaN(idx) && idx >= 0 && idx < 6 && c && typeof c === "object" && c.jodi && !String(c.jodi).includes("*")) {
+            out[idx] = { open: String(c.open || "***"), jodi: String(c.jodi).padStart(2, "0"), close: String(c.close || "***"), date: c.date || null };
+          }
+        });
+      }
+      return out;
+    }
+
+    function normalizeWeeksArray(rawWeeks) {
+      if (!rawWeeks) return [];
+      const list = Array.isArray(rawWeeks) ? rawWeeks : Object.values(rawWeeks);
+      return list
+        .filter(w => w && typeof w === "object" && w.week)
+        .map(w => ({
+          week: String(w.week),
+          days: normalizeDaysArray(w.days)
+        }));
+    }
+
+    function normalizeAppState() {
+      if (!appState.charts || typeof appState.charts !== "object") {
+        appState.charts = { kalyan: [], rajdhani: [] };
+      }
+      appState.charts.kalyan = normalizeWeeksArray(appState.charts.kalyan);
+      appState.charts.rajdhani = normalizeWeeksArray(appState.charts.rajdhani);
+
+      if (!appState.passbook) {
+        appState.passbook = [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }];
+      } else if (!Array.isArray(appState.passbook)) {
+        appState.passbook = Object.values(appState.passbook);
+      }
+      if (appState.passbook.length === 0) {
+        appState.passbook = [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }];
+      }
+    }
+
     function getIstNowDate() {
       const now = new Date();
       const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
@@ -693,6 +742,16 @@
       const yyyy = dt.getFullYear();
       const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       return `${dd}/${mm}/${yyyy} (${days[dt.getDay()]})`;
+    }
+
+    function computeCellDateFromWeek(weekStr, dIdx) {
+      if (!weekStr) return null;
+      const m = String(weekStr).match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+      if (!m) return null;
+      let d = parseInt(m[1], 10), mo = parseInt(m[2], 10) - 1, y = parseInt(m[3], 10);
+      if (y < 100) y += 2000;
+      const dt = new Date(y, mo, d + dIdx);
+      return formatIstDateWithDay(dt);
     }
 
     function getTargetPlayDateInfo(targetKey) {
@@ -898,6 +957,7 @@
     }
 
     function getLatestChartSetupAndWeekUp(marketKey) {
+      normalizeAppState();
       const rows = appState.charts[marketKey] || [];
       const playInfo = getTargetPlayDateInfo(marketKey);
       const targetCol = playInfo.targetCol;
@@ -907,11 +967,14 @@
       let latestD = -1;
 
       for (let r = rows.length - 1; r >= 0; r--) {
-        const days = rows[r].days || [];
+        const days = rows[r].days;
         for (let d = 5; d >= 0; d--) {
           const c = days[d];
           if (c && c.open && c.jodi && c.jodi.length === 2 && !BANNED_FAKE_RESULTS.has(`${c.open}-${c.jodi}-${c.close}`)) {
-            latestCell = c;
+            latestCell = {
+              ...c,
+              date: c.date || computeCellDateFromWeek(rows[r].week, d) || (marketKey === "kalyan" ? "05/11/2026 (Thu)" : "06/11/2026 (Fri)")
+            };
             latestW = r;
             latestD = d;
             break;
@@ -933,7 +996,7 @@
 
       for (let r = rows.length - 1; r >= 0; r--) {
         if (r === latestW && targetCol === latestD) continue;
-        const cand = (rows[r].days || [])[targetCol];
+        const cand = rows[r].days[targetCol];
         if (cand && cand.jodi && cand.jodi.length === 2) {
           weekUpJodi = cand.jodi;
           weekUpSource = `Auto-loaded ${playInfo.shortDay} (${rows[r].week})`;
@@ -948,6 +1011,7 @@
       };
     }
 
+    // FIX #4B: Clears stale half-time Open inputs when switching to a market that is not in half-time
     function syncInputsFromActiveMarket() {
       const target = document.getElementById("activeTargetSelect").value;
       const pipeStr = target === "kalyan" ? appState.feeders.kalyan : appState.feeders.rajdhani;
@@ -961,11 +1025,15 @@
         document.getElementById("liveOpenAnk").value = pParts.openAnk !== "*" ? pParts.openAnk : "";
         pParts = chartInfo.prev;
         activeBaseResultDate = chartInfo.prev.date || (target === "kalyan" ? "05/11/2026 (Thu)" : "06/11/2026 (Fri)");
-      } else if (!pParts.valid) {
-        pParts = chartInfo.prev;
-        activeBaseResultDate = chartInfo.prev.date || (appState.feederDates && appState.feederDates[target]) || "Prev Session";
       } else {
-        activeBaseResultDate = (appState.feederDates && appState.feederDates[target]) || chartInfo.prev.date || "Latest Session";
+        document.getElementById("liveOpenPatti").value = "";
+        document.getElementById("liveOpenAnk").value = "";
+        if (!pParts.valid) {
+          pParts = chartInfo.prev;
+          activeBaseResultDate = chartInfo.prev.date || (appState.feederDates && appState.feederDates[target]) || "Prev Session";
+        } else {
+          activeBaseResultDate = (appState.feederDates && appState.feederDates[target]) || chartInfo.prev.date || "Latest Session";
+        }
       }
 
       const fParts = parseResultParts(feederStr);
@@ -1002,11 +1070,11 @@
       return candidates.slice(0, 2).map(c => c.patti);
     }
 
-    // CRITICAL BUG #1 FIX: Formula 5 (F5) is now 100% identical in both Backtest & Live Voting
     function computeDynamicFormulaWeights(marketKey) {
+      normalizeAppState();
       const rows = appState.charts[marketKey] || [];
       const flat = [];
-      rows.forEach((wk, wIdx) => (wk.days || []).forEach((c, dIdx) => {
+      rows.forEach((wk, wIdx) => wk.days.forEach((c, dIdx) => {
         if (c && c.jodi && c.jodi.length === 2 && c.open && c.close) flat.push({ ...c, wIdx, dIdx });
       }));
 
@@ -1057,7 +1125,6 @@
       });
     }
 
-    // Unified 5-Formula Voter (F5 now votes on Patti End-Digit Bridge + Feeder Berij/Cut, matching F5 backtest)
     function computeFiveFormulaRanked(prevOpen, prevJodi, prevClose, weekUpJodi, feederJodi, lineStats) {
       const o1 = Number(prevJodi[0]) || 0, c1 = Number(prevJodi[1]) || 0;
       const w1 = Number(weekUpJodi[0]) || 0, w2 = Number(weekUpJodi[1]) || 0;
@@ -1091,9 +1158,10 @@
     }
 
     function scanHistoricalSameSetup(marketKey, prevOpenStr, prevJodiStr, prevCloseStr, lastResDate, topVip1, topVip2) {
+      normalizeAppState();
       const rows = appState.charts[marketKey] || [];
       const flat = [];
-      rows.forEach(wk => (wk.days || []).forEach(c => {
+      rows.forEach(wk => wk.days.forEach(c => {
         if (c && c.jodi && c.jodi.length === 2) flat.push(c);
       }));
 
@@ -1203,7 +1271,6 @@
         <span class="px-2 py-1 rounded ${i < 4 ? 'bg-amber-500/20 text-amber-300 border border-amber-400/50' : 'bg-slate-800 text-slate-400'}">${p}</span>
       `).join("");
 
-      // RESTORED #7: All 4 Sniper Half-Sangam Combinations (A1, A2, B1, B2)
       document.getElementById("halfSangamBox").innerHTML = `
         <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam A1:</b> Open <b class="text-sky-300">${vip1}</b> × Close Patti <b class="text-amber-300">${pattis[2] || "239"}</b></div>
         <div class="p-2 rounded bg-slate-950 border border-slate-800">• <b>Sangam A2:</b> Open Patti <b class="text-amber-300">${pattis[0] || "237"}</b> × Close <b class="text-sky-300">${vip2}</b></div>
@@ -1230,24 +1297,27 @@
       };
 
       calculateMoneyManagement();
-      runMidGamePivot();
+      runMidGamePivot(false);
     }
 
-    function runMidGamePivot() {
+    // FIX #4A: Changing 3-digit Open Patti always recalculates Open Ank cleanly
+    function runMidGamePivot(fromPattiInput = false) {
       const openPatti = document.getElementById("liveOpenPatti").value.trim();
       let openAnk = document.getElementById("liveOpenAnk").value.trim();
       const out = document.getElementById("midGamePivotOutput");
-      if (openPatti.length === 3 && !openAnk) {
+
+      if (/^[0-9]{3}$/.test(openPatti) && (fromPattiInput || !openAnk)) {
         openAnk = String((Number(openPatti[0]) + Number(openPatti[1]) + Number(openPatti[2])) % 10);
         document.getElementById("liveOpenAnk").value = openAnk;
       }
+
       if (!openAnk) { out.innerHTML = `⏳ Waiting for Open result...`; return; }
       const topDigits = (latestCalculatedPrediction?.top4 || []).map(String);
       if (topDigits.includes(openAnk)) {
         out.innerHTML = `<span class="text-emerald-400 font-extrabold">✅ OPEN PASS (Ank ${openAnk} Hit)! RULE: STOP CLOSE! Lock Today's Profit & Save Close Reserve.</span>`;
       } else {
         const d = Number(openAnk), c1 = cutOf(d), c2 = (d + 1) % 10, c3 = cutOf(c2);
-        const bridgeSet = new Set(openPatti.length === 3 ? [...openPatti].map(Number) : [d, c1]);
+        const bridgeSet = new Set(/^[0-9]{3}$/.test(openPatti) ? [...openPatti].map(Number) : [d, c1]);
         const closePattis = [
           ...generateTrueRelayPattisForAnk(c1, bridgeSet).slice(0, 1),
           ...generateTrueRelayPattisForAnk(d, bridgeSet).slice(0, 1),
@@ -1259,6 +1329,7 @@
     }
 
     function isCircuitBreakerTriggered() {
+      normalizeAppState();
       const list = appState.passbook || [];
       return list.length >= 3 && Number(list[list.length - 1].amount) < 0 && Number(list[list.length - 2].amount) < 0;
     }
@@ -1394,7 +1465,6 @@
       document.getElementById("rateDP").value = appState.rates?.dp || 2800;
     }
 
-    // RESTORED #5: Full 3-Plan Zone-Recovery Calculator with Open-to-Close Split & Net Profit Proof
     function runZoneRecoveryCalc() {
       const loss = Math.max(0, parseFloat(document.getElementById("recPrevLoss").value) || 0);
       const target = Math.max(0, parseFloat(document.getElementById("recTargetProfit").value) || 0);
@@ -1429,7 +1499,6 @@
       `;
     }
 
-    // RESTORED #4: Complete Rajdhani Night Shield Allocator with Open OTC + 4 VIP Jodi Breakdown
     function runNightShieldCalc() {
       const k = Math.max(0, parseFloat(document.getElementById("dayKalyanProfit").value) || 0);
       const lockedHome = Math.round(k * 0.65);
@@ -1455,12 +1524,13 @@
     }
 
     function runSandboxBacktest() {
+      normalizeAppState();
       const target = document.getElementById("activeTargetSelect").value;
       const opA = document.getElementById("sandOpA").value;
       const opB = document.getElementById("sandOpB").value;
       const rows = appState.charts[target] || [];
       const flat = [];
-      rows.forEach(wk => (wk.days || []).forEach((c, idx) => { if (c && c.jodi && c.open && c.close) flat.push({ ...c, label: `${wk.week} D${idx + 1}` }); }));
+      rows.forEach(wk => wk.days.forEach((c, idx) => { if (c && c.jodi && c.open && c.close) flat.push({ ...c, label: `${wk.week} D${idx + 1}` }); }));
 
       let hits = 0, total = 0, curWin = 0, maxWin = 0, curLoss = 0, maxLoss = 0;
       const logs = [];
@@ -1497,9 +1567,9 @@
       document.getElementById("sandboxLogList").innerHTML = logs.join("");
     }
 
-    // RESTORED #2 & #3: Rich SVG Equity Graph (Gradient Area, Baseline, Dots, ₹ Labels) + Passbook Date & Single-Entry Delete
     function renderPassbookAndEquity() {
-      const list = appState.passbook || [];
+      normalizeAppState();
+      const list = appState.passbook;
       let running = 0;
       const points = [];
       const rows = list.map((item, idx) => {
@@ -1566,6 +1636,7 @@
     }
 
     function deletePassbookEntry(index) {
+      normalizeAppState();
       if (index <= 0 || index >= appState.passbook.length) return;
       appState.passbook.splice(index, 1);
       saveStateLocalAndCloud();
@@ -1573,6 +1644,7 @@
     }
 
     function addPassbookEntry() {
+      normalizeAppState();
       const note = document.getElementById("plNoteInput").value.trim() || "Session";
       const amt = parseFloat(document.getElementById("plAmountInput").value);
       if (isNaN(amt)) return;
@@ -1587,12 +1659,12 @@
       saveStateLocalAndCloud(); renderPassbookAndEquity();
     }
 
-    // RESTORED #6: Evening Audit checks Strong Jodi Hit, VIP Relay Patti Hit, Open OTC Hit & Close Recovery Hit
     function autoAuditTodayResult() {
+      normalizeAppState();
       const target = document.getElementById("activeTargetSelect").value;
       const rows = appState.charts[target] || [];
       const flat = [];
-      rows.forEach((wk, wIdx) => (wk.days || []).forEach((c, dIdx) => {
+      rows.forEach((wk, wIdx) => wk.days.forEach((c, dIdx) => {
         if (c && c.jodi && c.open && c.close) flat.push({ ...c, wIdx, dIdx });
       }));
       if (flat.length < 2) return;
@@ -1659,6 +1731,7 @@
     }
 
     function logAuditedResultToPassbook() {
+      normalizeAppState();
       if (!lastAuditedPnlEntry) return;
       appState.passbook.push({ date: new Date().toLocaleDateString("en-IN"), ...lastAuditedPnlEntry });
       document.getElementById("btnLogAuditPnl").classList.add("hidden");
@@ -1666,18 +1739,19 @@
     }
 
     function renderPanelChartTable() {
+      normalizeAppState();
       const target = document.getElementById("activeTargetSelect").value;
       const weeks = appState.charts[target] || [];
       const topDigits = new Set((latestCalculatedPrediction?.top4 || []).map(String));
 
       const pattiCounts = {};
-      weeks.forEach(wk => (wk.days || []).forEach(c => {
+      weeks.forEach(wk => wk.days.forEach(c => {
         if (c && c.open) pattiCounts[c.open] = (pattiCounts[c.open] || 0) + 1;
         if (c && c.close) pattiCounts[c.close] = (pattiCounts[c.close] || 0) + 1;
       }));
 
       document.getElementById("panelChartTableBody").innerHTML = weeks.map((wk, wIdx) => {
-        const days = wk.days || [null, null, null, null, null, null];
+        const days = wk.days;
         const cellsHtml = [0, 1, 2, 3, 4, 5].map(dIdx => {
           const cell = days[dIdx];
           if (!cell || !cell.jodi) return `<td onclick="openCellModal(${wIdx}, ${dIdx})" class="p-2 cursor-pointer"><div class="chart-cell p-2 rounded-lg bg-slate-900/60 border border-slate-800 text-rose-400 font-bold text-[11px]">HOLIDAY</div></td>`;
@@ -1714,11 +1788,12 @@
     }
 
     function openCellModal(wIdx, dIdx) {
+      normalizeAppState();
       const target = document.getElementById("activeTargetSelect").value;
       editingCellRef = { target, wIdx, dIdx };
       const dayNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
       const wk = appState.charts[target][wIdx];
-      const cell = (wk.days || [])[dIdx];
+      const cell = wk.days[dIdx];
       document.getElementById("cellModalTitle").textContent = `Edit ${target.toUpperCase()} — ${wk.week} (${dayNames[dIdx]})`;
       document.getElementById("cellOpenInput").value = cell?.open || "";
       document.getElementById("cellJodiInput").value = cell?.jodi || "";
@@ -1726,30 +1801,66 @@
       document.getElementById("cellEditModal").classList.remove("hidden");
     }
 
+    // FIX #5: Auto-computes Jodi from Open & Close Pattis inside Cell Edit Modal
+    function autoCalcCellModalJodi() {
+      const op = document.getElementById("cellOpenInput").value.trim();
+      const cl = document.getElementById("cellCloseInput").value.trim();
+      if (/^[0-9]{3}$/.test(op) && /^[0-9]{3}$/.test(cl)) {
+        const oAnk = (Number(op[0]) + Number(op[1]) + Number(op[2])) % 10;
+        const cAnk = (Number(cl[0]) + Number(cl[1]) + Number(cl[2])) % 10;
+        document.getElementById("cellJodiInput").value = `${oAnk}${cAnk}`;
+      }
+    }
+
     function closeCellModal() { document.getElementById("cellEditModal").classList.add("hidden"); }
+
     function saveCellModalResult() {
       if (!editingCellRef) return;
-      const existing = appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx];
-      appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = {
-        open: document.getElementById("cellOpenInput").value.trim() || "***",
-        jodi: document.getElementById("cellJodiInput").value.trim().padStart(2, "0"),
-        close: document.getElementById("cellCloseInput").value.trim() || "***",
-        date: existing?.date
+      normalizeAppState();
+      const op = document.getElementById("cellOpenInput").value.trim() || "***";
+      let jd = document.getElementById("cellJodiInput").value.trim();
+      const cl = document.getElementById("cellCloseInput").value.trim() || "***";
+
+      if (!jd && /^[0-9]{3}$/.test(op) && /^[0-9]{3}$/.test(cl)) {
+        const oAnk = (Number(op[0]) + Number(op[1]) + Number(op[2])) % 10;
+        const cAnk = (Number(cl[0]) + Number(cl[1]) + Number(cl[2])) % 10;
+        jd = `${oAnk}${cAnk}`;
+      }
+      if (!/^[0-9]{1,2}$/.test(jd)) {
+        return alert("Please enter a valid 2-digit Jodi (or click Holiday).");
+      }
+
+      const { target, wIdx, dIdx } = editingCellRef;
+      const wk = appState.charts[target][wIdx];
+      const existing = wk.days[dIdx];
+      const computedDate = existing?.date || computeCellDateFromWeek(wk.week, dIdx);
+
+      wk.days[dIdx] = {
+        open: op,
+        jodi: jd.padStart(2, "0"),
+        close: cl,
+        date: computedDate
       };
       saveStateLocalAndCloud(); closeCellModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
+
     function markCellAsHoliday() {
       if (!editingCellRef) return;
+      normalizeAppState();
       appState.charts[editingCellRef.target][editingCellRef.wIdx].days[editingCellRef.dIdx] = null;
       saveStateLocalAndCloud(); closeCellModal(); syncInputsFromActiveMarket(); recalculateAll(); renderPanelChartTable();
     }
+
     function addNewWeekRow() {
+      normalizeAppState();
       const wkStr = prompt("Week Date (DD/MM/YYYY):", "16/11/2026");
       if (!wkStr) return;
       appState.charts[document.getElementById("activeTargetSelect").value].push({ week: wkStr.trim(), days: [null, null, null, null, null, null] });
       saveStateLocalAndCloud(); renderPanelChartTable();
     }
+
     function deleteWeekRow(wIdx) {
+      normalizeAppState();
       appState.charts[document.getElementById("activeTargetSelect").value].splice(wIdx, 1);
       saveStateLocalAndCloud(); renderPanelChartTable();
     }
@@ -1757,6 +1868,7 @@
     function openBulkPasteModal() { document.getElementById("bulkPasteModal").classList.remove("hidden"); }
     function closeBulkPasteModal() { document.getElementById("bulkPasteModal").classList.add("hidden"); }
     function importBulkChartText() {
+      normalizeAppState();
       const raw = document.getElementById("bulkPasteTextarea").value.trim();
       if (!raw) return;
       const tokens = [];
@@ -1781,7 +1893,7 @@
       const p = latestCalculatedPrediction || { market: "KALYAN", playDate: "PLAY FOR: TUESDAY, 10/11/2026", basedOn: "390-24-257 (05/11/2026)", top4: [2, 4, 7, 9], jodis: ["21", "27", "44", "49"], pattis: ["237", "390", "239", "257"] };
       const m = latestMoneySlip || { grandTotalUsed: 100, openTotal: 30, openVipEach: 10, jodiTotal: 20, jodiEach: 5, pattiTotal: 0, pattiEach: 0, playPatti: false, closeTotal: 50 };
       return [
-        `⚡ *SMART OTC & JODI PRO v7.1 VIP SLIP* ⚡`,
+        `⚡ *SMART OTC & JODI PRO v7.2 VIP SLIP* ⚡`,
         `🎯 *Market:* ${p.market}`,
         `🗓️ *${p.playDate}*`,
         `📌 *Based On Last Result:* ${p.basedOn}`,
@@ -1817,6 +1929,7 @@
     }
 
     async function saveStateLocalAndCloud(showAlert = false) {
+      normalizeAppState();
       localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
       try {
         await Promise.all([
@@ -1846,11 +1959,15 @@
             appState.feederDates = { ...appState.feederDates, ...data.feederDates };
           }
           if (data.updatedAt) appState.updatedAt = data.updatedAt;
-          if (data.charts && (data.charts.kalyan?.length || data.charts.rajdhani?.length)) {
-            appState.charts = data.charts;
+          if (data.charts) {
+            const normK = normalizeWeeksArray(data.charts.kalyan);
+            const normR = normalizeWeeksArray(data.charts.rajdhani);
+            if (normK.length) appState.charts.kalyan = normK;
+            if (normR.length) appState.charts.rajdhani = normR;
           }
           if (data.passbook) appState.passbook = data.passbook;
           if (data.rates) appState.rates = { ...appState.rates, ...data.rates };
+          normalizeAppState();
           localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
         }
 
@@ -1873,11 +1990,11 @@
     setInterval(() => { pullFromFirebase(true); }, 60000);
 
     function exportBackupJson() {
+      normalizeAppState();
       const blob = new Blob([JSON.stringify(appState, null, 2)], { type: "application/json" });
-      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v71_backup.json`; a.click();
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = `smart_otc_v72_backup.json`; a.click();
     }
 
-    // RESTORED #1: Full JSON Backup Import / Restore Handler
     function importBackupJson(event) {
       const file = event.target.files?.[0];
       if (!file) return;
@@ -1887,6 +2004,7 @@
           const parsed = JSON.parse(e.target.result);
           if (!parsed || !parsed.feeders) throw new Error("Invalid backup structure");
           appState = { ...appState, ...parsed };
+          normalizeAppState();
           await saveStateLocalAndCloud();
           syncRateInputsUI();
           renderPipelineUI();
@@ -1909,6 +2027,7 @@
 
       const saved = localStorage.getItem(LOCAL_KEY);
       if (saved) { try { const p = JSON.parse(saved); if (p && p.feeders) appState = { ...appState, ...p }; } catch (e) {} }
+      normalizeAppState();
       syncRateInputsUI(); renderPipelineUI(); syncInputsFromActiveMarket(); recalculateAll(); renderPassbookAndEquity(); renderPanelChartTable(); pullFromFirebase(false);
     });
   </script>
