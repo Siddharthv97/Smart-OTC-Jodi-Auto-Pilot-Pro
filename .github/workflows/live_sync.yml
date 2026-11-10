@@ -1,8 +1,18 @@
-name: Live Scraper & Dual-Node Master Sync (v6.5)
+name: Live Scraper & Dual-Node Master Sync (v6.7 Final)
 
 on:
   schedule:
-    - cron: '30 14,18,22 * * 1-6'
+    # Exact UTC times corresponding to IST Market Closes & Opens (Mon-Sat):
+    # 08:40 UTC = 02:10 PM IST (Time Bazar Complete)
+    # 10:55 UTC = 04:25 PM IST (Kalyan Open)
+    # 12:55 UTC = 06:25 PM IST (Kalyan Close)
+    # 16:15 UTC = 09:45 PM IST (Rajdhani Night Open)
+    # 18:45 UTC = 12:15 AM IST (Rajdhani Close & Main Bazar Complete)
+    - cron: '40 8 * * 1-6'
+    - cron: '55 10 * * 1-6'
+    - cron: '55 12 * * 1-6'
+    - cron: '15 16 * * 1-6'
+    - cron: '45 18 * * 1-6'
   workflow_dispatch:
 
 permissions:
@@ -30,6 +40,9 @@ jobs:
 
           TARGET_URL = "https://sattamatka.email/"
           FIREBASE_URL = "https://smart-otc-cloud-default-rtdb.firebaseio.com".rstrip('/')
+
+          ist_now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=5, minutes=30)
+          today_date_label = ist_now.strftime("%d/%m/%Y (%a)")
 
           scraper = cloudscraper.create_scraper(
               browser={'browser': 'chrome', 'platform': 'windows', 'mobile': False}
@@ -73,67 +86,61 @@ jobs:
               return ((int(o1)+int(o2)+int(o3)) % 10 == int(jodi[0])) and ((int(c1)+int(c2)+int(c3)) % 10 == int(jodi[1]))
 
           TABLE_CELL_RE = re.compile(r'(?<![0-9])([0-9])\s*([0-9])\s*([0-9])\s*[\-\s]+\s*([0-9]{2})\s*[\-\s]+\s*([0-9])\s*([0-9])\s*([0-9])(?![0-9])')
+          DATE_TOKEN_RE = re.compile(r'\b(\d{2})[\/\-](\d{2})[\/\-](\d{4})\b')
 
-          def fetch_latest_from_panel_chart(url):
-              if not url: return None, []
+          def fetch_latest_and_weeks_from_panel_chart(url, default_date_str):
+              if not url: return None, default_date_str, []
               try:
                   c_resp = scraper.get(url, timeout=15)
                   c_soup = BeautifulSoup(c_resp.text, "lxml")
                   valid_records = []
+                  structured_weeks = []
+                  latest_date_str = default_date_str
+
                   for tbl in c_soup.find_all("table"):
-                      tbl_text = " ".join(tbl.get_text(" ", strip=True).split())
-                      tbl_text = re.sub(r'\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b', ' DATE ', tbl_text)
-                      for m in TABLE_CELL_RE.finditer(tbl_text):
-                          o1, o2, o3, jd, c1, c2, c3 = m.groups()
-                          if is_valid_matka_record(o1, o2, o3, jd, c1, c2, c3):
-                              valid_records.append({ "open": f"{o1}{o2}{o3}", "jodi": jd, "close": f"{c1}{c2}{c3}" })
+                      for tr in tbl.find_all("tr"):
+                          tr_text = " ".join(tr.get_text(" ", strip=True).split())
+                          d_matches = DATE_TOKEN_RE.findall(tr_text)
+                          monday_dt = None
+                          week_label = None
+                          if d_matches:
+                              try:
+                                  dd, mm, yyyy = d_matches[0]
+                                  monday_dt = datetime.date(int(yyyy), int(mm), int(dd))
+                                  week_label = f"{dd}/{mm}/{yyyy}"
+                              except Exception:
+                                  monday_dt = None
+
+                          clean_tr = DATE_TOKEN_RE.sub(" DATE ", tr_text)
+                          row_recs = []
+                          for m in TABLE_CELL_RE.finditer(clean_tr):
+                              o1, o2, o3, jd, c1, c2, c3 = m.groups()
+                              if is_valid_matka_record(o1, o2, o3, jd, c1, c2, c3):
+                                  row_recs.append({ "open": f"{o1}{o2}{o3}", "jodi": jd, "close": f"{c1}{c2}{c3}" })
+
+                          if row_recs:
+                              days_slot = [None] * 6
+                              for idx, r_item in enumerate(row_recs[:6]):
+                                  days_slot[idx] = { "open": r_item["open"], "jodi": r_item["jodi"], "close": r_item["close"] }
+                                  if monday_dt:
+                                      cell_dt = monday_dt + datetime.timedelta(days=idx)
+                                      r_item["date"] = cell_dt.strftime("%d/%m/%Y (%a)")
+                                      latest_date_str = r_item["date"]
+                                  valid_records.append(r_item)
+                              structured_weeks.append({
+                                  "week": week_label or f"Wk-{len(structured_weeks)+1}",
+                                  "days": days_slot
+                              })
+
                   if valid_records:
-                      latest_str = f"{valid_records[-1]['open']}-{valid_records[-1]['jodi']}-{valid_records[-1]['close']}"
-                      return latest_str, valid_records
+                      last = valid_records[-1]
+                      latest_str = f"{last['open']}-{last['jodi']}-{last['close']}"
+                      return latest_str, last.get("date", latest_date_str), structured_weeks[-5:]
               except Exception:
                   pass
-              return None, []
+              return None, default_date_str, []
 
-          MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
-          key_map = { "MAIN BAZAR": "mainBazar", "TIME BAZAR": "timeBazar", "KALYAN": "kalyan", "RAJDHANI NIGHT": "rajdhani" }
-
-          final_results = {}
-          chart_snapshots = { "kalyan": [], "rajdhani": [] }
-
-          for m_name in MARKETS:
-              live_slot = parse_first_live_slot(full_page_text, m_name)
-              p_url = chart_links.get(m_name)
-              locked_val = None
-              all_recs = []
-
-              if live_slot:
-                  dm = DIGIT_SLOT_RE.search(live_slot)
-                  if dm:
-                      op, jd, cl = dm.group(1), dm.group(2), dm.group(3) or "***"
-                      if len(jd) == 1: jd = f"{jd}*"
-                      locked_val = f"{op}-{jd}-{cl}"
-
-              if not locked_val and p_url:
-                  chart_val, valid_recs = fetch_latest_from_panel_chart(p_url)
-                  if chart_val:
-                      locked_val = chart_val
-                      all_recs = valid_recs
-
-              final_results[key_map[m_name]] = locked_val or "WAITING-LIVE"
-
-              # Pack into Mon-Sat weeks for Tab 3 chart if available
-              if all_recs and m_name in ["KALYAN", "RAJDHANI NIGHT"]:
-                  m_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
-                  chunked_weeks = []
-                  for i in range(0, len(all_recs), 6):
-                      days_chunk = [None] * 6
-                      sub = all_recs[i:i+6]
-                      for d_idx, item in enumerate(sub):
-                          days_chunk[d_idx] = item
-                      chunked_weeks.append({ "week": f"Auto-{i//6 + 1}", "days": days_chunk })
-                  chart_snapshots[m_key] = chunked_weeks[-5:] # Keep last 5 weeks
-
-          # Load Firebase State
+          # Load existing Firebase State first so we never lose valid data
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
@@ -144,10 +151,57 @@ jobs:
           except Exception:
               state = {}
 
-          state["feeders"] = final_results
-          if chart_snapshots["kalyan"]: state["charts"] = chart_snapshots
+          existing_feeders = state.get("feeders", {})
+          existing_dates = state.get("feederDates", {})
+          existing_charts = state.get("charts", {"kalyan": [], "rajdhani": []})
 
-          ist_now = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=5, minutes=30)
+          MARKETS = ["MAIN BAZAR", "TIME BAZAR", "KALYAN", "RAJDHANI NIGHT"]
+          key_map = { "MAIN BAZAR": "mainBazar", "TIME BAZAR": "timeBazar", "KALYAN": "kalyan", "RAJDHANI NIGHT": "rajdhani" }
+          default_dates = {
+              "mainBazar": existing_dates.get("mainBazar", "06/11/2026 (Fri)"),
+              "timeBazar": existing_dates.get("timeBazar", "06/11/2026 (Fri)"),
+              "kalyan": existing_dates.get("kalyan", "05/11/2026 (Thu)"),
+              "rajdhani": existing_dates.get("rajdhani", "06/11/2026 (Fri)")
+          }
+
+          final_results = {}
+          final_dates = {}
+          updated_charts = {
+              "kalyan": existing_charts.get("kalyan", []),
+              "rajdhani": existing_charts.get("rajdhani", [])
+          }
+
+          for m_name in MARKETS:
+              k_name = key_map[m_name]
+              live_slot = parse_first_live_slot(full_page_text, m_name)
+              p_url = chart_links.get(m_name)
+              locked_val = None
+              locked_date = default_dates[k_name]
+
+              # Always fetch panel chart history for Kalyan & Rajdhani so Tab 3 chart stays synced
+              chart_val, chart_date, chart_weeks = fetch_latest_and_weeks_from_panel_chart(p_url, default_dates[k_name])
+              if m_name in ["KALYAN", "RAJDHANI NIGHT"] and chart_weeks:
+                  c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
+                  updated_charts[c_key] = chart_weeks
+
+              if live_slot:
+                  dm = DIGIT_SLOT_RE.search(live_slot)
+                  if dm:
+                      op, jd, cl = dm.group(1), dm.group(2), dm.group(3) or "***"
+                      if len(jd) == 1: jd = f"{jd}*"
+                      locked_val = f"{op}-{jd}-{cl}"
+                      locked_date = f"{today_date_label} • LIVE"
+
+              if not locked_val and chart_val:
+                  locked_val = chart_val
+                  locked_date = chart_date
+
+              final_results[k_name] = locked_val or existing_feeders.get(k_name, "WAITING-LIVE")
+              final_dates[k_name] = locked_date
+
+          state["feeders"] = final_results
+          state["feederDates"] = final_dates
+          state["charts"] = updated_charts
           state["updatedAt"] = ist_now.strftime("%Y-%m-%d %H:%M:%S IST")
 
           with open("live_feed.json", "w", encoding="utf-8") as f:
@@ -162,6 +216,27 @@ jobs:
                   method='PUT'
               )
               urllib.request.urlopen(put_req, context=ctx)
+
+          bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+          chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+          if bot_token and chat_id:
+              msg = (
+                  f"⚡ *Smart OTC Pro v6.7 Auto-Sync*\n"
+                  f"🕒 Time: {state['updatedAt']}\n"
+                  f"👑 Kalyan: `{final_results.get('kalyan')}` ({final_dates.get('kalyan')})\n"
+                  f"🌙 Rajdhani: `{final_results.get('rajdhani')}` ({final_dates.get('rajdhani')})\n"
+                  f"⏱️ Time Bazar: `{final_results.get('timeBazar')}` ({final_dates.get('timeBazar')})\n"
+                  f"🏛️ Main Bazar: `{final_results.get('mainBazar')}` ({final_dates.get('mainBazar')})"
+              )
+              tg_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+              tg_data = json.dumps({"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}).encode('utf-8')
+              try:
+                  urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_data, headers={'Content-Type': 'application/json'}))
+              except Exception:
+                  pass
+
+          print("Synced Results:", json.dumps(final_results))
+          print("Synced Dates:", json.dumps(final_dates))
           EOF
 
       - name: Commit & Push live_feed.json
@@ -169,5 +244,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add live_feed.json
-          git diff --staged --quiet || git commit -m "Auto-sync live_feed.json [skip ci]"
+          git diff --staged --quiet || git commit -m "Auto-sync live_feed.json with dates & charts [skip ci]"
           git push
