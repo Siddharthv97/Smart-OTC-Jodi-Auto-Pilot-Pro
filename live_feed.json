@@ -2,13 +2,8 @@
   "charts": {
     "kalyan": [
       {
-        "week": "Auto-285",
+        "week": "05/10/2026",
         "days": [
-          {
-            "open": "234",
-            "jodi": "98",
-            "close": "350"
-          },
           {
             "open": "678",
             "jodi": "16",
@@ -33,17 +28,17 @@
             "open": "490",
             "jodi": "39",
             "close": "270"
-          }
-        ]
-      },
-      {
-        "week": "Auto-286",
-        "days": [
+          },
           {
             "open": "359",
             "jodi": "78",
             "close": "567"
-          },
+          }
+        ]
+      },
+      {
+        "week": "12/10/2026",
+        "days": [
           {
             "open": "159",
             "jodi": "55",
@@ -68,17 +63,17 @@
             "open": "227",
             "jodi": "18",
             "close": "468"
-          }
-        ]
-      },
-      {
-        "week": "Auto-287",
-        "days": [
+          },
           {
             "open": "250",
             "jodi": "77",
             "close": "359"
-          },
+          }
+        ]
+      },
+      {
+        "week": "19/10/2026",
+        "days": [
           {
             "open": "159",
             "jodi": "58",
@@ -103,17 +98,17 @@
             "open": "359",
             "jodi": "73",
             "close": "247"
-          }
-        ]
-      },
-      {
-        "week": "Auto-288",
-        "days": [
+          },
           {
             "open": "289",
             "jodi": "91",
             "close": "146"
-          },
+          }
+        ]
+      },
+      {
+        "week": "26/10/2026",
+        "days": [
           {
             "open": "259",
             "jodi": "68",
@@ -138,17 +133,17 @@
             "open": "779",
             "jodi": "34",
             "close": "149"
-          }
-        ]
-      },
-      {
-        "week": "Auto-289",
-        "days": [
+          },
           {
             "open": "590",
             "jodi": "40",
             "close": "127"
-          },
+          }
+        ]
+      },
+      {
+        "week": "02/11/2026",
+        "days": [
           {
             "open": "789",
             "jodi": "46",
@@ -169,24 +164,15 @@
             "jodi": "24",
             "close": "257"
           },
+          null,
           null
         ]
       }
     ],
     "rajdhani": [
       {
-        "week": "Auto-237",
+        "week": "05/10/2026",
         "days": [
-          {
-            "open": "660",
-            "jodi": "29",
-            "close": "126"
-          },
-          {
-            "open": "369",
-            "jodi": "84",
-            "close": "770"
-          },
           {
             "open": "140",
             "jodi": "57",
@@ -206,17 +192,18 @@
             "open": "469",
             "jodi": "99",
             "close": "126"
-          }
-        ]
-      },
-      {
-        "week": "Auto-238",
-        "days": [
+          },
           {
             "open": "558",
             "jodi": "84",
             "close": "590"
           },
+          null
+        ]
+      },
+      {
+        "week": "12/10/2026",
+        "days": [
           {
             "open": "160",
             "jodi": "79",
@@ -241,11 +228,12 @@
             "open": "257",
             "jodi": "42",
             "close": "480"
-          }
+          },
+          null
         ]
       },
       {
-        "week": "Auto-239",
+        "week": "19/10/2026",
         "days": [
           {
             "open": "690",
@@ -272,16 +260,17 @@
             "jodi": "81",
             "close": "245"
           },
+          null
+        ]
+      },
+      {
+        "week": "26/10/2026",
+        "days": [
           {
             "open": "458",
             "jodi": "78",
             "close": "378"
-          }
-        ]
-      },
-      {
-        "week": "Auto-240",
-        "days": [
+          },
           {
             "open": "179",
             "jodi": "75",
@@ -302,6 +291,12 @@
             "jodi": "40",
             "close": "668"
           },
+          null
+        ]
+      },
+      {
+        "week": "02/11/2026",
+        "days": [
           {
             "open": "124",
             "jodi": "72",
@@ -311,12 +306,7 @@
             "open": "348",
             "jodi": "54",
             "close": "158"
-          }
-        ]
-      },
-      {
-        "week": "Auto-241",
-        "days": [
+          },
           {
             "open": "248",
             "jodi": "48",
@@ -327,8 +317,6 @@
             "jodi": "58",
             "close": "134"
           },
-          null,
-          null,
           null,
           null
         ]
@@ -344,16 +332,22 @@
   "passbook": [
     {
       "amount": 500,
-      "date": "Mon Session",
-      "note": "Initial Wallet Seed"
+      "date": "Initial",
+      "note": "Starting Wallet Balance"
     }
   ],
   "rates": {
     "dp": 2800,
     "jodi": 950,
-    "single": 95,
+    "single": 93,
     "sp": 1400
   },
-  "updatedAt": "2026-11-10 05:01:21 IST",
-  "weekUpJodi": "41"
+  "updatedAt": "2026-11-10 10:04:15 IST",
+  "weekUpJodi": "46",
+  "feederDates": {
+    "mainBazar": "05/11/2026 (Thu)",
+    "timeBazar": "05/11/2026 (Thu)",
+    "kalyan": "05/11/2026 (Thu)",
+    "rajdhani": "05/11/2026 (Thu)"
+  }
 }
