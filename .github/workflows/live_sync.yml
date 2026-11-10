@@ -1,18 +1,20 @@
-name: Live Scraper & Dual-Node Master Sync (v6.7 Final)
+name: Live Scraper & Dual-Node Master Sync (v6.8 Perfect Lock)
 
 on:
   schedule:
-    # Exact UTC times corresponding to IST Market Closes & Opens (Mon-Sat):
-    # 08:40 UTC = 02:10 PM IST (Time Bazar Complete)
-    # 10:55 UTC = 04:25 PM IST (Kalyan Open)
-    # 12:55 UTC = 06:25 PM IST (Kalyan Close)
-    # 16:15 UTC = 09:45 PM IST (Rajdhani Night Open)
-    # 18:45 UTC = 12:15 AM IST (Rajdhani Close & Main Bazar Complete)
-    - cron: '40 8 * * 1-6'
-    - cron: '55 10 * * 1-6'
-    - cron: '55 12 * * 1-6'
-    - cron: '15 16 * * 1-6'
-    - cron: '45 18 * * 1-6'
+    # Primary + 15-min Backup Retry for each Market Window (UTC -> IST):
+    # Time Bazar Close (2:05 PM & 2:20 PM IST)
+    - cron: '35,50 8 * * 1-6'
+    # Kalyan Open (4:22 PM & 4:37 PM IST)
+    - cron: '52 10 * * 1-6'
+    - cron: '7 11 * * 1-6'
+    # Kalyan Close (6:22 PM & 6:37 PM IST)
+    - cron: '52 12 * * 1-6'
+    - cron: '7 13 * * 1-6'
+    # Rajdhani Night Open (9:42 PM & 9:57 PM IST)
+    - cron: '12,27 16 * * 1-6'
+    # Rajdhani Close & Main Bazar Close (12:12 AM & 12:27 AM IST)
+    - cron: '42,57 18 * * 1-6'
   workflow_dispatch:
 
 permissions:
@@ -85,7 +87,10 @@ jobs:
               if not (m_val(c1) <= m_val(c2) <= m_val(c3)): return False
               return ((int(o1)+int(o2)+int(o3)) % 10 == int(jodi[0])) and ((int(c1)+int(c2)+int(c3)) % 10 == int(jodi[1]))
 
-          TABLE_CELL_RE = re.compile(r'(?<![0-9])([0-9])\s*([0-9])\s*([0-9])\s*[\-\s]+\s*([0-9]{2})\s*[\-\s]+\s*([0-9])\s*([0-9])\s*([0-9])(?![0-9])')
+          # Captures EITHER a valid 3-2-3 day record OR a holiday star slot (*** ** ***) so weekday column index never shifts!
+          DAY_OR_HOLIDAY_RE = re.compile(
+              r'(?:(?<![0-9])([0-9])\s*([0-9])\s*([0-9])\s*[\-\s]+\s*([0-9]{2})\s*[\-\s]+\s*([0-9])\s*([0-9])\s*([0-9])(?![0-9]))|(?:\*\s*\*\s*\*\s*[\-\s]*\*{1,2}\s*[\-\s]*\*\s*\*\s*\*)'
+          )
           DATE_TOKEN_RE = re.compile(r'\b(\d{2})[\/\-](\d{2})[\/\-](\d{4})\b')
 
           def fetch_latest_and_weeks_from_panel_chart(url, default_date_str):
@@ -112,24 +117,31 @@ jobs:
                                   monday_dt = None
 
                           clean_tr = DATE_TOKEN_RE.sub(" DATE ", tr_text)
-                          row_recs = []
-                          for m in TABLE_CELL_RE.finditer(clean_tr):
-                              o1, o2, o3, jd, c1, c2, c3 = m.groups()
-                              if is_valid_matka_record(o1, o2, o3, jd, c1, c2, c3):
-                                  row_recs.append({ "open": f"{o1}{o2}{o3}", "jodi": jd, "close": f"{c1}{c2}{c3}" })
+                          day_slots = []
+                          for m in DAY_OR_HOLIDAY_RE.finditer(clean_tr):
+                              if m.group(1) is not None:
+                                  o1, o2, o3, jd, c1, c2, c3 = m.groups()
+                                  if is_valid_matka_record(o1, o2, o3, jd, c1, c2, c3):
+                                      day_slots.append({ "open": f"{o1}{o2}{o3}", "jodi": jd, "close": f"{c1}{c2}{c3}" })
+                              else:
+                                  # Holiday star slot preserved at exact weekday position
+                                  day_slots.append(None)
 
-                          if row_recs:
-                              days_slot = [None] * 6
-                              for idx, r_item in enumerate(row_recs[:6]):
-                                  days_slot[idx] = { "open": r_item["open"], "jodi": r_item["jodi"], "close": r_item["close"] }
-                                  if monday_dt:
-                                      cell_dt = monday_dt + datetime.timedelta(days=idx)
-                                      r_item["date"] = cell_dt.strftime("%d/%m/%Y (%a)")
-                                      latest_date_str = r_item["date"]
-                                  valid_records.append(r_item)
+                          if any(x is not None for x in day_slots):
+                              padded_days = (day_slots + [None]*6)[:6]
+                              for idx, r_item in enumerate(padded_days):
+                                  if r_item is not None:
+                                      if monday_dt:
+                                          cell_dt = monday_dt + datetime.timedelta(days=idx)
+                                          r_item["date"] = cell_dt.strftime("%d/%m/%Y (%a)")
+                                          latest_date_str = r_item["date"]
+                                      valid_records.append(r_item)
                               structured_weeks.append({
                                   "week": week_label or f"Wk-{len(structured_weeks)+1}",
-                                  "days": days_slot
+                                  "days": [
+                                      {"open": x["open"], "jodi": x["jodi"], "close": x["close"]} if x else None
+                                      for x in padded_days
+                                  ]
                               })
 
                   if valid_records:
@@ -140,7 +152,6 @@ jobs:
                   pass
               return None, default_date_str, []
 
-          # Load existing Firebase State first so we never lose valid data
           ctx = ssl.create_default_context()
           ctx.check_hostname = False
           ctx.verify_mode = ssl.CERT_NONE
@@ -178,7 +189,6 @@ jobs:
               locked_val = None
               locked_date = default_dates[k_name]
 
-              # Always fetch panel chart history for Kalyan & Rajdhani so Tab 3 chart stays synced
               chart_val, chart_date, chart_weeks = fetch_latest_and_weeks_from_panel_chart(p_url, default_dates[k_name])
               if m_name in ["KALYAN", "RAJDHANI NIGHT"] and chart_weeks:
                   c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
@@ -216,24 +226,6 @@ jobs:
                   method='PUT'
               )
               urllib.request.urlopen(put_req, context=ctx)
-
-          bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-          chat_id = os.environ.get("TELEGRAM_CHAT_ID")
-          if bot_token and chat_id:
-              msg = (
-                  f"⚡ *Smart OTC Pro v6.7 Auto-Sync*\n"
-                  f"🕒 Time: {state['updatedAt']}\n"
-                  f"👑 Kalyan: `{final_results.get('kalyan')}` ({final_dates.get('kalyan')})\n"
-                  f"🌙 Rajdhani: `{final_results.get('rajdhani')}` ({final_dates.get('rajdhani')})\n"
-                  f"⏱️ Time Bazar: `{final_results.get('timeBazar')}` ({final_dates.get('timeBazar')})\n"
-                  f"🏛️ Main Bazar: `{final_results.get('mainBazar')}` ({final_dates.get('mainBazar')})"
-              )
-              tg_url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
-              tg_data = json.dumps({"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}).encode('utf-8')
-              try:
-                  urllib.request.urlopen(urllib.request.Request(tg_url, data=tg_data, headers={'Content-Type': 'application/json'}))
-              except Exception:
-                  pass
 
           print("Synced Results:", json.dumps(final_results))
           print("Synced Dates:", json.dumps(final_dates))
