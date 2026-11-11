@@ -192,7 +192,12 @@
             "close": "257",
             "date": "05/11/2026 (Thu)"
           },
-          null,
+          {
+            "close": "257",
+            "date": "06/11/2026 (Fri)",
+            "jodi": "24",
+            "open": "390"
+          },
           null
         ]
       }
@@ -378,7 +383,7 @@
   "feederDates": {
     "mainBazar": "05/11/2026 (Thu)",
     "timeBazar": "05/11/2026 (Thu)",
-    "kalyan": "05/11/2026 (Thu)",
+    "kalyan": "06/11/2026 (Fri)",
     "rajdhani": "05/11/2026 (Thu)"
   },
   "feeders": {
@@ -387,6 +392,13 @@
     "kalyan": "390-24-257",
     "rajdhani": "780-58-134"
   },
+  "liveStatus": {
+    "mainBazar": "HOLIDAY",
+    "timeBazar": "HOLIDAY",
+    "kalyan": "HOLIDAY",
+    "rajdhani": "HOLIDAY"
+  },
+  "manualWeekUpOverride": false,
   "passbook": [
     {
       "amount": 500,
@@ -400,6 +412,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-11 13:05:30 IST",
+  "updatedAt": "2026-11-11 14:29:50 IST",
   "weekUpJodi": "17"
 }
