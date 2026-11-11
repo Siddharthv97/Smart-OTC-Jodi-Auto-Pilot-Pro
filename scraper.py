@@ -19,6 +19,15 @@ weekday_now = session_dt.weekday()  # 0=Mon .. 5=Sat
 monday_now_dt = (session_dt - datetime.timedelta(days=weekday_now)).date()
 current_week_label = monday_now_dt.strftime("%d/%m/%Y")
 
+# Minutes since 00:00 IST (with 00:00-03:59 treated as 24:00-27:59 of the active night session)
+session_mins_now = (ist_now.hour + (24 if ist_now.hour < 4 else 0)) * 60 + ist_now.minute
+MARKET_OPEN_MINS = {
+    "timeBazar": 12 * 60 + 55,  # 12:55 PM IST
+    "kalyan": 16 * 60 + 5,      # 04:05 PM IST
+    "rajdhani": 21 * 60 + 25,   # 09:25 PM IST
+    "mainBazar": 21 * 60 + 25   # 09:25 PM IST
+}
+
 scraper = cloudscraper.create_scraper(
     browser={'browser': 'chrome', 'platform': 'windows', 'mobile': False}
 )
@@ -74,13 +83,25 @@ DAY_OR_HOLIDAY_RE = re.compile(
 DATE_TOKEN_RE = re.compile(r'\b(\d{1,2})\s*[\/\-\.]\s*(\d{1,2})\s*[\/\-\.]\s*(\d{2,4})\b')
 
 
-def is_valid_matka_record(o1, o2, o3, jodi, c1, c2, c3):
+def is_valid_patti_order(p1, p2, p3):
     m_val = lambda d: 10 if d == '0' else int(d)
-    if not (m_val(o1) <= m_val(o2) <= m_val(o3)):
+    return m_val(p1) <= m_val(p2) <= m_val(p3)
+
+
+def is_valid_matka_record(o1, o2, o3, jodi, c1, c2, c3):
+    if not is_valid_patti_order(o1, o2, o3):
         return False
-    if not (m_val(c1) <= m_val(c2) <= m_val(c3)):
+    if not is_valid_patti_order(c1, c2, c3):
         return False
     return ((int(o1) + int(o2) + int(o3)) % 10 == int(jodi[0])) and ((int(c1) + int(c2) + int(c3)) % 10 == int(jodi[1]))
+
+
+def is_valid_half_open_record(op, jd):
+    if len(op) != 3 or not op.isdigit() or not jd or not jd[0].isdigit():
+        return False
+    if not is_valid_patti_order(op[0], op[1], op[2]):
+        return False
+    return (int(op[0]) + int(op[1]) + int(op[2])) % 10 == int(jd[0])
 
 
 def parse_date_tuple(dd_s, mm_s, yy_s):
@@ -167,7 +188,6 @@ def fetch_latest_and_weeks_from_panel_chart(url):
                         if is_valid_matka_record(o1, o2, o3, jd, c1, c2, c3):
                             day_slots.append({"open": f"{o1}{o2}{o3}", "jodi": jd, "close": f"{c1}{c2}{c3}"})
                         else:
-                            # FIX #1: Preserve column index even if a cell has a website typo
                             day_slots.append(None)
                     else:
                         day_slots.append(None)
@@ -281,28 +301,50 @@ for m_name in MARKETS:
         c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
         updated_charts[c_key] = merge_chart_weeks(updated_charts.get(c_key, []), chart_weeks)
 
-    if live_slot:
+    # Guard: Only treat live_slot as today's fresh result if market open window has started AND it is not a stale copy of a previous day's result
+    market_has_opened_today = (weekday_now < 6) and (session_mins_now >= MARKET_OPEN_MINS.get(k_name, 0))
+
+    if live_slot and market_has_opened_today:
         dm = DIGIT_SLOT_RE.search(live_slot)
         if dm:
             op, jd, cl = dm.group(1), dm.group(2), dm.group(3) or "***"
             if len(jd) == 1:
                 jd = f"{jd}*"
-            locked_val = f"{op}-{jd}-{cl}"
-            locked_date = today_date_label if ("*" not in locked_val) else f"{today_date_label} • LIVE"
-            live_status[k_name] = "COMPLETE" if ("*" not in locked_val) else "LIVE"
+            cand_val = f"{op}-{jd}-{cl}"
 
-            if "*" not in locked_val and len(jd) == 2 and weekday_now < 6 and m_name in ["KALYAN", "RAJDHANI NIGHT"]:
-                c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
-                if is_valid_matka_record(op[0], op[1], op[2], jd, cl[0], cl[1], cl[2]):
-                    w_list = normalize_weeks_list(updated_charts.get(c_key, []))
-                    target_wk = next((w for w in w_list if w.get("week") == current_week_label), None)
-                    if not target_wk:
-                        target_wk = {"week": current_week_label, "days": [None] * 6}
-                        w_list.append(target_wk)
-                    target_wk["days"][weekday_now] = {
-                        "open": op, "jodi": jd, "close": cl, "date": today_date_label
-                    }
-                    updated_charts[c_key] = w_list[-5:]
+            if "*" in cand_val:
+                # Half-Time Open Result
+                if is_valid_half_open_record(op, jd):
+                    locked_val = cand_val
+                    locked_date = f"{today_date_label} • LIVE"
+                    live_status[k_name] = "LIVE"
+            else:
+                # Full Result: Verify Checksum AND ensure it's not yesterday's leftover result
+                if len(jd) == 2 and len(cl) == 3 and cl.isdigit() and is_valid_matka_record(op[0], op[1], op[2], jd, cl[0], cl[1], cl[2]):
+                    is_stale_chart_copy = (cand_val == chart_val and chart_date and chart_date != today_date_label)
+                    prev_saved_dt_str = existing_dates.get(k_name, "")
+                    is_stale_saved_copy = (
+                        cand_val == existing_feeders.get(k_name)
+                        and prev_saved_dt_str
+                        and not prev_saved_dt_str.startswith(today_date_label[:10])
+                    )
+
+                    if not is_stale_chart_copy and not is_stale_saved_copy:
+                        locked_val = cand_val
+                        locked_date = today_date_label
+                        live_status[k_name] = "COMPLETE"
+
+                        if m_name in ["KALYAN", "RAJDHANI NIGHT"]:
+                            c_key = "kalyan" if m_name == "KALYAN" else "rajdhani"
+                            w_list = normalize_weeks_list(updated_charts.get(c_key, []))
+                            target_wk = next((w for w in w_list if w.get("week") == current_week_label), None)
+                            if not target_wk:
+                                target_wk = {"week": current_week_label, "days": [None] * 6}
+                                w_list.append(target_wk)
+                            target_wk["days"][weekday_now] = {
+                                "open": op, "jodi": jd, "close": cl, "date": today_date_label
+                            }
+                            updated_charts[c_key] = w_list[-5:]
 
     if not locked_val and chart_val:
         prev_saved_val = existing_feeders.get(k_name)
