@@ -53,6 +53,40 @@ function closeEditPipelineModal() {
   document.getElementById("editModal").classList.add("hidden");
 }
 
+// Helper: Automatically syncs a manually saved Kalyan/Rajdhani full result + date into appState.charts
+function injectManualResultIntoChart(marketKey, resStr, dateLabel) {
+  const parts = parseResultParts(resStr);
+  if (!parts.valid) return;
+  const dm = String(dateLabel || "").match(/\b(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})\b/);
+  if (!dm) return;
+
+  let d = parseInt(dm[1], 10), m = parseInt(dm[2], 10) - 1, y = parseInt(dm[3], 10);
+  if (y < 100) y += 2000;
+  const dt = new Date(y, m, d);
+  const jsDay = dt.getDay(); // 0=Sun, 1=Mon .. 6=Sat
+  if (jsDay === 0) return;
+
+  const weekdayIdx = jsDay - 1; // 0=Mon .. 5=Sat
+  const monDt = new Date(y, m, d - weekdayIdx);
+  const monLabel = `${String(monDt.getDate()).padStart(2, "0")}/${String(monDt.getMonth() + 1).padStart(2, "0")}/${monDt.getFullYear()}`;
+  const formattedCellDate = formatIstDateWithDay(dt);
+
+  normalizeAppState();
+  const weeks = appState.charts[marketKey] || [];
+  let targetWk = weeks.find(w => w.week === monLabel);
+  if (!targetWk) {
+    targetWk = { week: monLabel, days: [null, null, null, null, null, null] };
+    weeks.push(targetWk);
+  }
+  targetWk.days[weekdayIdx] = {
+    open: parts.open,
+    jodi: parts.jodi,
+    close: parts.close,
+    date: formattedCellDate
+  };
+  appState.charts[marketKey] = weeks;
+}
+
 async function saveManualRealResults() {
   const todayLabel = formatIstDateWithDay(getIstNowDate());
   const mb = document.getElementById("modMainBazar").value.trim();
@@ -76,23 +110,25 @@ async function saveManualRealResults() {
     appState.feederDates.kalyan = (kl !== appState.feeders.kalyan && document.getElementById("modDateKalyan").value === appState.feederDates.kalyan)
       ? todayLabel : (document.getElementById("modDateKalyan").value.trim() || todayLabel);
     appState.feeders.kalyan = kl;
+    injectManualResultIntoChart("kalyan", kl, appState.feederDates.kalyan);
   }
   if (rj) {
     appState.feederDates.rajdhani = (rj !== appState.feeders.rajdhani && document.getElementById("modDateRajdhani").value === appState.feederDates.rajdhani)
       ? todayLabel : (document.getElementById("modDateRajdhani").value.trim() || todayLabel);
     appState.feeders.rajdhani = rj;
+    injectManualResultIntoChart("rajdhani", rj, appState.feederDates.rajdhani);
   }
   if (wu) {
     appState.weekUpJodi = wu.padStart(2, "0");
     appState.manualWeekUpOverride = true;
   }
 
-  appState.updatedAt = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
   await saveStateLocalAndCloud();
   closeEditPipelineModal();
   renderPipelineUI();
   syncInputsFromActiveMarket();
   recalculateAll();
+  renderPanelChartTable();
 }
 
 function renderPassbookAndEquity() {
@@ -326,7 +362,7 @@ function deleteWeekRow(wIdx) {
 function openBulkPasteModal() { document.getElementById("bulkPasteModal").classList.remove("hidden"); }
 function closeBulkPasteModal() { document.getElementById("bulkPasteModal").classList.add("hidden"); }
 
-// FIX #7: Extracts optional Monday dates (DD/MM/YYYY) & stamps per-cell dates on Bulk Paste
+// Handles both compact ("***-**-***") and spaced ("* * * - * * - * * *") holiday slots without shifting columns
 function importBulkChartText() {
   normalizeAppState();
   const raw = document.getElementById("bulkPasteTextarea").value.trim();
@@ -337,11 +373,14 @@ function importBulkChartText() {
 
   const cleanedRaw = raw.replace(/\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/g, " ");
   const tokens = [];
-  const mRegex = /([0-9\*]{3})\s*-\s*([0-9\*]{1,2})\s*-\s*([0-9\*]{3})/g;
+  const mRegex = /(?:([0-9])\s*([0-9])\s*([0-9])\s*[\-\s]+\s*([0-9]{2})\s*[\-\s]+\s*([0-9])\s*([0-9])\s*([0-9]))|(?:\*\s*\*\s*\*\s*[\-\s]*\*{1,2}\s*[\-\s]*\*\s*\*\s*\*)/g;
   let m;
   while ((m = mRegex.exec(cleanedRaw)) !== null) {
-    if (m[1].includes("*") || m[2].includes("*")) tokens.push(null);
-    else tokens.push({ open: m[1], jodi: m[2].padStart(2, "0"), close: m[3] });
+    if (m[1] !== undefined) {
+      tokens.push({ open: `${m[1]}${m[2]}${m[3]}`, jodi: m[4], close: `${m[5]}${m[6]}${m[7]}` });
+    } else {
+      tokens.push(null);
+    }
   }
   if (!tokens.length) return alert("No valid tokens found.");
 
