@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700;800&display=swap');
+
+:root {
+  --bg-main: #0f172a;
+  --bg-card: #1e293b;
+  --bg-input: #090f1d;
+  --border-color: #334155;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.card-panel {
+  background: linear-gradient(145deg, #1e293b, #152033);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+}
+
+.input-dark {
+  background: var(--bg-input);
+  border: 1px solid #475569;
+  color: #f8fafc;
+  border-radius: 8px;
+  padding: 7px 11px;
+  transition: border-color 0.2s;
+}
+
+.input-dark:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+}
+
+.tab-btn {
+  padding: 9px 15px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.tab-btn.active {
+  background: rgba(56, 189, 248, 0.18);
+  color: #38bdf8;
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.tab-btn:not(.active) {
+  color: #94a3b8;
+  background: #0f172a;
+}
+
+.tab-btn:not(.active):hover {
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+.chart-cell {
+  transition: all 0.15s ease;
+}
+
+.chart-cell:hover {
+  transform: translateY(-1px);
+  border-color: #38bdf8 !important;
+}
+
+.hl-red-jodi {
+  background: rgba(239, 68, 68, 0.24) !important;
+  border-color: #ef4444 !important;
+}
+
+.hl-active-fam {
+  background: rgba(56, 189, 248, 0.24) !important;
+  border-color: #38bdf8 !important;
+}
+
+.hl-repeat-patti {
+  background: rgba(245, 158, 11, 0.24) !important;
+  border-color: #f59e0b !important;
+}
