@@ -30,10 +30,10 @@ let appState = {
     rajdhani: "06/11/2026 (Fri)"
   },
   liveStatus: {
-    mainBazar: "HOLIDAY",
-    timeBazar: "HOLIDAY",
-    kalyan: "HOLIDAY",
-    rajdhani: "HOLIDAY"
+    mainBazar: "ACTIVE",
+    timeBazar: "ACTIVE",
+    kalyan: "ACTIVE",
+    rajdhani: "ACTIVE"
   },
   weekUpJodi: "17",
   manualWeekUpOverride: false,
@@ -59,7 +59,7 @@ let appState = {
     ]
   },
   passbook: [{ date: "Initial", note: "Starting Wallet Balance", amount: 500 }],
-  updatedAt: "Verified Sync Ready"
+  updatedAt: "2026-11-10 00:00:00 IST"
 };
 
 let currentHighlightMode = null;
@@ -69,6 +69,7 @@ let latestMoneySlip = null;
 let lastAuditedPnlEntry = null;
 let userManualPattiOverride = false;
 let activeBaseResultDate = null;
+let activeBaseResultTuple = null;
 
 const cutOf = d => (Number(d) + 5) % 10;
 
@@ -105,7 +106,6 @@ function normalizeWeeksArray(rawWeeks) {
     }));
 }
 
-// FIX #2: Auto-repairs the old 4-day Kalyan 02/11/2026 week and Thursday date if loaded from localStorage or Firebase
 function normalizeAppState() {
   if (!appState.charts || typeof appState.charts !== "object") {
     appState.charts = { kalyan: [], rajdhani: [] };
@@ -143,6 +143,30 @@ function getIstNowDate() {
   return new Date(utcMs + 5.5 * 3600000);
 }
 
+// Unified ISO-IST Timestamp ("YYYY-MM-DD HH:MM:SS IST") matching scraper.py
+function formatIstTimestamp(dt = getIstNowDate()) {
+  const yyyy = dt.getFullYear();
+  const mm = String(dt.getMonth() + 1).padStart(2, "0");
+  const dd = String(dt.getDate()).padStart(2, "0");
+  const hh = String(dt.getHours()).padStart(2, "0");
+  const mi = String(dt.getMinutes()).padStart(2, "0");
+  const ss = String(dt.getSeconds()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd} ${hh}:${mi}:${ss} IST`;
+}
+
+function parseSyncTimestampMs(tsStr) {
+  if (!tsStr || typeof tsStr !== "string") return 0;
+  const isoMatch = tsStr.match(/^(\d{4})-(\d{2})-(\d{2})\s+(\d{2}):(\d{2}):(\d{2})/);
+  if (isoMatch) {
+    return Date.UTC(
+      Number(isoMatch[1]), Number(isoMatch[2]) - 1, Number(isoMatch[3]),
+      Number(isoMatch[4]), Number(isoMatch[5]), Number(isoMatch[6])
+    );
+  }
+  const parsed = Date.parse(tsStr);
+  return isNaN(parsed) ? 0 : parsed;
+}
+
 function formatIstDateWithDay(dt) {
   const dd = String(dt.getDate()).padStart(2, "0");
   const mm = String(dt.getMonth() + 1).padStart(2, "0");
@@ -167,17 +191,21 @@ function getTargetPlayDateInfo(targetKey) {
   const todayShort = formatIstDateWithDay(istNow).split(" ")[0];
   const lastResDateStr = (appState.feederDates && appState.feederDates[targetKey]) || "";
   const lastResVal = (appState.feeders && appState.feeders[targetKey]) || "";
-  const statusFlag = (appState.liveStatus && appState.liveStatus[targetKey]) || "";
+  const statusFlag = (appState.liveStatus && appState.liveStatus[targetKey]) || "ACTIVE";
+
+  const minsNow = istNow.getHours() * 60 + istNow.getMinutes();
+  const closeCutoffMins = targetKey === "kalyan" ? (18 * 60 + 25) : (23 * 60 + 50);
 
   let playDt = new Date(istNow.getTime());
-  let sessionTag = statusFlag === "HOLIDAY" ? "CHECK LIVE HOLIDAY STATUS" : "TODAY'S LIVE SESSION";
+  let sessionTag = statusFlag === "HOLIDAY" ? "MARKET HOLIDAY NOTICE" : "TODAY'S LIVE SESSION";
 
   const isHalfOpen = lastResVal.includes("*") && !lastResVal.startsWith("***");
   const isTodayAlreadyComplete = lastResDateStr.includes(todayShort) && !lastResVal.includes("*");
+  const isPastCloseWindow = minsNow > closeCutoffMins && !isHalfOpen;
 
   if (isHalfOpen && lastResDateStr.includes(todayShort)) {
     sessionTag = "TODAY'S CLOSE SESSION";
-  } else if (playDt.getDay() === 0 || isTodayAlreadyComplete) {
+  } else if (playDt.getDay() === 0 || isTodayAlreadyComplete || isPastCloseWindow) {
     playDt.setDate(playDt.getDate() + 1);
     if (playDt.getDay() === 0) playDt.setDate(playDt.getDate() + 1);
     sessionTag = "NEXT TRADING SESSION";
@@ -270,6 +298,7 @@ function updateMarketCountdown() {
 
 async function saveStateLocalAndCloud(showAlert = false) {
   normalizeAppState();
+  appState.updatedAt = formatIstTimestamp();
   localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
   try {
     await Promise.all([
@@ -280,7 +309,7 @@ async function saveStateLocalAndCloud(showAlert = false) {
   } catch (e) {}
 }
 
-// FIX #3: Full State Signature (feeders + feederDates + liveStatus + charts) & Auto-Repair Push
+// Timestamp-Aware Dual-Source Merger: Picks whichever source (live_feed.json vs Firebase) has the newer updatedAt timestamp
 async function pullFromFirebase(silent = false) {
   try {
     const prevSignature = JSON.stringify({
@@ -294,39 +323,57 @@ async function pullFromFirebase(silent = false) {
       fetch(`./live_feed.json?t=${Date.now()}`),
       fetch(`${FIREBASE_BASE}${MASTER_DB_PATH}?t=${Date.now()}`)
     ]);
-    let data = null;
-    if (resLocal.status === "fulfilled" && resLocal.value.ok) data = await resLocal.value.json();
+
+    let localData = null;
+    let fbData = null;
+    if (resLocal.status === "fulfilled" && resLocal.value.ok) {
+      try { localData = await resLocal.value.json(); } catch (e) {}
+    }
     if (resFb.status === "fulfilled" && resFb.value.ok) {
-      const fb = await resFb.value.json();
-      if (fb && fb.feeders) {
-        data = {
-          ...data,
-          ...fb,
-          feederDates: { ...(data?.feederDates || {}), ...(fb?.feederDates || {}) },
-          liveStatus: { ...(data?.liveStatus || {}), ...(fb?.liveStatus || {}) }
-        };
-      }
+      try { fbData = await resFb.value.json(); } catch (e) {}
     }
 
-    let needsCloudRepair = false;
-    if (data && data.feeders) {
-      appState.feeders.mainBazar = sanitizeResultStr(data.feeders.mainBazar, appState.feeders.mainBazar || "557-73-788");
-      appState.feeders.timeBazar = sanitizeResultStr(data.feeders.timeBazar, appState.feeders.timeBazar || "139-31-579");
-      appState.feeders.kalyan = sanitizeResultStr(data.feeders.kalyan, appState.feeders.kalyan || "390-24-257");
-      appState.feeders.rajdhani = sanitizeResultStr(data.feeders.rajdhani, appState.feeders.rajdhani || "780-58-134");
-      if (data.feederDates) appState.feederDates = { ...appState.feederDates, ...data.feederDates };
-      if (data.liveStatus) appState.liveStatus = { ...appState.liveStatus, ...data.liveStatus };
-      if (data.updatedAt) appState.updatedAt = data.updatedAt;
-      if (data.charts) {
-        const normK = normalizeWeeksArray(data.charts.kalyan);
-        const normR = normalizeWeeksArray(data.charts.rajdhani);
+    const localTs = parseSyncTimestampMs(localData?.updatedAt);
+    const fbTs = parseSyncTimestampMs(fbData?.updatedAt);
+
+    let primary = null;
+    let secondary = null;
+    if (localData?.feeders && fbData?.feeders) {
+      if (localTs >= fbTs) { primary = localData; secondary = fbData; }
+      else { primary = fbData; secondary = localData; }
+    } else {
+      primary = fbData?.feeders ? fbData : localData;
+      secondary = fbData?.feeders ? localData : fbData;
+    }
+
+    if (primary && primary.feeders) {
+      const mergedFeeders = { ...(secondary?.feeders || {}), ...(primary.feeders || {}) };
+      const mergedDates = { ...(secondary?.feederDates || {}), ...(primary.feederDates || {}) };
+      const mergedStatus = { ...(secondary?.liveStatus || {}), ...(primary.liveStatus || {}) };
+
+      appState.feeders.mainBazar = sanitizeResultStr(mergedFeeders.mainBazar, appState.feeders.mainBazar || "557-73-788");
+      appState.feeders.timeBazar = sanitizeResultStr(mergedFeeders.timeBazar, appState.feeders.timeBazar || "139-31-579");
+      appState.feeders.kalyan = sanitizeResultStr(mergedFeeders.kalyan, appState.feeders.kalyan || "390-24-257");
+      appState.feeders.rajdhani = sanitizeResultStr(mergedFeeders.rajdhani, appState.feeders.rajdhani || "780-58-134");
+
+      appState.feederDates = { ...appState.feederDates, ...mergedDates };
+      appState.liveStatus = { ...appState.liveStatus, ...mergedStatus };
+      if (primary.updatedAt) appState.updatedAt = primary.updatedAt;
+
+      const chartSource = primary.charts || secondary?.charts;
+      if (chartSource) {
+        const normK = normalizeWeeksArray(chartSource.kalyan);
+        const normR = normalizeWeeksArray(chartSource.rajdhani);
         if (normK.length) appState.charts.kalyan = normK;
         if (normR.length) appState.charts.rajdhani = normR;
       }
-      if (data.passbook) appState.passbook = data.passbook;
-      if (data.rates) appState.rates = { ...appState.rates, ...data.rates };
 
-      needsCloudRepair = normalizeAppState();
+      const pbSource = fbData?.passbook || primary.passbook;
+      if (pbSource) appState.passbook = pbSource;
+      const ratesSource = fbData?.rates || primary.rates;
+      if (ratesSource) appState.rates = { ...appState.rates, ...ratesSource };
+
+      const needsCloudRepair = normalizeAppState();
       localStorage.setItem(LOCAL_KEY, JSON.stringify(appState));
       if (needsCloudRepair) {
         saveStateLocalAndCloud(false);
