@@ -87,9 +87,10 @@ function syncInputsFromActiveMarket() {
   document.getElementById("inpWeekUpJodi").value = chartInfo.weekUpJodi;
   document.getElementById("weekUpAutoLabel").textContent = chartInfo.targetDayLabel;
   document.getElementById("inpFeederJodi").value = fParts.valid ? fParts.jodi : "31";
+
+  activeBaseResultTuple = `${pParts.open}-${pParts.jodi}-${pParts.close}`;
 }
 
-// FIX #5: Counts distinct bridge digits & prioritizes Single Pattis (SP) over Double Pattis (DP)
 function generateTrueRelayPattisForAnk(targetAnk, bridgeDigitsSet, customBannedSet = null) {
   const prevO = (document.getElementById("inpPrevOpen")?.value || "").trim();
   const prevC = (document.getElementById("inpPrevClose")?.value || "").trim();
@@ -120,7 +121,6 @@ function generateTrueRelayPattisForAnk(targetAnk, bridgeDigitsSet, customBannedS
         else if (directBridgeCount === 3) relayScore = 3;
         else relayScore = directBridgeCount * 2 + cutBridgeCount;
 
-        // Strong preference for Single Patti (SP = 3 distinct digits) over Double Patti (DP)
         const spBonus = uniqueDigits.length === 3 ? 2.5 : 0;
         candidates.push({ patti: pattiStr, score: relayScore + spBonus });
       }
@@ -130,13 +130,16 @@ function generateTrueRelayPattisForAnk(targetAnk, bridgeDigitsSet, customBannedS
   return candidates.slice(0, 2).map(c => c.patti);
 }
 
-function computeDynamicFormulaWeights(marketKey) {
+// Supports optional maxExclusiveIdx so Evening Audit computes weights strictly up to setupDay (zero look-ahead bias)
+function computeDynamicFormulaWeights(marketKey, maxExclusiveIdx = null) {
   normalizeAppState();
   const rows = appState.charts[marketKey] || [];
   const flat = [];
   rows.forEach((wk, wIdx) => wk.days.forEach((c, dIdx) => {
     if (c && c.jodi && c.jodi.length === 2 && c.open && c.close) flat.push({ ...c, wIdx, dIdx });
   }));
+
+  const limit = maxExclusiveIdx !== null ? Math.min(flat.length, maxExclusiveIdx) : flat.length;
 
   const stats = [
     { id: "F1", name: "Direct + Cut Line (F1)", hits: 0, total: 0 },
@@ -146,7 +149,7 @@ function computeDynamicFormulaWeights(marketKey) {
     { id: "F5", name: "Patti End & Feeder Bridge (F5)", hits: 0, total: 0 }
   ];
 
-  for (let i = 1; i < flat.length; i++) {
+  for (let i = 1; i < limit; i++) {
     const prev = flat[i - 1], curr = flat[i];
     const currO = Number(curr.jodi[0]), currC = Number(curr.jodi[1]);
     const pO = Number(prev.jodi[0]), pC = Number(prev.jodi[1]);
@@ -217,7 +220,6 @@ function computeFiveFormulaRanked(prevOpen, prevJodi, prevClose, weekUpJodi, fee
   return scores.map((pts, digit) => ({ digit, pts: Number(pts.toFixed(1)) })).sort((a, b) => b.pts - a.pts);
 }
 
-// FIX #4: Guarantees Super VIP #1 and Super VIP #2 are ALWAYS from different families, and Top 4 covers >= 3 families
 function selectTop4WithFamilyDiversity(ranked) {
   const vip1Item = ranked[0];
   const vip2Item = ranked.find(c => (c.digit % 5) !== (vip1Item.digit % 5)) || ranked[1];
@@ -293,14 +295,34 @@ function recalculateAll() {
   document.getElementById("vipTargetBadge").textContent =
     target === "kalyan" ? "👑 KALYAN VIP CARD" : "🌙 RAJDHANI NIGHT VIP CARD";
 
-  const prevOpen = (document.getElementById("inpPrevOpen").value || "390").padStart(3, "0");
-  const prevJodi = (document.getElementById("inpPrevJodi").value || "24").padStart(2, "0");
-  const prevClose = (document.getElementById("inpPrevClose").value || "257").padStart(3, "0");
-  const weekUpJodi = (document.getElementById("inpWeekUpJodi").value || "17").padStart(2, "0");
-  const feederJodi = (document.getElementById("inpFeederJodi").value || "31").padStart(2, "0");
+  const rawOpen = document.getElementById("inpPrevOpen").value.trim();
+  const rawClose = document.getElementById("inpPrevClose").value.trim();
+  let rawJodi = document.getElementById("inpPrevJodi").value.trim();
+
+  // If user manually edits 3-digit Open and Close pattis, auto-sync the Checksum Jodi if it was untouched
+  if (/^[0-9]{3}$/.test(rawOpen) && /^[0-9]{3}$/.test(rawClose)) {
+    const calcO = (Number(rawOpen[0]) + Number(rawOpen[1]) + Number(rawOpen[2])) % 10;
+    const calcC = (Number(rawClose[0]) + Number(rawClose[1]) + Number(rawClose[2])) % 10;
+    const activeEl = document.activeElement?.id;
+    if (activeEl === "inpPrevOpen" || activeEl === "inpPrevClose") {
+      rawJodi = `${calcO}${calcC}`;
+      document.getElementById("inpPrevJodi").value = rawJodi;
+    }
+  }
+
+  const prevOpen = (rawOpen || "390").padStart(3, "0");
+  const prevJodi = (rawJodi || "24").padStart(2, "0");
+  const prevClose = (rawClose || "257").padStart(3, "0");
+  const weekUpJodi = (document.getElementById("inpWeekUpJodi").value.trim() || "17").padStart(2, "0");
+  const feederJodi = (document.getElementById("inpFeederJodi").value.trim() || "31").padStart(2, "0");
+
+  const currentTuple = `${prevOpen}-${prevJodi}-${prevClose}`;
+  const isManualCustomSetup = activeBaseResultTuple && currentTuple !== activeBaseResultTuple;
 
   const playDateBannerText = getTargetPlayDateInfo(target).bannerText;
-  const lastResDate = activeBaseResultDate || (appState.feederDates && appState.feederDates[target]) || "06/11/2026 (Fri)";
+  const lastResDate = isManualCustomSetup
+    ? "Manual Setup"
+    : (activeBaseResultDate || (appState.feederDates && appState.feederDates[target]) || "06/11/2026 (Fri)");
   document.getElementById("vipPlayForDateBanner").textContent = playDateBannerText;
   document.getElementById("vipBasedOnResultBanner").textContent = `${prevOpen}-${prevJodi}-${prevClose} (${lastResDate})`;
 
@@ -467,23 +489,36 @@ function calculateMoneyManagement() {
   const rawJodi = totalCap * (wJodi / totalWeight);
   const rawPatti = totalCap * (wPatti / totalWeight);
 
-  let openVipEach = 0, openSupEach = 0, openTotal = 0;
-  if (playOpen) {
-    if (otcCount === 2) { openVipEach = Math.max(1, Math.round(rawOpen / 2)); openTotal = openVipEach * 2; }
-    else { openVipEach = Math.max(1, Math.round((rawOpen * 0.65) / 2)); openSupEach = Math.max(1, Math.round((rawOpen - openVipEach * 2) / 2)); openTotal = openVipEach * 2 + openSupEach * 2; }
-  }
-
   let jodiEach = 0, jodiTotal = 0;
   if (playJodi) { jodiEach = Math.max(1, Math.round(rawJodi / jodiCount)); jodiTotal = jodiEach * jodiCount; }
 
   let pattiEach = 0, pattiTotal = 0;
   if (playPatti) { pattiEach = Math.max(1, Math.round(rawPatti / pattiCount)); pattiTotal = pattiEach * pattiCount; }
 
+  let openVipEach = 0, openSupEach = 0, openTotal = 0;
+  if (playOpen) {
+    if (otcCount === 2) {
+      openVipEach = Math.max(1, Math.round(rawOpen / 2));
+      openTotal = openVipEach * 2;
+    } else {
+      // Ensure Support stake is balanced so Open Support hit covers Phase 1 cost whenever budget allows
+      openVipEach = Math.max(1, Math.round((rawOpen * 0.60) / 2));
+      openSupEach = Math.max(1, Math.round((rawOpen - openVipEach * 2) / 2));
+      openTotal = openVipEach * 2 + openSupEach * 2;
+    }
+  }
+
   let closeVipEach = 0, closeSupEach = 0, closeTotal = 0;
   if (playClose) {
     const rem = Math.max(otcCount, totalCap - (openTotal + jodiTotal + pattiTotal));
-    if (otcCount === 2) { closeVipEach = Math.max(1, Math.round(rem / 2)); closeTotal = closeVipEach * 2; }
-    else { closeVipEach = Math.max(1, Math.round((rem * 0.65) / 2)); closeSupEach = Math.max(1, Math.round((rem - closeVipEach * 2) / 2)); closeTotal = closeVipEach * 2 + closeSupEach * 2; }
+    if (otcCount === 2) {
+      closeVipEach = Math.max(1, Math.floor(rem / 2));
+      closeTotal = closeVipEach * 2;
+    } else {
+      closeVipEach = Math.max(1, Math.round((rem * 0.65) / 2));
+      closeSupEach = Math.max(1, Math.floor(Math.max(2, rem - closeVipEach * 2) / 2));
+      closeTotal = closeVipEach * 2 + closeSupEach * 2;
+    }
   }
 
   const phase1Cost = openTotal + jodiTotal + pattiTotal;
@@ -506,9 +541,10 @@ function calculateMoneyManagement() {
 
   latestMoneySlip = {
     grandTotalUsed, phase1Cost, otcCount,
+    playOpen, playClose, playJodi, playPatti,
     openTotal, openVipEach, openSupEach,
     jodiTotal, jodiEach, jodiCount,
-    pattiTotal, pattiEach, pattiCount, playPatti,
+    pattiTotal, pattiEach, pattiCount,
     closeTotal, closeVipEach, closeSupEach,
     openVipNet: Number(openVipNet.toFixed(1)),
     openSupNet: Number(openSupNet.toFixed(1)),
@@ -551,6 +587,7 @@ function calculateMoneyManagement() {
 
   document.getElementById("mmProfitTableBody").innerHTML = `
     <tr><td class="py-1 text-sky-300 font-semibold">✅ Open VIP Hits (Stop Close)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${openVipPayout.toFixed(1)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${openVipNet.toFixed(1)} Net</td></tr>
+    ${otcCount === 4 ? `<tr><td class="py-1 text-slate-300 font-semibold">⚡ Open Support Hits (Stop Close)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${openSupPayout.toFixed(1)}</td><td>₹${closeTotal}</td><td class="text-right font-bold ${openSupNet >= 0 ? 'text-emerald-400' : 'text-amber-400'}">${openSupNet >= 0 ? '+' : ''}₹${openSupNet.toFixed(1)} Net</td></tr>` : ''}
     <tr><td class="py-1 text-emerald-300 font-semibold">🛡️ Open Miss ➔ Close VIP Hits</td><td>₹${grandTotalUsed}</td><td class="text-emerald-400">₹${closeVipPayout.toFixed(1)}</td><td>₹0</td><td class="text-right font-bold ${closeVipNet >= 0 ? 'text-emerald-400' : 'text-amber-400'}">${closeVipNet >= 0 ? '+' : ''}₹${closeVipNet.toFixed(1)} Net</td></tr>
     ${playJodi ? `<tr><td class="py-1 text-purple-300 font-semibold">🔥 Jodi Blast (${jodiMult}x)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${(jodiPayout + openVipPayout).toFixed(0)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${jodiNet.toFixed(0)} Net</td></tr>` : ''}
     ${playPatti ? `<tr><td class="py-1 text-amber-300 font-semibold">💎 VIP Patti + Open Hit (${spMult}x)</td><td>₹${phase1Cost}</td><td class="text-emerald-400">₹${(pattiPayout + openVipPayout).toFixed(0)}</td><td>₹${closeTotal}</td><td class="text-right font-bold text-emerald-400">+₹${pattiNet.toFixed(0)} Net</td></tr>` : ''}
@@ -679,7 +716,7 @@ function runSandboxBacktest() {
   document.getElementById("sandboxLogList").innerHTML = logs.join("");
 }
 
-// FIX #6: Distinguishes Super VIP Hit vs Support Hit (and respects Top 2 VIP Only mode)
+// Zero Look-Ahead Audit + Respects Active Money Manager Checkboxes & Counts
 function autoAuditTodayResult() {
   normalizeAppState();
   const target = document.getElementById("activeTargetSelect").value;
@@ -698,7 +735,8 @@ function autoAuditTodayResult() {
   const fParts = parseResultParts(feederStr);
   const feederJodi = fParts.valid ? fParts.jodi : "31";
 
-  const lineStats = computeDynamicFormulaWeights(target);
+  // Compute weights strictly up to setupDay (flat.length - 1 excludes actualDay)
+  const lineStats = computeDynamicFormulaWeights(target, flat.length - 1);
   const ranked = computeFiveFormulaRanked(
     setupDay.open, setupDay.jodi, setupDay.close, wkUpCell.jodi, feederJodi, lineStats
   );
@@ -706,29 +744,36 @@ function autoAuditTodayResult() {
   const predTop4 = top4.map(x => x.digit);
   const [vip1, vip2, sup1, sup2] = predTop4;
 
+  const playOpen = latestMoneySlip?.playOpen ?? true;
+  const playClose = latestMoneySlip?.playClose ?? true;
+  const playJodi = latestMoneySlip?.playJodi ?? true;
+  const jodiCount = latestMoneySlip?.jodiCount || 4;
+  const playPatti = latestMoneySlip?.playPatti ?? false;
+  const pattiCount = latestMoneySlip?.pattiCount || 4;
+  const playSupport = (latestMoneySlip?.otcCount || 4) === 4;
+
   const f1 = Number(feederJodi[0]) || 0, f2 = Number(feederJodi[1]) || 0;
   const fBerij = (f1 + f2) % 10, fFarak = Math.abs(f2 - f1) % 10;
-  const auditJodis = buildPriorityUniqueJodis(vip1, vip2, sup1, sup2, fBerij, fFarak);
+  const activeAuditJodis = buildPriorityUniqueJodis(vip1, vip2, sup1, sup2, fBerij, fFarak).slice(0, jodiCount);
 
   const bridgeSet = new Set([...setupDay.open, ...setupDay.close].map(Number).filter(n => !isNaN(n)));
   const bannedSetup = new Set([setupDay.open, setupDay.close]);
-  const auditPattis = [
+  const activeAuditPattis = [
     ...generateTrueRelayPattisForAnk(vip1, bridgeSet, bannedSetup),
     ...generateTrueRelayPattisForAnk(vip2, bridgeSet, bannedSetup),
     ...generateTrueRelayPattisForAnk(sup1, bridgeSet, bannedSetup),
     ...generateTrueRelayPattisForAnk(sup2, bridgeSet, bannedSetup)
-  ];
+  ].slice(0, pattiCount);
 
   const aO = Number(actualDay.jodi[0]), aC = Number(actualDay.jodi[1]);
-  const playSupport = (latestMoneySlip?.otcCount || 4) === 4;
 
-  const openVipHit = [vip1, vip2].includes(aO);
-  const openSupHit = playSupport && [sup1, sup2].includes(aO);
-  const closeVipHit = [vip1, vip2].includes(aC);
-  const closeSupHit = playSupport && [sup1, sup2].includes(aC);
+  const openVipHit = playOpen && [vip1, vip2].includes(aO);
+  const openSupHit = playOpen && playSupport && [sup1, sup2].includes(aO);
+  const closeVipHit = playClose && [vip1, vip2].includes(aC);
+  const closeSupHit = playClose && playSupport && [sup1, sup2].includes(aC);
 
-  const jodiHit = auditJodis.includes(actualDay.jodi);
-  const pattiHit = auditPattis.includes(actualDay.open) || auditPattis.includes(actualDay.close);
+  const jodiHit = playJodi && activeAuditJodis.includes(actualDay.jodi);
+  const pattiHit = playPatti && (activeAuditPattis.includes(actualDay.open) || activeAuditPattis.includes(actualDay.close));
 
   let netPnl = -(latestMoneySlip?.grandTotalUsed || 100);
   const hitTags = [];
@@ -736,21 +781,21 @@ function autoAuditTodayResult() {
     netPnl = latestMoneySlip?.jodiNet || 420;
     hitTags.push(`🔥 JODI BLAST (${actualDay.jodi})`);
   }
-  if (pattiHit && latestMoneySlip?.playPatti) {
+  if (pattiHit) {
     netPnl = Math.max(netPnl, latestMoneySlip?.pattiNet || 350);
     hitTags.push(`💎 PATTI BLAST`);
   }
   if (openVipHit) {
-    if (!jodiHit && !(pattiHit && latestMoneySlip?.playPatti)) netPnl = latestMoneySlip?.openVipNet ?? 38;
+    if (!jodiHit && !pattiHit) netPnl = latestMoneySlip?.openVipNet ?? 38;
     hitTags.push(`✅ OPEN VIP PASS (${aO})`);
   } else if (openSupHit) {
-    if (!jodiHit && !(pattiHit && latestMoneySlip?.playPatti)) netPnl = latestMoneySlip?.openSupNet ?? 5;
+    if (!jodiHit && !pattiHit) netPnl = latestMoneySlip?.openSupNet ?? 5;
     hitTags.push(`⚡ OPEN SUP PASS (${aO})`);
   } else if (closeVipHit) {
-    if (!jodiHit && !(pattiHit && latestMoneySlip?.playPatti)) netPnl = latestMoneySlip?.closeVipNet ?? 42;
+    if (!jodiHit && !pattiHit) netPnl = latestMoneySlip?.closeVipNet ?? 42;
     hitTags.push(`🛡️ CLOSE VIP PASS (${aC})`);
   } else if (closeSupHit) {
-    if (!jodiHit && !(pattiHit && latestMoneySlip?.playPatti)) netPnl = latestMoneySlip?.closeSupNet ?? -20;
+    if (!jodiHit && !pattiHit) netPnl = latestMoneySlip?.closeSupNet ?? -20;
     hitTags.push(`⚡ CLOSE SUP COVER (${aC})`);
   }
 
