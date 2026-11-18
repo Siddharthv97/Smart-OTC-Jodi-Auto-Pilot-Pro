@@ -368,10 +368,10 @@
     "rajdhani": "134-87-377"
   },
   "liveStatus": {
-    "mainBazar": "COMPLETE",
-    "timeBazar": "COMPLETE",
-    "kalyan": "COMPLETE",
-    "rajdhani": "COMPLETE"
+    "mainBazar": "ACTIVE",
+    "timeBazar": "ACTIVE",
+    "kalyan": "ACTIVE",
+    "rajdhani": "ACTIVE"
   },
   "manualWeekUpOverride": false,
   "passbook": [
@@ -387,6 +387,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-19 02:53:30 IST",
+  "updatedAt": "2026-11-19 04:25:51 IST",
   "weekUpJodi": "17"
 }
