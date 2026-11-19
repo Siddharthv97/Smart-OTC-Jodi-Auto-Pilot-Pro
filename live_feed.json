@@ -378,10 +378,10 @@
     "rajdhani": "466-62-679"
   },
   "liveStatus": {
-    "mainBazar": "COMPLETE",
-    "timeBazar": "COMPLETE",
-    "kalyan": "COMPLETE",
-    "rajdhani": "COMPLETE"
+    "mainBazar": "ACTIVE",
+    "timeBazar": "ACTIVE",
+    "kalyan": "ACTIVE",
+    "rajdhani": "ACTIVE"
   },
   "manualWeekUpOverride": false,
   "passbook": [
@@ -397,6 +397,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-20 02:55:59 IST",
+  "updatedAt": "2026-11-20 04:31:42 IST",
   "weekUpJodi": "17"
 }
