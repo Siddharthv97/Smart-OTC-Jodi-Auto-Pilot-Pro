@@ -394,8 +394,8 @@
   },
   "liveStatus": {
     "mainBazar": "ACTIVE",
-    "timeBazar": "COMPLETE",
-    "kalyan": "COMPLETE",
+    "timeBazar": "ACTIVE",
+    "kalyan": "ACTIVE",
     "rajdhani": "ACTIVE"
   },
   "manualWeekUpOverride": false,
@@ -412,6 +412,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-22 03:07:29 IST",
+  "updatedAt": "2026-11-22 05:04:44 IST",
   "weekUpJodi": "17"
 }
