@@ -366,19 +366,19 @@
     ]
   },
   "feederDates": {
-    "mainBazar": "26/11/2026 (Thu) \u2022 LIVE",
+    "mainBazar": "26/11/2026 (Thu)",
     "timeBazar": "26/11/2026 (Thu)",
     "kalyan": "26/11/2026 (Thu)",
     "rajdhani": "26/11/2026 (Thu)"
   },
   "feeders": {
-    "mainBazar": "558-8*-***",
+    "mainBazar": "558-82-228",
     "timeBazar": "677-00-145",
     "kalyan": "133-71-579",
     "rajdhani": "339-54-400"
   },
   "liveStatus": {
-    "mainBazar": "LIVE",
+    "mainBazar": "COMPLETE",
     "timeBazar": "COMPLETE",
     "kalyan": "COMPLETE",
     "rajdhani": "COMPLETE"
@@ -397,6 +397,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-27 00:06:29 IST",
+  "updatedAt": "2026-11-27 01:21:27 IST",
   "weekUpJodi": "17"
 }
