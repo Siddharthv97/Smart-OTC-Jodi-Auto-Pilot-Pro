@@ -364,29 +364,34 @@
             "close": "400",
             "date": "26/11/2026 (Thu)"
           },
-          null,
+          {
+            "open": "479",
+            "jodi": "06",
+            "close": "268",
+            "date": "27/11/2026 (Fri)"
+          },
           null
         ]
       }
     ]
   },
   "feederDates": {
-    "mainBazar": "27/11/2026 (Fri) \u2022 LIVE",
+    "mainBazar": "27/11/2026 (Fri)",
     "timeBazar": "27/11/2026 (Fri)",
     "kalyan": "27/11/2026 (Fri)",
-    "rajdhani": "27/11/2026 (Fri) \u2022 LIVE"
+    "rajdhani": "27/11/2026 (Fri)"
   },
   "feeders": {
-    "mainBazar": "468-8*-***",
+    "mainBazar": "468-85-348",
     "timeBazar": "258-53-229",
     "kalyan": "160-74-149",
-    "rajdhani": "479-0*-***"
+    "rajdhani": "479-06-268"
   },
   "liveStatus": {
-    "mainBazar": "LIVE",
+    "mainBazar": "COMPLETE",
     "timeBazar": "COMPLETE",
     "kalyan": "COMPLETE",
-    "rajdhani": "LIVE"
+    "rajdhani": "COMPLETE"
   },
   "manualWeekUpOverride": false,
   "passbook": [
@@ -402,6 +407,6 @@
     "single": 94,
     "sp": 1400
   },
-  "updatedAt": "2026-11-27 23:54:58 IST",
+  "updatedAt": "2026-11-28 01:10:13 IST",
   "weekUpJodi": "17"
 }
